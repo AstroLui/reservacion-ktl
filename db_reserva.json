@@ -3,6 +3,7 @@
     "id": "35687",
     "cliente": {
       "nombres": "Josefrancisco Africano",
+      "idn": "20000000",
       "correo": "jafricanot@test.com",
       "telefono": "+584141401140",
       "fechaReserva": ""
@@ -18,6 +19,7 @@
     "id": "38423",
     "cliente": {
       "nombres": "Luis Amias",
+      "idn": "20000001",
       "correo": "lamias@test.com",
       "telefono": "+584141401141",
       "fechaReserva": ""
@@ -33,6 +35,7 @@
     "id": "23401",
     "cliente": {
       "nombres": "Maria Chang",
+      "idn": "20000002",
       "correo": "mchang@test.com",
       "telefono": "+584141401142",
       "fechaReserva": ""
