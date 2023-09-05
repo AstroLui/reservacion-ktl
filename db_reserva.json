@@ -1,0 +1,47 @@
+[
+  {
+    "id": "35687",
+    "cliente": {
+      "nombres": "Josefrancisco Africano",
+      "correo": "jafricanot@test.com",
+      "telefono": "+584141401140",
+      "fechaReserva": ""
+    },
+    "habitacion": {
+      "id": "KTL-0010",
+      "fechaEntrada": "",
+      "fechaSalida": "",
+      "duracionEstadia": ""
+    }
+  },
+  {
+    "id": "38423",
+    "cliente": {
+      "nombres": "Luis Amias",
+      "correo": "lamias@test.com",
+      "telefono": "+584141401141",
+      "fechaReserva": ""
+    },
+    "habitacion": {
+      "id": "KTL-0002",
+      "fechaEntrada": "",
+      "fechaSalida": "",
+      "duracionEstadia": ""
+    }
+  },
+  {
+    "id": "23401",
+    "cliente": {
+      "nombres": "Maria Chang",
+      "correo": "mchang@test.com",
+      "telefono": "+584141401142",
+      "fechaReserva": ""
+    },
+    "habitacion": {
+      "id": "KTL-0008",
+      "fechaEntrada": "",
+      "fechaSalida": "",
+      "duracionEstadia": ""
+    }
+  }
+]

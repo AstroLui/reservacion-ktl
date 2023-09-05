@@ -1,0 +1,52 @@
+[
+  {
+    "id": "KTL-0001",
+    "tipo": "Standard",
+    "capacidad": 1
+  },
+  {
+    "id": "KTL-0002",
+    "tipo": "Standard",
+    "capacidad": 1
+  },
+  {
+    "id": "KTL-0003",
+    "tipo": "Standard",
+    "capacidad": 1
+  },
+  {
+    "id": "KTL-0004",
+    "tipo": "Standard",
+    "capacidad": 1
+  },
+  {
+    "id": "KTL-0005",
+    "tipo": "Standard",
+    "capacidad": 1
+  },
+  {
+    "id": "KTL-0006",
+    "tipo": "Standard",
+    "capacidad": 2
+  },
+  {
+    "id": "KTL-0007",
+    "tipo": "Standard",
+    "capacidad": 2
+  },
+  {
+    "id": "KTL-0008",
+    "tipo": "Standard",
+    "capacidad": 2
+  },
+  {
+    "id": "KTL-0009",
+    "tipo": "Standard",
+    "capacidad": 2
+  },
+  {
+    "id": "KTL-0010",
+    "tipo": "Suite",
+    "capacidad": 2
+  }
+]
