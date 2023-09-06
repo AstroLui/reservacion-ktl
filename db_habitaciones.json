@@ -26,27 +26,77 @@
   },
   {
     "id": "KTL-0006",
-    "tipo": "Standard",
+    "tipo": "Standard Doble",
     "capacidad": 2
   },
   {
     "id": "KTL-0007",
-    "tipo": "Standard",
+    "tipo": "Standard Doble",
     "capacidad": 2
   },
   {
     "id": "KTL-0008",
-    "tipo": "Standard",
+    "tipo": "Standard Doble",
     "capacidad": 2
   },
   {
     "id": "KTL-0009",
-    "tipo": "Standard",
+    "tipo": "Standard Doble",
     "capacidad": 2
   },
   {
     "id": "KTL-0010",
     "tipo": "Suite",
     "capacidad": 2
+  },
+  {
+    "id": "KTL-0011",
+    "tipo": "Suite",
+    "capacidad": 2
+  },
+  {
+    "id": "KTL-0012",
+    "tipo": "Suite",
+    "capacidad": 2
+  },
+  {
+    "id": "KTL-0013",
+    "tipo": "Suite",
+    "capacidad": 2
+  },
+  {
+    "id": "KTL-0014",
+    "tipo": "Suite",
+    "capacidad": 2
+  },
+  {
+    "id": "KTL-0015",
+    "tipo": "Suite",
+    "capacidad": 2
+  },
+  {
+    "id": "KTL-0016",
+    "tipo": "Deluxe",
+    "capacidad": 4
+  },
+  {
+    "id": "KTL-0017",
+    "tipo": "Deluxe",
+    "capacidad": 4
+  },
+  {
+    "id": "KTL-0018",
+    "tipo": "Deluxe",
+    "capacidad": 4
+  },
+  {
+    "id": "KTL-0019",
+    "tipo": "Deluxe",
+    "capacidad": 4
+  },
+  {
+    "id": "KTL-0020",
+    "tipo": "Deluxe",
+    "capacidad": 4
   }
 ]

@@ -1,50 +1,54 @@
 [
   {
-    "id": "35687",
     "cliente": {
-      "nombres": "Josefrancisco Africano",
+      "nombre": "Josefrancisco Africano",
       "idn": "20000000",
       "correo": "jafricanot@test.com",
-      "telefono": "+584141401140",
-      "fechaReserva": ""
+      "telf": "+584141401140"
     },
     "habitacion": {
-      "id": "KTL-0010",
-      "fechaEntrada": "",
-      "fechaSalida": "",
-      "duracionEstadia": ""
+      "id": "KTL-0020",
+      "fechaEntrada": "10/03/2023",
+      "fechaSalida": "27/04/2023"
     }
   },
   {
-    "id": "38423",
     "cliente": {
-      "nombres": "Luis Amias",
+      "nombre": "Luis Amias",
       "idn": "20000001",
       "correo": "lamias@test.com",
-      "telefono": "+584141401141",
-      "fechaReserva": ""
+      "telf": "+584141401141"
     },
     "habitacion": {
-      "id": "KTL-0002",
-      "fechaEntrada": "",
-      "fechaSalida": "",
-      "duracionEstadia": ""
+      "id": "KTL-00010",
+      "fechaEntrada": "16/09/2023",
+      "fechaSalida": "27/12/2023"
     }
   },
   {
-    "id": "23401",
     "cliente": {
-      "nombres": "Maria Chang",
+      "nombre": "Maria Chang",
       "idn": "20000002",
       "correo": "mchang@test.com",
-      "telefono": "+584141401142",
-      "fechaReserva": ""
+      "telf": "+584141401142"
     },
     "habitacion": {
-      "id": "KTL-0008",
-      "fechaEntrada": "",
-      "fechaSalida": "",
-      "duracionEstadia": ""
+      "id": "KTL-0001",
+      "fechaEntrada": "04/07/2022",
+      "fechaSalida": "08/07/2022"
+    }
+  },
+  {
+    "cliente": {
+      "nombre": "Jose Vergara",
+      "idn": "20000003",
+      "correo": "jvergara@test.com",
+      "telf": "+584141401143"
+    },
+    "habitacion": {
+      "id": "KTL-0005",
+      "fechaEntrada": "17/07/2023",
+      "fechaSalida": "28/07/2023"
     }
   }
 ]
