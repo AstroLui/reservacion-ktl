@@ -37,11 +37,27 @@ class Reserva:
         """ 
         return "ID: {:0<4}, Nombres: {}, Habitacion: {},Entrada: {}, Salida: {}".format(self.id, self.nombre, self.habitacion, self.fechaEntrada, self.fechaSalida)
 
+    def getId(self):
+        return self.id
+
+    def getNombre(self):
+        return self.nombre
+
+    def getFechaReserva(self):
+        return self.fechaReserva
+
+    def getHabitacion(self):
+        return self.habitacion
+
+    def getFechaEntrada(self):
+        return self.fechaEntrada
+
+    def getFechaSalida(self):
+        return self.fechaSalida
+    
     def getDuracion(self):
         return self.duracion
     
-    def getId(self):
-        return self.id
 
 def verificarID():
     id = random.randint(0, 99999)
