@@ -22,7 +22,7 @@
     "habitacion": {
       "id": "KTL-0010",
       "fechaEntrada": "16/09/2023",
-      "fechaSalida": "27/12/2023"
+      "fechaSalida": "27/10/2023"
     }
   },
   {
@@ -49,6 +49,84 @@
       "id": "KTL-0005",
       "fechaEntrada": "17/07/2023",
       "fechaSalida": "28/07/2023"
+    }
+  },
+  {
+    "cliente": {
+      "nombre": "Natassja Leon",
+      "idn": "20000004",
+      "correo": "nleon@test.com",
+      "telf": "+584141401144"
+    },
+    "habitacion": {
+      "id": "KTL-0016",
+      "fechaEntrada": "24/12/2022",
+      "fechaSalida": "07/01/2023"
+    }
+  },
+  {
+    "cliente": {
+      "nombre": "Jennire Vetri",
+      "idn": "20000005",
+      "correo": "jvetri@test.com",
+      "telf": "+584141401145"
+    },
+    "habitacion": {
+      "id": "KTL-0006",
+      "fechaEntrada": "06/09/2023",
+      "fechaSalida": "15/09/2023"
+    }
+  },
+  {
+    "cliente": {
+      "nombre": "Moises Londoño",
+      "idn": "20000006",
+      "correo": "mlondono@test.com",
+      "telf": "+584141401146"
+    },
+    "habitacion": {
+      "id": "KTL-0011",
+      "fechaEntrada": "05/02/2023",
+      "fechaSalida": "17/02/2023"
+    }
+  },
+  {
+    "cliente": {
+      "nombre": "Annuar Abourhab",
+      "idn": "20000007",
+      "correo": "aabourhab@test.com",
+      "telf": "+584141401147"
+    },
+    "habitacion": {
+      "id": "KTL-0013",
+      "fechaEntrada": "22/06/2023",
+      "fechaSalida": "20/07/2023"
+    }
+  },
+  {
+    "cliente": {
+      "nombre": "Jean Odriozola",
+      "idn": "20000007",
+      "correo": "jodriozola@test.com",
+      "telf": "+584141401147"
+    },
+    "habitacion": {
+      "id": "KTL-0003",
+      "fechaEntrada": "05/02/2023",
+      "fechaSalida": "17/02/2023"
+    }
+  },
+  {
+    "cliente": {
+      "nombre": "Argenis Rodiguez",
+      "idn": "20000008",
+      "correo": "arodriguez@test.com",
+      "telf": "+584141401148"
+    },
+    "habitacion": {
+      "id": "KTL-0001",
+      "fechaEntrada": "06/09/2023",
+      "fechaSalida": "10/10/2023"
     }
   }
 ]
