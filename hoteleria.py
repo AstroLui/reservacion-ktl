@@ -9,9 +9,20 @@ reservas = []
 # Almacena todas las habitaciones activas de la aplicación (tempDB)
 habitaciones = []
 
+"""
+Clase reserva que encapsula la información y las operaciones de cada reserva.
+"""
 class  Habitacion:
 
-    def __init__(self, id, tipo, capacidad, precio):
+    def __init__(self, id: str, tipo: str, capacidad: int, precio: int):
+        """
+        Construye los objetos de la clase Reserva.
+        
+        :param id: identificador de la habitacion
+        :param tipo: tipo de habitacion
+        :param capacidad: capacidad de la habitacion
+        :param precio: precio de una noche en la habitacion
+        """
         self.id = id
         self.tipo = tipo
         self.capacidad = capacidad
@@ -23,6 +34,9 @@ class  Habitacion:
         """ 
         return "{: <10} {: <16} {: <3}".format(self.id, self.tipo, self.capacidad)
     
+    """
+    Getters de :class:`Reserva`
+    """
     def getId(self):
         return self.id
     
@@ -35,16 +49,22 @@ class  Habitacion:
     def getPrecio(self):
         return self.precio
 
+"""
+Clase reserva que encapsula la información y las operaciones de cada reserva.
+"""
 class Reserva:
-    """
-    Encapsula la información y las operaciones de cada cuenta.
-    """
 
     def __init__(self, nombre: str, idn: str, correo: str, telf: str, habitacion, fechaEntrada, fechaSalida):
         """
         Construye los objetos de la clase Reserva.
         
-        :param id: identificador unico de la :class:`Reserva`
+        :param nombre: nombre del responsable de la reserva
+        :param idn: numero de identificacion del responsable de la reserva
+        :param correo: correo electronico del responsable de la reserva
+        :param telf: numero telefonico del responsable de la reserva
+        :param habitacion: objeto que contiene la informacion de la habitacion reservada
+        :param fechaEntrada: fecha de entrada de la reserva
+        :param fechaSalida: fecha de salida de la reserva
         """
 
         self.id = verificarID()
@@ -67,10 +87,13 @@ class Reserva:
 
     def infoLineal(self):
         """
-        Devuelve le información del objeto de forma imprimible por consola.
+        Devuelve le información del objeto de forma imprimible en una sola linea por consola.
         """ 
         return "ID: {:0>5}, Nombres: {}, Habitacion: {}, Entrada: {}, Salida: {}, Duración: {} días, TOTAL: {}$".format(self.id, self.nombre, self.habitacion.getId(), self.fechaEntrada.strftime("%d/%m/%y"), self.fechaSalida.strftime("%d/%m/%y"), self.duracion.days, self.costoTotal)
 
+    """
+    Getters de :class:`Reserva`
+    """
     def getId(self):
         return self.id
 
@@ -95,53 +118,101 @@ class Reserva:
     def getCostoTotal(self):
         return self.costoTotal
 
+"""
+Genera un identificador aleatorio y verifica que no concida
+"""
 def verificarID():
+    # Genera un numero aleatorio entre 0 y 99999
     id = random.randint(0, 99999)
+
+    # Verifica que el el id creado no exista entre las reservas 
     for reserva in reservas:
         if reserva.getId() == id:
             verificarID()
+    
+    # Retorna el identificador verificado
     return id
 
+"""
+Crea un objeto fecha a partir de una cadena de texto
+"""
 def fecha(fecha):
+    # Separa la cadena de texto separando cada valor en su variable
     dia, mes, ano = fecha.split("/")
+
+    # Se convierte en el texto en numero
     dia = int(dia)
     mes = int(mes)
     ano = int(ano)
+
+    # Crea el objeto del tipo Fecha
     fechaObjeto = date(ano, mes, dia)
+
+    # Retorna el objeto
     return fechaObjeto
 
+"""
+Funcion que carga la configuracion inicial de la aplicacion
+"""
 def cargarConfig():
-    with open('./config.json', 'r') as f:
-        configJSON = json.load(f)
+    # Abre el archivo de configuracion en modo lectura
+    with open('./config.json', 'r') as db:
+
+        # Interpreta el formato JSON
+        configJSON = json.load(db)
+
+        # Asigna los valores a variables
         global default 
         default = configJSON[0]["default"]
+        
         global ruta_habs
         ruta_habs = configJSON[0]["seed_rooms"]
+        
         global ruta_reserv
         ruta_reserv = configJSON[0]["seed_reserv"]
+        
         global hotel
         hotel = configJSON[0]["name_hotel"]
 
+"""
+Funcion que carga todas las habitaciones disponibles en el hotel
+"""
 def cargarHabitaciones():
+    # Abre el archivo de habitaciones en modo lectura
     with open(ruta_habs, 'r') as db:
+
+        # Interpreta el formato JSON
         dbJSON = json.load(db)
 
+    # Recorre la lista de obtenida
     for habitacion in dbJSON:
+
+        # Asigna los valores a variables
         id = habitacion["id"]
         tipo = habitacion["tipo"]
         capacidad = habitacion["capacidad"]
         precio = habitacion["precio"]
         
+        # Se construye el objeto del tipo Habitacion
         habitacion = Habitacion(id, tipo, capacidad, precio)
-        # Se agrega la cuenta a la tempDB
+
+        # Se agrega la habitacion a la tempDB
         habitaciones.append(habitacion)
     return
 
+"""
+Funcion que carga reservas de prueba
+"""
 def cargarReservas():
+    # Abre el archivo de reservas en modo lectura
     with open(ruta_reserv, 'r') as db:
+
+        # Interpreta el formato JSON
         dbJSON = json.load(db)
 
+    # Recorre la lista de obtenida
     for reserva in dbJSON:
+        # Asigna los valores a variables
         cliente = reserva["cliente"]
         nombre = cliente["nombre"]
         idn = cliente["idn"]
@@ -150,49 +221,71 @@ def cargarReservas():
         habitacion = reserva["habitacion"]
         habitacionId = habitacion["id"]
 
+        # Recorre la lista de habitaciones
         for habitacionI in habitaciones:
+            # Encuentra el objeto de la habitacion y se lo asigna
             if habitacionI.getId() == habitacionId:
                 habitacionId = habitacionI
 
         fechaEntrada = fecha(habitacion["fechaEntrada"])
         fechaSalida = fecha(habitacion["fechaSalida"])
         
-        # Crea un nuevo objeto de la clase Cuenta con el balance inicial capturado anteriormente
+        # Se construye el objeto del tipo Reserva
         reserva = Reserva(nombre, idn, correo, telf, habitacionId, fechaEntrada, fechaSalida)
 
-        # Se agrega la cuenta a la tempDB0
+        # Se agrega la reserva a la tempDB0
         reservas.append(reserva)
 
     print('\n!!! Archivo cargado exitosamente')
-    #print(data)
     return
 
+"""
+Funcion para la seleccion y verificacion de habitaciones disponibles
+"""
 def seleccionarHabitacion(fechaEntrada, fechaSalida):
+
+    # Imprime en la terminal los titulos
     print('\n_________')
     print('HABITACIONES DISPONIBLES')
     print('{: <6}  {: <10} {: <16} {: <3}'.format('Opción', 'Habitación', 'Tipo', 'Capacidad')) 
+
+    # Variable auxiliar para el conteo
     i = 0
+    
+    # Base de datos temporal para almacenar las habitaciones no disponibles
     habitacionesNoDisponibles = []
+
+    # Recorre la lista de reservas
     for reserva in reservas:
+        # Agreaga a la lista temporal las habitaciones que concidan en las fechas
         if reserva.getFechaEntrada() < fechaEntrada or reserva.getFechaSalida() < fechaSalida:
             habitacionesNoDisponibles.append(reserva.getHabitacion())
     
+    # Crea una lista con las habitaciones disponibles
     habitacionesDiponibles = [x for x in habitaciones if x not in habitacionesNoDisponibles]
 
+    # Recorre la lista de habitaciones disponibles
     for hab  in habitacionesDiponibles:
+        # Imprime en la terminal las habitaciones disponlibles formateadas
         print("{: >2}.    ".format(i),hab.info())
         i += 1
     print('‾‾‾‾‾‾‾‾‾')
 
+    # Solicita la seleccion de habitacion
     index = int(input('Seleccione una habitacion: '))
 
+    # Asigna la habitacion seleccionada a una variable
     habitacionSeleccionada = habitacionesDiponibles[index]
+    
+    # Retorna el objeto de la habitacion seleccionada
     return habitacionSeleccionada
 
+"""
+Funcion que crea las reservas
+"""
 def crearReserva():
-    """
-    Recibe los datos del monto con el que se va a aperturar la cuenta
-    """
+    
+    # Solicita al usuario los datos necesarios y los almacena en sus respectivas variables
     print('')
     nombre = input("Indique su nombre: ")
     idn = int(input("Indique su número de cédula: "))
@@ -201,42 +294,66 @@ def crearReserva():
     fechaEntrada = fecha(input("Indique la fecha de entrada (DD/MM/AAAA): "))
     fechaSalida = fecha(input("Indique la fecha de salida (DD/MM/AAAA): "))
 
+    # Se llama a la funcion seleccionarHabitacion para poder escoger dentro de las habitaciones disponibles
     habitacion = seleccionarHabitacion(fechaEntrada, fechaSalida)
 
-    # Crea un nuevo objeto de la clase Cuenta con el balance inicial capturado anteriormente
+    # Crea un nuevo objeto de la clase reserva
     reserva = Reserva(nombre, idn, correo, telf, habitacion, fechaEntrada, fechaSalida)
 
-    # Se agrega la cuenta a la tempDB
+    # Se agrega la reserva a la tempDB
     reservas.append(reserva)
 
     print('\n_________')
-    # Detalla el estado de la operación y el balance de la cuenta relacionada.
+    # Imprime en la terminal los detalles de la reserva realizada.
     print("RESERVA:\n",reserva.info())
     print('‾‾‾‾‾‾‾‾‾')
 
     print('\n!!! Reserva realizada exitosamente')
     return
 
+"""
+Funcion que permite listar todas las reservas
+"""
 def verReserervas():
     print('\n_________')
+
+    # Variable auxiliar de conteo
     i = 1
+
+    # Recorre todas las reservas
     for reserva in reservas:
+
+        # Imprime en la terminal todas las reservas formateadas
         print("RESERVA", i , ': ', reserva.infoLineal())
         i += 1
     print('‾‾‾‾‾‾‾‾‾')
     return
 
+"""
+Funcion principal
+"""
 def main():
+    # Carga el archivo de configuracion
     cargarConfig()
+
+    # Carga las habitaciones
     cargarHabitaciones()
+
+    # Ciclo para mostrar el menu
     while True:
-        print('\nMENU PRINCIPAL ' + hotel)
+
+        # Imprime en la terminal las opciones del menu
+        print('\nMENU PRINCIPAL | ' + hotel)
         print('___')
         print('0. Cargar Seed')
         print('1. Crear Reserva')
         print('10. Ver todas las reservas')
-        print('20. Ver todas las reservas')
+        print('99. Salir')
+
+        # Solicita al usuario la opcion y la escucha
         opcion = int(input('Seleccione una opción: '))
+
+        # Ejecuta las fuciones segun el caso
         match opcion:
             case 0:
                 cargarReservas()
@@ -244,7 +361,6 @@ def main():
                 crearReserva()
             case 10:
                 verReserervas()
-            case 20:
+            case 99:
                 sys.exit()
-
 main()
