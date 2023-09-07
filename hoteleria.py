@@ -1,6 +1,7 @@
 import random
 from datetime import date, datetime
 import json
+import sys
 
 # Almacena todas las reservas activas en la aplicación (tempDB)
 reservas = []
@@ -96,8 +97,20 @@ def fecha(fecha):
     fechaObjeto = date(ano, mes, dia)
     return fechaObjeto
 
+def cargarConfig():
+    with open('./config.json', 'r') as f:
+        DOC = json.load(f)
+        global default 
+        default = DOC[0]["default"]
+        global ruta_habs
+        ruta_habs = DOC[0]["seed_rooms"]
+        global ruta_reserv
+        ruta_reserv = DOC[0]["seed_reserv"]
+        global hotel
+        hotel = DOC[0]["name_hotel"]
+
 def cargarHabitaciones():
-    with open('./db_habitaciones.json', 'r') as f:
+    with open(ruta_habs, 'r') as f:
         dbJSON = json.load(f)
 
     for habitacion in dbJSON:
@@ -112,7 +125,7 @@ def cargarHabitaciones():
     return
 
 def cargarReservas():
-    with open('./db_reserva.json', 'r') as f:
+    with open(ruta_reserv, 'r') as f:
         dbJSON = json.load(f)
 
     for reserva in dbJSON:
@@ -202,13 +215,15 @@ def verReserervas():
     return
 
 def main():
+    cargarConfig()
     cargarHabitaciones()
     while True:
-        print('\nMENU PRINCIPAL')
+        print('\nMENU PRINCIPAL ' + hotel)
         print('___')
         print('0. Cargar Seed')
         print('1. Crear Reserva')
         print('10. Ver todas las reservas')
+        print('20. Ver todas las reservas')
         opcion = int(input('Seleccione una opción: '))
         match opcion:
             case 0:
@@ -217,5 +232,7 @@ def main():
                 crearReserva()
             case 10:
                 verReserervas()
+            case 20:
+                sys.exit()
 
 main()
