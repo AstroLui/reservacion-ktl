@@ -1,6 +1,7 @@
 import random
 from datetime import date, datetime
 import json
+import sys
 
 # Almacena todas las reservas activas en la aplicación (tempDB)
 reservas = []
@@ -10,10 +11,11 @@ habitaciones = []
 
 class  Habitacion:
 
-    def __init__(self, id, tipo, capacidad):
+    def __init__(self, id, tipo, capacidad, precio):
         self.id = id
         self.tipo = tipo
         self.capacidad = capacidad
+        self.precio = precio
 
     def info(self):
         """
@@ -23,6 +25,15 @@ class  Habitacion:
     
     def getId(self):
         return self.id
+    
+    def getTipo(self):
+        return self.tipo
+    
+    def getCapacidad(self):
+        return self.capacidad
+    
+    def getPrecio(self):
+        return self.precio
 
 class Reserva:
     """
@@ -46,18 +57,19 @@ class Reserva:
         self.fechaEntrada = fechaEntrada
         self.fechaSalida = fechaSalida
         self.duracion = fechaSalida - fechaEntrada
+        self.costoTotal = self.duracion.days * self.habitacion.getPrecio()
 
     def info(self):
         """
         Devuelve le información del objeto de forma imprimible por consola.
         """ 
-        return "ID: {:0>5}\n Nombres: {}\n Habitacion: {}\n Entrada: {}\n Salida: {}\n Duración: {} días".format(self.id, self.nombre, self.habitacion.getId(), self.fechaEntrada.strftime("%A %d. %B %Y"), self.fechaSalida.strftime("%A %d. %B %Y"), self.duracion.days)
+        return "ID: {:0>5}\n Nombres: {}\n Habitacion: {}\n Entrada: {}\n Salida: {}\n Duración: {} días\n\n TOTAL: {}$".format(self.id, self.nombre, self.habitacion.getId(), self.fechaEntrada.strftime("%A %d. %B %Y"), self.fechaSalida.strftime("%A %d. %B %Y"), self.duracion.days, self.costoTotal)
 
     def infoLineal(self):
         """
         Devuelve le información del objeto de forma imprimible por consola.
         """ 
-        return "ID: {:0>5}, Nombres: {}, Habitacion: {}, Entrada: {}, Salida: {}, Duración: {} días".format(self.id, self.nombre, self.habitacion.getId(), self.fechaEntrada.strftime("%d/%m/%y"), self.fechaSalida.strftime("%d/%m/%y"), self.duracion.days)
+        return "ID: {:0>5}, Nombres: {}, Habitacion: {}, Entrada: {}, Salida: {}, Duración: {} días, TOTAL: {}$".format(self.id, self.nombre, self.habitacion.getId(), self.fechaEntrada.strftime("%d/%m/%y"), self.fechaSalida.strftime("%d/%m/%y"), self.duracion.days, self.costoTotal)
 
     def getId(self):
         return self.id
@@ -80,6 +92,8 @@ class Reserva:
     def getDuracion(self):
         return self.duracion
     
+    def getCostoTotal(self):
+        return self.costoTotal
 
 def verificarID():
     id = random.randint(0, 99999)
@@ -96,24 +110,36 @@ def fecha(fecha):
     fechaObjeto = date(ano, mes, dia)
     return fechaObjeto
 
+def cargarConfig():
+    with open('./config.json', 'r') as f:
+        configJSON = json.load(f)
+        global default 
+        default = configJSON[0]["default"]
+        global ruta_habs
+        ruta_habs = configJSON[0]["seed_rooms"]
+        global ruta_reserv
+        ruta_reserv = configJSON[0]["seed_reserv"]
+        global hotel
+        hotel = configJSON[0]["name_hotel"]
+
 def cargarHabitaciones():
-    with open('./db_habitaciones.json', 'r') as f:
-        dbJSON = json.load(f)
+    with open(ruta_habs, 'r') as db:
+        dbJSON = json.load(db)
 
     for habitacion in dbJSON:
         id = habitacion["id"]
         tipo = habitacion["tipo"]
         capacidad = habitacion["capacidad"]
+        precio = habitacion["precio"]
         
-        habitacion = Habitacion(id, tipo, capacidad)
+        habitacion = Habitacion(id, tipo, capacidad, precio)
         # Se agrega la cuenta a la tempDB
         habitaciones.append(habitacion)
-
     return
 
 def cargarReservas():
-    with open('./db_reserva.json', 'r') as f:
-        dbJSON = json.load(f)
+    with open(ruta_reserv, 'r') as db:
+        dbJSON = json.load(db)
 
     for reserva in dbJSON:
         cliente = reserva["cliente"]
@@ -189,7 +215,6 @@ def crearReserva():
     print('‾‾‾‾‾‾‾‾‾')
 
     print('\n!!! Reserva realizada exitosamente')
-
     return
 
 def verReserervas():
@@ -202,13 +227,15 @@ def verReserervas():
     return
 
 def main():
+    cargarConfig()
     cargarHabitaciones()
     while True:
-        print('\nMENU PRINCIPAL')
+        print('\nMENU PRINCIPAL ' + hotel)
         print('___')
         print('0. Cargar Seed')
         print('1. Crear Reserva')
         print('10. Ver todas las reservas')
+        print('20. Ver todas las reservas')
         opcion = int(input('Seleccione una opción: '))
         match opcion:
             case 0:
@@ -217,5 +244,7 @@ def main():
                 crearReserva()
             case 10:
                 verReserervas()
+            case 20:
+                sys.exit()
 
 main()

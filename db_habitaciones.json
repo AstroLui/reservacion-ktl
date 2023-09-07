@@ -2,101 +2,121 @@
   {
     "id": "KTL-0001",
     "tipo": "Standard",
-    "capacidad": 1
+    "capacidad": 1,
+    "precio": 50
   },
   {
     "id": "KTL-0002",
     "tipo": "Standard",
-    "capacidad": 1
+    "capacidad": 1,
+    "precio": 50
   },
   {
     "id": "KTL-0003",
     "tipo": "Standard",
-    "capacidad": 1
+    "capacidad": 1,
+    "precio": 50
   },
   {
     "id": "KTL-0004",
     "tipo": "Standard",
-    "capacidad": 1
+    "capacidad": 1,
+    "precio": 50
   },
   {
     "id": "KTL-0005",
     "tipo": "Standard",
-    "capacidad": 1
+    "capacidad": 1,
+    "precio": 50
   },
   {
     "id": "KTL-0006",
     "tipo": "Standard Doble",
-    "capacidad": 2
+    "capacidad": 2,
+    "precio": 75
   },
   {
     "id": "KTL-0007",
     "tipo": "Standard Doble",
-    "capacidad": 2
+    "capacidad": 2,
+    "precio": 75
   },
   {
     "id": "KTL-0008",
     "tipo": "Standard Doble",
-    "capacidad": 2
+    "capacidad": 2,
+    "precio": 75
   },
   {
     "id": "KTL-0009",
     "tipo": "Standard Doble",
-    "capacidad": 2
+    "capacidad": 2,
+    "precio": 75
   },
   {
     "id": "KTL-0010",
     "tipo": "Suite",
-    "capacidad": 2
+    "capacidad": 2,
+    "precio": 150
   },
   {
     "id": "KTL-0011",
     "tipo": "Suite",
-    "capacidad": 2
+    "capacidad": 2,
+    "precio": 150
   },
   {
     "id": "KTL-0012",
     "tipo": "Suite",
-    "capacidad": 2
+    "capacidad": 2,
+    "precio": 150
   },
   {
     "id": "KTL-0013",
     "tipo": "Suite",
-    "capacidad": 2
+    "capacidad": 2,
+    "precio": 150
   },
   {
     "id": "KTL-0014",
     "tipo": "Suite",
-    "capacidad": 2
+    "capacidad": 2,
+    "precio": 150
   },
   {
     "id": "KTL-0015",
     "tipo": "Suite",
-    "capacidad": 2
+    "capacidad": 2,
+    "precio": 150
   },
   {
     "id": "KTL-0016",
     "tipo": "Deluxe",
-    "capacidad": 4
+    "capacidad": 4,
+    "precio": 300
   },
   {
     "id": "KTL-0017",
     "tipo": "Deluxe",
-    "capacidad": 4
+    "capacidad": 4,
+    "precio": 300
   },
   {
     "id": "KTL-0018",
     "tipo": "Deluxe",
-    "capacidad": 4
+    "capacidad": 4,
+    "precio": 300
   },
   {
     "id": "KTL-0019",
     "tipo": "Deluxe",
-    "capacidad": 4
+    "capacidad": 4,
+    "precio": 300
   },
   {
     "id": "KTL-0020",
     "tipo": "Deluxe",
-    "capacidad": 4
+    "capacidad": 4,
+    "precio": 300
   }
 ]
