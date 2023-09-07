@@ -10,10 +10,11 @@ habitaciones = []
 
 class  Habitacion:
 
-    def __init__(self, id, tipo, capacidad):
+    def __init__(self, id, tipo, capacidad, precio):
         self.id = id
         self.tipo = tipo
         self.capacidad = capacidad
+        self.precio = precio
 
     def info(self):
         """
@@ -23,6 +24,9 @@ class  Habitacion:
     
     def getId(self):
         return self.id
+    
+    def getPrecio(self):
+        return self.precio
 
 class Reserva:
     """
@@ -46,18 +50,19 @@ class Reserva:
         self.fechaEntrada = fechaEntrada
         self.fechaSalida = fechaSalida
         self.duracion = fechaSalida - fechaEntrada
+        self.costoTotal = self.duracion.days * self.habitacion.getPrecio()
 
     def info(self):
         """
         Devuelve le información del objeto de forma imprimible por consola.
         """ 
-        return "ID: {:0>5}\n Nombres: {}\n Habitacion: {}\n Entrada: {}\n Salida: {}\n Duración: {} días".format(self.id, self.nombre, self.habitacion.getId(), self.fechaEntrada.strftime("%A %d. %B %Y"), self.fechaSalida.strftime("%A %d. %B %Y"), self.duracion.days)
+        return "ID: {:0>5}\n Nombres: {}\n Habitacion: {}\n Entrada: {}\n Salida: {}\n Duración: {} días\n\n TOTAL: {}$".format(self.id, self.nombre, self.habitacion.getId(), self.fechaEntrada.strftime("%A %d. %B %Y"), self.fechaSalida.strftime("%A %d. %B %Y"), self.duracion.days, self.costoTotal)
 
     def infoLineal(self):
         """
         Devuelve le información del objeto de forma imprimible por consola.
         """ 
-        return "ID: {:0>5}, Nombres: {}, Habitacion: {}, Entrada: {}, Salida: {}, Duración: {} días".format(self.id, self.nombre, self.habitacion.getId(), self.fechaEntrada.strftime("%d/%m/%y"), self.fechaSalida.strftime("%d/%m/%y"), self.duracion.days)
+        return "ID: {:0>5}, Nombres: {}, Habitacion: {}, Entrada: {}, Salida: {}, Duración: {} días, TOTAL: {}$".format(self.id, self.nombre, self.habitacion.getId(), self.fechaEntrada.strftime("%d/%m/%y"), self.fechaSalida.strftime("%d/%m/%y"), self.duracion.days, self.costoTotal)
 
     def getId(self):
         return self.id
@@ -80,6 +85,8 @@ class Reserva:
     def getDuracion(self):
         return self.duracion
     
+    def getCostoTotal(self):
+        return self.costoTotal
 
 def verificarID():
     id = random.randint(0, 99999)
@@ -97,23 +104,23 @@ def fecha(fecha):
     return fechaObjeto
 
 def cargarHabitaciones():
-    with open('./db_habitaciones.json', 'r') as f:
-        dbJSON = json.load(f)
+    with open('./db_habitaciones.json', 'r') as db:
+        dbJSON = json.load(db)
 
     for habitacion in dbJSON:
         id = habitacion["id"]
         tipo = habitacion["tipo"]
         capacidad = habitacion["capacidad"]
+        precio = habitacion["precio"]
         
-        habitacion = Habitacion(id, tipo, capacidad)
+        habitacion = Habitacion(id, tipo, capacidad, precio)
         # Se agrega la cuenta a la tempDB
         habitaciones.append(habitacion)
-
     return
 
 def cargarReservas():
-    with open('./db_reserva.json', 'r') as f:
-        dbJSON = json.load(f)
+    with open('./db_reserva.json', 'r') as db:
+        dbJSON = json.load(db)
 
     for reserva in dbJSON:
         cliente = reserva["cliente"]
@@ -189,7 +196,6 @@ def crearReserva():
     print('‾‾‾‾‾‾‾‾‾')
 
     print('\n!!! Reserva realizada exitosamente')
-
     return
 
 def verReserervas():
