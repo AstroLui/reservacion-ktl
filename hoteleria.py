@@ -25,6 +25,12 @@ class  Habitacion:
     def getId(self):
         return self.id
     
+    def getTipo(self):
+        return self.tipo
+    
+    def getCapacidad(self):
+        return self.capacidad
+    
     def getPrecio(self):
         return self.precio
 
