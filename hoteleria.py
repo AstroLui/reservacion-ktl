@@ -470,6 +470,7 @@ def main():
         print('1. Crear Reserva')
         print('2. Reserva Periodo')
         print('10. Ver todas las reservas')
+        print('10. Ver todas los usuarios')
         print('99. Salir')
 
         # Solicita al usuario la opcion y la escucha
