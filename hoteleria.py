@@ -9,6 +9,9 @@ reservas = []
 # Almacena todas las habitaciones activas de la aplicación (tempDB)
 habitaciones = []
 
+# Almacena todas las reservas dentre de un periodo (tempDB)
+reservasPeriodoDB = []
+
 """
 Clase reserva que encapsula la información y las operaciones de cada reserva.
 """
@@ -32,7 +35,7 @@ class  Habitacion:
         """
         Devuelve le información del objeto de forma imprimible por consola.
         """ 
-        return "{: <10} {: <16} {: <3}".format(self.id, self.tipo, self.capacidad)
+        return "{: <10} {: <16} {: <3} {: >3}$".format(self.id, self.tipo, self.capacidad, self.precio)
     
     """
     Getters de :class:`Reserva`
@@ -247,7 +250,7 @@ def seleccionarHabitacion(fechaEntrada, fechaSalida):
     # Imprime en la terminal los titulos
     print('\n_________')
     print('HABITACIONES DISPONIBLES')
-    print('{: <6}  {: <10} {: <16} {: <3}'.format('Opción', 'Habitación', 'Tipo', 'Capacidad')) 
+    print('{: <6}  {: <10} {: <16} {: <3} {: <3}'.format('Opción', 'Habitación', 'Tipo', 'Per.', 'Precio')) 
 
     # Variable auxiliar para el conteo
     i = 0
@@ -258,7 +261,7 @@ def seleccionarHabitacion(fechaEntrada, fechaSalida):
     # Recorre la lista de reservas
     for reserva in reservas:
         # Agreaga a la lista temporal las habitaciones que concidan en las fechas
-        if reserva.getFechaEntrada() < fechaEntrada or reserva.getFechaSalida() < fechaSalida:
+        if ((reserva.getFechaEntrada() < fechaEntrada and reserva.getFechaSalida() > fechaSalida) or (reserva.getFechaEntrada() < fechaEntrada and ( fechaSalida > reserva.getFechaSalida() > fechaSalida)) or (reserva.getFechaSalida() > fechaSalida and ( fechaEntrada < reserva.getFechaEntrada() < fechaSalida))):
             habitacionesNoDisponibles.append(reserva.getHabitacion())
     
     # Crea una lista con las habitaciones disponibles
@@ -330,6 +333,35 @@ def verReserervas():
     return
 
 """
+Funcion para obtener la lista de reservas en una fecha
+"""
+def reservasPeriodo(fechaInicio = fecha("01/01/2023"), fechaFinal = fecha("31/12/2023")):
+    # Se vacia la base de datos temporal
+    reservasPeriodoDB = []
+
+    # Se recorre la lista de reserva
+    for reserva in reservas:
+        # Se comprueba que se encuentre dentro del periodo seleccionado
+        if reserva.getFechaEntrada() > fechaInicio and reserva.getFechaSalida() < fechaFinal:
+            # Se agrega a la base de datos temporal
+            reservasPeriodoDB.append(reserva)
+
+
+    print('\n_________')
+
+    # Variable auxiliar de conteo
+    i = 1
+
+    # Recorre todas las reservas
+    for reserva in reservasPeriodoDB:
+
+        # Imprime en la terminal todas las reservas formateadas
+        print("RESERVA", i , ': ', reserva.infoLineal())
+        i += 1
+    print('‾‾‾‾‾‾‾‾‾')
+    return reservasPeriodoDB
+
+"""
 Funcion principal
 """
 def main():
@@ -343,10 +375,11 @@ def main():
     while True:
 
         # Imprime en la terminal las opciones del menu
-        print('\nMENU PRINCIPAL | ' + hotel)
+        print('\n\nMENU PRINCIPAL | ' + hotel)
         print('___')
         print('0. Cargar Seed')
         print('1. Crear Reserva')
+        print('2. Reserva Periodo')
         print('10. Ver todas las reservas')
         print('99. Salir')
 
@@ -359,6 +392,8 @@ def main():
                 cargarReservas()
             case 1:
                 crearReserva()
+            case 2:
+                reservasPeriodo()
             case 10:
                 verReserervas()
             case 99:
