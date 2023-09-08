@@ -1,9 +1,8 @@
 
 #Tipo de Ordenamiento:
 # 
-#1. MergeSort
-#
-
+#1. MergeSort: Ordenamiento de costo total por un rango de Fechas
+#  
 def mergesortRangoASC(arr): 
     if len(arr) > 1: 
         mid = len(arr)//2
@@ -11,13 +10,13 @@ def mergesortRangoASC(arr):
         L = arr[:mid]
         R = arr[mid:]
 
-        mergesortRangoASC(L,)
-        mergesortRangoASC(R,)
+        mergesortRangoASC(L)
+        mergesortRangoASC(R)
 
         i = j = k = 0
 
         while i < len(L) and j < len(R):
-            if L[i] <= R[j]:
+            if L[i].getCostoTotal() <= R[j].getCostoTotal():
                 arr[k] = L[i]
                 i += 1
             else:
@@ -48,7 +47,7 @@ def mergesortRangoDESC(arr):
         i = j = k = 0
 
         while i < len(L) and j < len(R):
-            if L[i] >= R[j]:
+            if L[i].getCostoTotal() >= R[j].getCostoTotal():
                 arr[k] = L[i]
                 i += 1
             else:
@@ -67,31 +66,32 @@ def mergesortRangoDESC(arr):
             k += 1
 
 #
-#2. Quicksort
+# TODAVIA FALTA MODIFICAR
+#2. Quicksort: Ordenamiento Multiple
 #
 def quickSort(arr, low, high):
-
+    if len(arr) == 1:
+        return arr
     if low < high:
         pi = __particion(arr, low, high)
         quickSort(arr, low, pi-1)
         quickSort(arr, pi+1, high)
+    return arr
 
 
 def __particion(arr, low, high):
-    pivot = arr[high] 
+    pivot = arr[high]
     i = low - 1
     for j in range(low, high):
-        if arr[j] <=  pivot:
+        if arr[j] >=  pivot:
             i +=1
             (arr[i], arr[j]) = (arr[j], arr[i])
     i = i + 1
-    (arr[i], arr[high]) = (arr[high], arr[i])
+    (arr[i], arr[high]) = (arr[high], arr[i])  
     return i
-
 #
-#3. Heapsort
+#3. Heapsort: Ordenamiento segun su duracion de reserva
 #
-
 def heapSortDuracionASC(arr):
     n = len(arr)
 
@@ -145,30 +145,31 @@ def __heapify(arr, n, i):
         __heapify(arr, n, largerst)
 
 #
-#4. Shellsort
+# NECESITA EL OBJETO "USUARIO" PARA TERMINAR DE MODIFICAR
+#4. Shellsort: Ordenamiento del cliente segun el numero de reservaciones que tenga
 #
 
-def shellsortPrecioHabDESC(arr):
+def shellsortNoReservacionesDESC(arr):
     n = len(arr) 
     gap = n // 2
     while gap > 0: 
         for i in range(gap, n): 
             temp = arr[i]
             j = i
-            while  j >= gap and arr[j - gap].getPrecio() < temp.getPrecio(): 
+            while  j >= gap and arr[j - gap] < temp: 
                 arr[j] = arr[j - gap]
                 j -= gap  
             arr[j] = temp 
         gap //= 2
 
-def shellsortPrecioHabASC(arr):
+def shellsortNoReservacionesASC(arr):
     n = len(arr) 
     gap = n // 2
     while gap > 0: 
         for i in range(gap, n): 
             temp = arr[i]
             j = i
-            while  j >= gap and arr[j - gap].getPrecio() > temp.getPrecio(): 
+            while  j >= gap and arr[j - gap] > temp: 
                 arr[j] = arr[j - gap]
                 j -= gap  
             arr[j] = temp 
