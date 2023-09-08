@@ -106,7 +106,7 @@
   {
     "cliente": {
       "nombre": "Jean Odriozola",
-      "idn": "20000007",
+      "idn": "20000008",
       "correo": "jodriozola@test.com",
       "telf": "+584141401147"
     },
@@ -119,7 +119,7 @@
   {
     "cliente": {
       "nombre": "Argenis Rodiguez",
-      "idn": "20000008",
+      "idn": "20000009",
       "correo": "arodriguez@test.com",
       "telf": "+584141401148"
     },
@@ -127,6 +127,19 @@
       "id": "KTL-0001",
       "fechaEntrada": "06/09/2023",
       "fechaSalida": "10/10/2023"
+    }
+  },
+  {
+    "cliente": {
+      "nombre": "Josefrancisco Africano",
+      "idn": "20000000",
+      "correo": "jafricanot@test.com",
+      "telf": "+584141401140"
+    },
+    "habitacion": {
+      "id": "KTL-0020",
+      "fechaEntrada": "18/11/2023",
+      "fechaSalida": "22/12/2023"
     }
   }
 ]
