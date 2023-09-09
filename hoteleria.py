@@ -9,8 +9,37 @@ reservas = []
 # Almacena todas las habitaciones activas de la aplicación (tempDB)
 habitaciones = []
 
+# Almacena todas las habitaciones activas de la aplicación (tempDB)
+usuarios = []
+
 # Almacena todas las reservas dentre de un periodo (tempDB)
 reservasPeriodoDB = []
+
+class Usuario:
+    def __init__(self, nombre: str, idn: int, correo: str, telf: str):
+        self.nombre = nombre
+        self.idn = idn
+        self.correo = correo
+        self.telf = telf
+        self.totalReservaciones = 0
+
+    def infoLineal(self):
+        """
+        Devuelve le información del objeto de forma imprimible en una sola linea por consola.
+        """ 
+        return "Nombres: {}, ID: {}, Correo: {}, Telf: {}, Reservaciones: {}".format(self.nombre, self.idn, self.correo, self.telf, self.totalReservaciones)
+
+    def getNombre(self):
+        return self.nombre
+
+    def getIDN(self):
+        return self.idn
+    
+    def getTotalReservaciones(self):
+        return self.totalReservaciones
+
+    def setReservacion(self):
+        self.totalReservaciones += 1
 
 """
 Clase reserva que encapsula la información y las operaciones de cada reserva.
@@ -57,7 +86,7 @@ Clase reserva que encapsula la información y las operaciones de cada reserva.
 """
 class Reserva:
 
-    def __init__(self, nombre: str, idn: str, correo: str, telf: str, habitacion, fechaEntrada, fechaSalida):
+    def __init__(self, usuario, habitacion, fechaEntrada, fechaSalida):
         """
         Construye los objetos de la clase Reserva.
         
@@ -71,10 +100,7 @@ class Reserva:
         """
 
         self.id = verificarID()
-        self.nombre = nombre
-        self.idn = idn
-        self.correo = correo
-        self.telf = telf
+        self.usuario = usuario
         self.fechaReserva = datetime.now
         self.habitacion = habitacion
         self.fechaEntrada = fechaEntrada
@@ -86,13 +112,13 @@ class Reserva:
         """
         Devuelve le información del objeto de forma imprimible por consola.
         """ 
-        return "ID: {:0>5}\n Nombres: {}\n Habitacion: {}\n Entrada: {}\n Salida: {}\n Duración: {} días\n\n TOTAL: {}$".format(self.id, self.nombre, self.habitacion.getId(), self.fechaEntrada.strftime("%A %d. %B %Y"), self.fechaSalida.strftime("%A %d. %B %Y"), self.duracion.days, self.costoTotal)
+        return "ID: {:0>5}\n Nombres: {}\n Habitacion: {}\n Entrada: {}\n Salida: {}\n Duración: {} días\n\n TOTAL: {}$".format(self.id, self.usuario.getNombre(), self.habitacion.getId(), self.fechaEntrada.strftime("%A %d. %B %Y"), self.fechaSalida.strftime("%A %d. %B %Y"), self.duracion.days, self.costoTotal)
 
     def infoLineal(self):
         """
         Devuelve le información del objeto de forma imprimible en una sola linea por consola.
         """ 
-        return "ID: {:0>5}, Nombres: {}, Habitacion: {}, Entrada: {}, Salida: {}, Duración: {} días, TOTAL: {}$".format(self.id, self.nombre, self.habitacion.getId(), self.fechaEntrada.strftime("%d/%m/%y"), self.fechaSalida.strftime("%d/%m/%y"), self.duracion.days, self.costoTotal)
+        return "ID: {:0>5}, Nombres: {}, Habitacion: {}, Entrada: {}, Salida: {}, Duración: {} días, TOTAL: {}$".format(self.id, self.usuario.getNombre(), self.habitacion.getId(), self.fechaEntrada.strftime("%d/%m/%y"), self.fechaSalida.strftime("%d/%m/%y"), self.duracion.days, self.costoTotal)
 
     """
     Getters de :class:`Reserva`
@@ -215,14 +241,19 @@ def cargarReservas():
 
     # Recorre la lista de obtenida
     for reserva in dbJSON:
+        bandUsuario = 0
         # Asigna los valores a variables
         cliente = reserva["cliente"]
         nombre = cliente["nombre"]
-        idn = cliente["idn"]
         correo = cliente["correo"]
         telf = cliente["telf"]
+        idn = cliente["idn"]
         habitacion = reserva["habitacion"]
         habitacionId = habitacion["id"]
+        fechaEntrada = fecha(habitacion["fechaEntrada"])
+        fechaSalida = fecha(habitacion["fechaSalida"])
+
+        print(nombre)
 
         # Recorre la lista de habitaciones
         for habitacionI in habitaciones:
@@ -230,14 +261,26 @@ def cargarReservas():
             if habitacionI.getId() == habitacionId:
                 habitacionId = habitacionI
 
-        fechaEntrada = fecha(habitacion["fechaEntrada"])
-        fechaSalida = fecha(habitacion["fechaSalida"])
-        
-        # Se construye el objeto del tipo Reserva
-        reserva = Reserva(nombre, idn, correo, telf, habitacionId, fechaEntrada, fechaSalida)
+        for usuario in usuarios:
+            if usuario.getIDN() == idn:       
+                bandUsuario = 1
+                # Se construye el objeto del tipo Reserva
+                reserva = Reserva(usuario, habitacionId, fechaEntrada, fechaSalida)
 
-        # Se agrega la reserva a la tempDB0
-        reservas.append(reserva)
+                # Se agrega la reserva a la tempDB0
+                reservas.append(reserva)
+                usuario.setReservacion()
+
+        if bandUsuario == 0:
+            usuarioNuevo = Usuario(nombre, idn, correo, telf)
+            usuarios.append(usuarioNuevo)
+
+            # Se construye el objeto del tipo Reserva
+            reserva = Reserva(usuarioNuevo, habitacionId, fechaEntrada, fechaSalida)
+
+            # Se agrega la reserva a la tempDB0
+            reservas.append(reserva)
+            usuarioNuevo.setReservacion()
 
     print('\n!!! Archivo cargado exitosamente')
     return
@@ -290,8 +333,32 @@ def crearReserva():
     
     # Solicita al usuario los datos necesarios y los almacena en sus respectivas variables
     print('')
-    nombre = input("Indique su nombre: ")
     idn = int(input("Indique su número de cédula: "))
+
+    for usuario in usuarios:
+        if usuario.getIDN() == idn:
+            fechaEntrada = fecha(input("Indique la fecha de entrada (DD/MM/AAAA): "))
+            fechaSalida = fecha(input("Indique la fecha de salida (DD/MM/AAAA): "))
+
+            # Se llama a la funcion seleccionarHabitacion para poder escoger dentro de las habitaciones disponibles
+            habitacion = seleccionarHabitacion(fechaEntrada, fechaSalida)
+
+            # Crea un nuevo objeto de la clase reserva
+            reserva = Reserva(usuario, habitacion, fechaEntrada, fechaSalida)
+
+            # Se agrega la reserva a la tempDB
+            reservas.append(reserva)
+            usuario.setReservacion()
+
+            print('\n_________')
+            # Imprime en la terminal los detalles de la reserva realizada.
+            print("RESERVA:\n",reserva.info())
+            print('‾‾‾‾‾‾‾‾‾')
+
+            print('\n!!! Reserva realizada exitosamente')
+            return
+
+    nombre = input("Indique su nombre: ")
     correo = input("Indique su correo electrónico: ")
     telf = input("Indique su número telefónico: ")
     fechaEntrada = fecha(input("Indique la fecha de entrada (DD/MM/AAAA): "))
@@ -300,11 +367,15 @@ def crearReserva():
     # Se llama a la funcion seleccionarHabitacion para poder escoger dentro de las habitaciones disponibles
     habitacion = seleccionarHabitacion(fechaEntrada, fechaSalida)
 
+    usuarioNuevo = Usuario(nombre, idn, correo, telf)
+    usuarios.append(usuarioNuevo)
+
     # Crea un nuevo objeto de la clase reserva
-    reserva = Reserva(nombre, idn, correo, telf, habitacion, fechaEntrada, fechaSalida)
+    reserva = Reserva(usuarioNuevo, habitacion, fechaEntrada, fechaSalida)
 
     # Se agrega la reserva a la tempDB
     reservas.append(reserva)
+    usuario.setReservacion()
 
     print('\n_________')
     # Imprime en la terminal los detalles de la reserva realizada.
@@ -328,6 +399,24 @@ def verReserervas():
 
         # Imprime en la terminal todas las reservas formateadas
         print("RESERVA", i , ': ', reserva.infoLineal())
+        i += 1
+    print('‾‾‾‾‾‾‾‾‾')
+    return
+
+"""
+Funcion que permite listar todas las reservas
+"""
+def verUsuarios():
+    print('\n_________')
+
+    # Variable auxiliar de conteo
+    i = 1
+
+    # Recorre todas las reservas
+    for usuario in usuarios:
+
+        # Imprime en la terminal todas las reservas formateadas
+        print("USUARIO", i , ': ', usuario.infoLineal())
         i += 1
     print('‾‾‾‾‾‾‾‾‾')
     return
@@ -381,6 +470,7 @@ def main():
         print('1. Crear Reserva')
         print('2. Reserva Periodo')
         print('10. Ver todas las reservas')
+        print('10. Ver todas los usuarios')
         print('99. Salir')
 
         # Solicita al usuario la opcion y la escucha
@@ -396,6 +486,8 @@ def main():
                 reservasPeriodo()
             case 10:
                 verReserervas()
+            case 11:
+                verUsuarios()
             case 99:
                 sys.exit()
 main()
