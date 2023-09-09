@@ -198,10 +198,8 @@ def __heapify_Duracion_DESC(arr, n, i):
         __heapify_Duracion_DESC(arr, n, largerst)
 
 #
-# NECESITA EL OBJETO "USUARIO" PARA TERMINAR DE MODIFICAR
 #4. Shellsort: Ordenamiento del cliente segun el numero de reservaciones que tenga
 #
-
 def shellsort_NoReservaciones_DESC(arr):
     n = len(arr) 
     gap = n // 2
@@ -209,7 +207,7 @@ def shellsort_NoReservaciones_DESC(arr):
         for i in range(gap, n): 
             temp = arr[i]
             j = i
-            while  j >= gap and arr[j - gap] < temp: 
+            while  j >= gap and arr[j - gap].getTotalReservaciones() < temp.getTotalReservaciones(): 
                 arr[j] = arr[j - gap]
                 j -= gap  
             arr[j] = temp 
@@ -222,7 +220,7 @@ def shellsort_NoReservaciones_ASC(arr):
         for i in range(gap, n): 
             temp = arr[i]
             j = i
-            while  j >= gap and arr[j - gap] > temp: 
+            while  j >= gap and arr[j - gap].getTotalReservaciones() > temp.getTotalReservaciones(): 
                 arr[j] = arr[j - gap]
                 j -= gap  
             arr[j] = temp 
