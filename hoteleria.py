@@ -253,8 +253,6 @@ def cargarReservas():
         fechaEntrada = fecha(habitacion["fechaEntrada"])
         fechaSalida = fecha(habitacion["fechaSalida"])
 
-        print(nombre)
-
         # Recorre la lista de habitaciones
         for habitacionI in habitaciones:
             # Encuentra el objeto de la habitacion y se lo asigna
@@ -400,6 +398,7 @@ def verReserervas():
         # Imprime en la terminal todas las reservas formateadas
         print("RESERVA", i , ': ', reserva.infoLineal())
         i += 1
+    print('\nTOTAL: ', len(reservas), 'reservas')
     print('‾‾‾‾‾‾‾‾‾')
     return
 
@@ -418,6 +417,7 @@ def verUsuarios():
         # Imprime en la terminal todas las reservas formateadas
         print("USUARIO", i , ': ', usuario.infoLineal())
         i += 1
+    print('\nTOTAL: ', len(usuarios), 'usuarios')
     print('‾‾‾‾‾‾‾‾‾')
     return
 
@@ -470,7 +470,7 @@ def main():
         print('1. Crear Reserva')
         print('2. Reserva Periodo')
         print('10. Ver todas las reservas')
-        print('10. Ver todas los usuarios')
+        print('11. Ver todas los usuarios')
         print('99. Salir')
 
         # Solicita al usuario la opcion y la escucha
