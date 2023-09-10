@@ -1,10 +1,10 @@
 
 #Tipo de Ordenamiento:
-# 
+#
 #1. MergeSort: Ordenamiento de costo total por un rango de Fechas
-#  
-def mergesort_RangoFechas_ASC(arr): 
-    if len(arr) > 1: 
+#
+def mergesort_RangoFechas_ASC(arr):
+    if len(arr) > 1:
         mid = len(arr)//2
 
         L = arr[:mid]
@@ -33,9 +33,11 @@ def mergesort_RangoFechas_ASC(arr):
             arr[k] = R[j]
             j += 1
             k += 1
+    
+    return arr
 
-def mergesort_RangoFechas_DESC(arr): 
-    if len(arr) > 1: 
+def mergesort_RangoFechas_DESC(arr):
+    if len(arr) > 1:
         mid = len(arr)//2
 
         L = arr[:mid]
@@ -64,6 +66,8 @@ def mergesort_RangoFechas_DESC(arr):
             arr[k] = R[j]
             j += 1
             k += 1
+    
+    return arr
 
 #
 #
@@ -77,7 +81,7 @@ def quickSort_NoMultiple_ASC(arr, low, high):
     return arr
 
 def __particion_NoMultiple_ASC(arr, low, high):
-    pivot = arr[high] 
+    pivot = arr[high]
     i = low - 1
     for j in range(low, high):
         if arr[j] <=  pivot:
@@ -95,7 +99,7 @@ def quickSort_NoMultiple_DESC(arr, low, high):
     return arr
 
 def __particion_NoMultiple_DESC(arr, low, high):
-    pivot = arr[high] 
+    pivot = arr[high]
     i = low - 1
     for j in range(low, high):
         if arr[j] >=  pivot:
@@ -150,10 +154,12 @@ def heapSort_Duracion_ASC(arr):
 
     for i in range(n//2-1, -1, -1):
         __heapify_Duracion_ASC(arr, n, i)
-    
+
     for i in range(n-1, 0, -1):
         (arr[i], arr[0]) = (arr[0], arr[i])
         __heapify_Duracion_ASC(arr, i, 0)
+    
+    return arr
 
 def __heapify_Duracion_ASC(arr, n, i):
     largerst = i
@@ -180,6 +186,8 @@ def heapSort_Duracion_DESC(arr):
     for i in range(n-1, 0, -1):
         (arr[i], arr[0]) = (arr[0], arr[i])
         __heapify_Duracion_DESC(arr, i, 0)
+    
+    return arr
 
 def __heapify_Duracion_DESC(arr, n, i):
     largerst = i
@@ -212,6 +220,8 @@ def shellsort_NoReservaciones_DESC(arr):
                 j -= gap  
             arr[j] = temp 
         gap //= 2
+    
+    return arr
 
 def shellsort_NoReservaciones_ASC(arr):
     n = len(arr) 
@@ -225,3 +235,5 @@ def shellsort_NoReservaciones_ASC(arr):
                 j -= gap  
             arr[j] = temp 
         gap //= 2
+    
+    return arr
