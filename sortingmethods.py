@@ -48,6 +48,8 @@ def mergesort_RangoFechas_ASC(arr):
             arr[k] = R[j]
             j += 1
             k += 1
+    
+    return arr
 
 def mergesort_RangoFechas_DESC(arr): 
     if len(arr) > 1: 
@@ -94,13 +96,15 @@ def mergesort_RangoFechas_DESC(arr):
             arr[k] = R[j]
             j += 1
             k += 1
+    
+    return arr
 
 #
 #
 #2. Quicksort: Ordenamiento Multiple
 #
 
-criterios= ["capacidad","fechaEntrada","id"]
+criterios= ["capacidad","fechaEntrada","id","costoTotal","fechaSalida","duracion"]
 
 def quickSort_NoMultiple_ASC(arr, low, high, criterio):
     if low < high:
