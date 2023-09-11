@@ -2,7 +2,6 @@ import random
 from datetime import date, datetime
 import json
 import sys
-from sortingmethods import *
 
 # Almacena todas las reservas activas en la aplicación (tempDB)
 reservas = []
@@ -10,7 +9,7 @@ reservas = []
 # Almacena todas las habitaciones activas de la aplicación (tempDB)
 habitaciones = []
 
-# Almacena todos los usuarios activos de la aplicación (tempDB)
+# Almacena todas las habitaciones activas de la aplicación (tempDB)
 usuarios = []
 
 # Almacena todas las reservas dentre de un periodo (tempDB)
@@ -27,7 +26,7 @@ class Usuario:
     def infoLineal(self):
         """
         Devuelve le información del objeto de forma imprimible en una sola linea por consola.
-        """
+        """ 
         return "Nombres: {}, ID: {}, Correo: {}, Telf: {}, Reservaciones: {}".format(self.nombre, self.idn, self.correo, self.telf, self.totalReservaciones)
 
     def getNombre(self):
@@ -35,7 +34,7 @@ class Usuario:
 
     def getIDN(self):
         return self.idn
-
+    
     def getTotalReservaciones(self):
         return self.totalReservaciones
 
@@ -50,7 +49,7 @@ class  Habitacion:
     def __init__(self, id: str, tipo: str, capacidad: int, precio: int):
         """
         Construye los objetos de la clase Reserva.
-
+        
         :param id: identificador de la habitacion
         :param tipo: tipo de habitacion
         :param capacidad: capacidad de la habitacion
@@ -261,7 +260,7 @@ def cargarReservas():
                 habitacionId = habitacionI
 
         for usuario in usuarios:
-            if usuario.getIDN() == idn:
+            if usuario.getIDN() == idn:       
                 bandUsuario = 1
                 # Se construye el objeto del tipo Reserva
                 reserva = Reserva(usuario, habitacionId, fechaEntrada, fechaSalida)
@@ -619,8 +618,7 @@ def main():
         print('3. Ordenar reservas por criterios en un periodo')
         # print('4. Ordenar reservas por múltiples criterios')
         print('10. Ver todas las reservas')
-        print('11. Ver todos los usuarios')
-        print('12. Reportes')
+        print('11. Ver todas los usuarios')
         print('99. Salir')
 
         # Solicita al usuario la opcion y la escucha
@@ -642,8 +640,6 @@ def main():
                 verReserervas(reservas)
             case 11:
                 verUsuarios()
-            case 12:
-                reportes()
             case 99:
                 sys.exit()
 main()
