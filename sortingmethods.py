@@ -1,22 +1,10 @@
+
+#Tipo de Ordenamiento:
 # 
 #1. MergeSort: Ordenamiento de costo total por un rango de Fechas
 #  
 def mergesort_RangoFechas_ASC(arr): 
-    """
-        La funcion `mergesort_RangoFechas_ASC` ordena de forma ascendente una lista tomando
-        como criterio de ordenamiento el costo total de la reservacion
-
-        :param arr: El parametro `arr` es la lista que se desea ordenar, y que contiene todas
-        las reservaciones que cumplan con un rango de fechas
-        :return: Devuelve la lista ya ordenada
-    """
-
-    #Condicion de parada para la recurision que chequea si el tamaño
-    #de la lista es mayor a 1, en caso contrario finalizara la funcion 
-    #retornando la lista
     if len(arr) > 1: 
-
-        #La variable `mid` se usara para ir dividendo la lista `arr` por la mitad
         mid = len(arr)//2
 
         #La listas `L` y `R` almacenaran los elemento de la lista `arr` que ayudaran
@@ -61,24 +49,8 @@ def mergesort_RangoFechas_ASC(arr):
             j += 1
             k += 1
 
-    return arr
-
-def mergesort_RangoFechas_DESC(arr):
-    """
-        La funcion `mergesort_RangoFechas_DESC` ordena de forma descendente una lista tomando
-        como criterio de ordenamiento el costo total de la reservacion
-
-        :param arr: El parametro `arr` es la lista que se desea ordenar, y que contiene todas
-        las reservaciones que cumplan con un rango de fechas
-        :return: Devuelve la lista ya ordenada
-    """
-
-    #Condicion de parada para la recurision que chequea si el tamaño
-    #de la lista es mayor a 1, en caso contrario finalizara la funcion 
-    #retornando la lista
+def mergesort_RangoFechas_DESC(arr): 
     if len(arr) > 1: 
-        
-        #La variable `mid` se usara para ir dividendo la lista `arr` por la mitad
         mid = len(arr)//2
 
         #La listas `L` y `R` almacenaran los elemento de la lista `arr` que ayudaran
@@ -122,46 +94,71 @@ def mergesort_RangoFechas_DESC(arr):
             arr[k] = R[j]
             j += 1
             k += 1
-    return arr
 
+#
 #
 #2. Quicksort: Ordenamiento Multiple
 #
-def quickSort_NoMultiple_ASC(arr, low, high):
+
+criterios= ["capacidad","fechaEntrada","id"]
+
+def quickSort_NoMultiple_ASC(arr, low, high, criterio):
     if low < high:
-        pi = __particion_NoMultiple_ASC(arr, low, high)
-        quickSort_NoMultiple_ASC(arr, low, pi-1)
-        quickSort_NoMultiple_ASC(arr, pi+1, high)
+        pi = __particion_NoMultiple_ASC(arr, low, high, criterio)
+        quickSort_NoMultiple_ASC(arr, low, pi-1, criterio)
+        quickSort_NoMultiple_ASC(arr, pi+1, high, criterio)
     return arr
 
-def __particion_NoMultiple_ASC(arr, low, high):
-    pivot = arr[high] 
+def __particion_NoMultiple_ASC(arr, low, high, criterio):
     i = low - 1
-    for j in range(low, high):
-        if arr[j] <=  pivot:
-            i +=1
-            (arr[i], arr[j]) = (arr[j], arr[i])
-    i = i + 1
-    (arr[i], arr[high]) = (arr[high], arr[i])
-    return i
 
-def quickSort_NoMultiple_DESC(arr, low, high):
+    if criterio == 0 or criterio == 2:
+        pivot = getattr(arr[high].habitacion, criterios[criterio])
+        for j in range(low, high):
+            if getattr(arr[j].habitacion,criterios[criterio]) <=  pivot:
+                i +=1
+                (arr[i], arr[j]) = (arr[j], arr[i])
+        i = i + 1
+        (arr[i], arr[high]) = (arr[high], arr[i])
+        return i
+    else:
+        pivot = getattr(arr[high], criterios[criterio])
+        for j in range(low, high):
+            if getattr(arr[j],criterios[criterio]) <=  pivot:
+                i +=1
+                (arr[i], arr[j]) = (arr[j], arr[i])
+        i = i + 1
+        (arr[i], arr[high]) = (arr[high], arr[i])
+        return i
+
+def quickSort_NoMultiple_DESC(arr, low, high, criterio):
     if low < high:
-        pi = __particion_NoMultiple_DESC(arr, low, high)
-        quickSort_NoMultiple_DESC(arr, low, pi-1)
-        quickSort_NoMultiple_DESC(arr, pi+1, high)
+        pi = __particion_NoMultiple_DESC(arr, low, high, criterio)
+        quickSort_NoMultiple_DESC(arr, low, pi-1, criterio)
+        quickSort_NoMultiple_DESC(arr, pi+1, high, criterio)
     return arr
 
-def __particion_NoMultiple_DESC(arr, low, high):
-    pivot = arr[high] 
+def __particion_NoMultiple_DESC(arr, low, high, criterio):
     i = low - 1
-    for j in range(low, high):
-        if arr[j] >=  pivot:
-            i +=1
-            (arr[i], arr[j]) = (arr[j], arr[i])
-    i = i + 1
-    (arr[i], arr[high]) = (arr[high], arr[i])
-    return i
+    
+    if criterio == 0 or criterio == 2:
+        pivot = getattr(arr[high].habitacion, criterios[criterio])
+        for j in range(low, high):
+            if getattr(arr[j].habitacion,criterios[criterio]) >=  pivot:
+                i +=1
+                (arr[i], arr[j]) = (arr[j], arr[i])
+        i = i + 1
+        (arr[i], arr[high]) = (arr[high], arr[i])
+        return i
+    else:
+        pivot = getattr(arr[high], criterios[criterio])
+        for j in range(low, high):
+            if getattr(arr[j],criterios[criterio]) >=  pivot:
+                i +=1
+                (arr[i], arr[j]) = (arr[j], arr[i])
+        i = i + 1
+        (arr[i], arr[high]) = (arr[high], arr[i])
+        return i
 
 def quickSort_Multiple_ASC(arr):
     if len(arr) <= 1:
@@ -218,11 +215,11 @@ def heapSort_Duracion_ASC(arr):
     for i in range(n//2-1, -1, -1):
         __heapify_Duracion_ASC(arr, n, i)
     
-    # Ciclo que extrae los elementos uno a uno y los 
-    # almacena nuevamente en `arr` de forma ordenada
     for i in range(n-1, 0, -1):
         (arr[i], arr[0]) = (arr[0], arr[i])
         __heapify_Duracion_ASC(arr, i, 0)
+    
+    return arr
 
 def __heapify_Duracion_ASC(arr, n, i):
     """
@@ -275,6 +272,8 @@ def heapSort_Duracion_DESC(arr):
     for i in range(n-1, 0, -1):
         (arr[i], arr[0]) = (arr[0], arr[i])
         __heapify_Duracion_DESC(arr, i, 0)
+    
+    return arr
 
 def __heapify_Duracion_DESC(arr, n, i):
     """
@@ -342,6 +341,8 @@ def shellsort_NoReservaciones_DESC(arr):
             # Colcamos temp en la arr[i] en su ubicación correcta
             arr[j] = temp 
         gap //= 2
+    
+    return arr
 
 def shellsort_NoReservaciones_ASC(arr):
     """
@@ -375,3 +376,5 @@ def shellsort_NoReservaciones_ASC(arr):
             #Colcamos temp en la arr[i] en su ubicación correcta
             arr[j] = temp 
         gap //= 2
+    
+    return arr
