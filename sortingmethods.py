@@ -134,21 +134,21 @@ def __particion_NoMultiple_DESC(arr, low, high, criterio):
         (arr[i], arr[high]) = (arr[high], arr[i])
         return i
 
-def quickSort_Multiple_ASC(arr):
+def quickSort_Multiple_ASC(arr, criterio1, criterio2):
     if len(arr) <= 1:
         return arr
-    smaller, larger, pi= __particion_Multiple_ASC(arr)
-    return quickSort_Multiple_ASC(smaller) + [pi] + quickSort_Multiple_ASC(larger)
+    smaller, larger, pi= __particion_Multiple_ASC(arr, criterio1, criterio2)
+    return quickSort_Multiple_ASC(smaller, criterio1, criterio2) + [pi] + quickSort_Multiple_ASC(larger,criterio1, criterio2)
 
-def __particion_Multiple_ASC(arr):
+def __particion_Multiple_ASC(arr, criterio1, criterio2):
     pivot = arr[len(arr) // 2]
     smaller = []
     larger = []
     for item in arr:
-        if item.getDuracion() < pivot.getDuracion() and item.getCostoTotal() < pivot.getCostoTotal():
+        if getattr(item.habitacion, criterios[criterio1]) < getattr(pivot.habitacion, criterios[criterio1] ) and getattr(item.habitacion, criterios[criterio2])< getattr(pivot.habitacion, criterios[criterio2]):
             smaller.append(item)
 
-        elif item.getDuracion() > pivot.getDuracion() and item.getCostoTotal() > pivot.getCostoTotal():
+        elif getattr(item.habitacion, criterios[criterio1]) > getattr(pivot.habitacion, criterios[criterio1] ) and getattr(item.habitacion, criterios[criterio2]) > getattr(pivot.habitacion, criterios[criterio2]):
             larger.append(item)
 
     return smaller, larger, pivot
