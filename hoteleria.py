@@ -2,7 +2,6 @@ import random
 from datetime import date, datetime
 import json
 import sys
-from sortingmethods import *
 
 # Almacena todas las reservas activas en la aplicación (tempDB)
 reservas = []
@@ -10,7 +9,7 @@ reservas = []
 # Almacena todas las habitaciones activas de la aplicación (tempDB)
 habitaciones = []
 
-# Almacena todos los usuarios activos de la aplicación (tempDB)
+# Almacena todas las habitaciones activas de la aplicación (tempDB)
 usuarios = []
 
 # Almacena todas las reservas dentre de un periodo (tempDB)
@@ -27,7 +26,7 @@ class Usuario:
     def infoLineal(self):
         """
         Devuelve le información del objeto de forma imprimible en una sola linea por consola.
-        """
+        """ 
         return "Nombres: {}, ID: {}, Correo: {}, Telf: {}, Reservaciones: {}".format(self.nombre, self.idn, self.correo, self.telf, self.totalReservaciones)
 
     def getNombre(self):
@@ -35,7 +34,7 @@ class Usuario:
 
     def getIDN(self):
         return self.idn
-
+    
     def getTotalReservaciones(self):
         return self.totalReservaciones
 
@@ -50,7 +49,7 @@ class  Habitacion:
     def __init__(self, id: str, tipo: str, capacidad: int, precio: int):
         """
         Construye los objetos de la clase Reserva.
-
+        
         :param id: identificador de la habitacion
         :param tipo: tipo de habitacion
         :param capacidad: capacidad de la habitacion
@@ -261,7 +260,7 @@ def cargarReservas():
                 habitacionId = habitacionI
 
         for usuario in usuarios:
-            if usuario.getIDN() == idn:
+            if usuario.getIDN() == idn:       
                 bandUsuario = 1
                 # Se construye el objeto del tipo Reserva
                 reserva = Reserva(usuario, habitacionId, fechaEntrada, fechaSalida)
@@ -387,14 +386,14 @@ def crearReserva():
 """
 Funcion que permite listar todas las reservas
 """
-def verReserervas(arr):
+def verReserervas():
     print('\n_________')
 
     # Variable auxiliar de conteo
     i = 1
 
     # Recorre todas las reservas
-    for reserva in arr:
+    for reserva in reservas:
 
         # Imprime en la terminal todas las reservas formateadas
         print("RESERVA", i , ': ', reserva.infoLineal())
@@ -451,93 +450,6 @@ def reservasPeriodo(fechaInicio = fecha("01/01/2023"), fechaFinal = fecha("31/12
     print('‾‾‾‾‾‾‾‾‾')
     return reservasPeriodoDB
 
-
-
-def ordenar():
-    print('\n\nMENÚ DE CRITERIOS DE ORDENAMIENTO | ' + hotel)
-    print('___')
-    print('0. Capacidad de la Habitación')
-    print('1. Fecha de entrada')
-    print('2. Número de habitación')
-    print('3. Salir')
-    
-    opcion = int(input('Seleccione una opción: '))
-    
-    fechaInicial = fecha(input("Indique la fecha inicial (DD/MM/AAAA): "))
-    fechaFinal = fecha(input("Indique la fecha final (DD/MM/AAAA): "))
-    
-    orden = input("""Seleccione el tipo de ordenamiento:
-1. Ascendente
-2. Descendente
-""")
-    
-    if opcion == 3:
-        return
-    else:
-        array = reservasPeriodo(fechaInicial, fechaFinal)
-
-        if orden == "1" or default == "asc":
-            array = quickSort_NoMultiple_ASC(array, 0, len(array)-1, opcion)
-            verReserervas(array)
-        elif orden == "2" or default == "desc":
-            array = quickSort_NoMultiple_DESC(array, 0, len(array)-1, opcion)
-            verReserervas(array)
-        else:
-            print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
-
-def reportes():
-    print('\n\nMENU DE REPORTES | ' + hotel)
-    print('___')
-    print('0. Reservaciones por período según el precio total')
-    print('1. Usuarios según el número de reservaciones que tengan realizadas')
-    print('2. Reservaciones según la duración de estadía')
-    print('3. Salir')
-    
-    opcion = int(input('Seleccione una opción: '))
-    
-    orden = input("""Seleccione el tipo de ordenamiento:
-1. Ascendente
-2. Descendente
-""")
-    
-    match opcion:
-        case 0:
-            fechaInicial = fecha(input("Indique la fecha inicial (DD/MM/AAAA): "))
-            fechaFinal = fecha(input("Indique la fecha final (DD/MM/AAAA): "))
-            array = reservasPeriodo(fechaInicial, fechaFinal)
-            
-            if orden == "1" or default == "asc":
-                array = mergesort_RangoFechas_ASC(array)
-                verReserervas(array)
-            elif orden == "2" or default == "desc":
-                array = mergesort_RangoFechas_DESC(array)
-                verReserervas(array)
-            else:
-                print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
-                
-        case 1:
-            if orden == "1" or default == "asc":
-                array = shellsort_NoReservaciones_ASC(usuarios)
-                verReserervas(array)
-            elif orden == "2" or default == "desc":
-                array = shellsort_NoReservaciones_DESC(usuarios)
-                verReserervas(array)
-            else:
-                print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
-                
-        case 2:
-
-            if orden == "1" or default == "asc":
-                array = heapSort_Duracion_ASC(reservas)
-                verReserervas(array)
-            elif orden == "2" or default == "desc":
-                array = heapSort_Duracion_DESC(reservas)
-                verReserervas(array)
-            else:
-                print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
-        case 3:
-            return
-
 """
 Funcion principal
 """
@@ -556,11 +468,9 @@ def main():
         print('___')
         print('0. Cargar Seed')
         print('1. Crear Reserva')
-        print('2. Ver reservas por Periodo')
-        print('3. Ordenar reservas por Periodo')
+        print('2. Reserva Periodo')
         print('10. Ver todas las reservas')
-        print('11. Ver todos los usuarios')
-        print('12. Reportes')
+        print('11. Ver todas los usuarios')
         print('99. Salir')
 
         # Solicita al usuario la opcion y la escucha
@@ -574,14 +484,10 @@ def main():
                 crearReserva()
             case 2:
                 reservasPeriodo()
-            case 3:
-                ordenar()
             case 10:
-                verReserervas(reservas)
+                verReserervas()
             case 11:
                 verUsuarios()
-            case 12:
-                reportes()
             case 99:
                 sys.exit()
 main()
