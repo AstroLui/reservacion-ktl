@@ -1,8 +1,8 @@
 [
     {
         "default": "asc",
-        "seed_rooms": "reservacion-ktl\\db_habitaciones.json",
-        "seed_reserv": "reservacion-ktl\\db_reserva.json",
+        "seed_rooms": "./db_habitaciones.json",
+        "seed_reserv": "./db_reserva.json",
         "name_hotel": "JML Exclusive Hotel"
     }
 ]

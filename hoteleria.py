@@ -186,7 +186,7 @@ Funcion que carga la configuracion inicial de la aplicacion
 """
 def cargarConfig():
     # Abre el archivo de configuracion en modo lectura
-    with open('reservacion-ktl\config.json', 'r') as db:
+    with open('./config.json', 'r') as db:
 
         # Interpreta el formato JSON
         configJSON = json.load(db)
@@ -469,10 +469,9 @@ def ordenar():
     fechaInicial = fecha(input("Indique la fecha inicial (DD/MM/AAAA): "))
     fechaFinal = fecha(input("Indique la fecha final (DD/MM/AAAA): "))
     
-    orden = input("""Seleccione el tipo de ordenamiento:
-1. Ascendente
-2. Descendente
-""")
+    print('1. Ascendente')
+    print('2. Descendente')
+    orden = input("Seleccione el tipo de ordenamiento: ")
     
     if opcion == 99:
         return
@@ -494,7 +493,7 @@ def ordenar():
         else:
             print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
     
-        opcion = input("Desea volver a ordenar las reservas? (S=1/N=0): ")
+        opcion = input("Desea volver a ordenar las reservas? (Si = 1 / No = 0): ")
 
         while opcion !=0:
 
@@ -507,7 +506,7 @@ def ordenar():
                 print('3. Precio Total')
                 print('4. Fecha de salida')
                 print('5. Duración de la estadía')
-                print('99. Salir')
+                print('99. Atras')
 
                 opcion = int(input('Seleccione una opción: '))
         
@@ -578,10 +577,9 @@ def reportes():
     
     opcion = int(input('Seleccione una opción: '))
     
-    orden = input("""Seleccione el tipo de ordenamiento:
-1. Ascendente
-2. Descendente
-""")
+    print('1. Ascendente')
+    print('2. Descendente')
+    orden = input("Seleccione el tipo de ordenamiento: ")
     
     match opcion:
         case 0:
