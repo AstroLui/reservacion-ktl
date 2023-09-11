@@ -186,7 +186,7 @@ Funcion que carga la configuracion inicial de la aplicacion
 """
 def cargarConfig():
     # Abre el archivo de configuracion en modo lectura
-    with open('./config.json', 'r') as db:
+    with open('reservacion-ktl\config.json', 'r') as db:
 
         # Interpreta el formato JSON
         configJSON = json.load(db)
@@ -399,7 +399,7 @@ def verReserervas(arr):
         # Imprime en la terminal todas las reservas formateadas
         print("RESERVA", i , ': ', reserva.infoLineal())
         i += 1
-    print('\nTOTAL: ', len(reservas), 'reservas')
+    print('\nTOTAL: ', len(arr), 'reservas')
     print('‾‾‾‾‾‾‾‾‾')
     return
 
@@ -459,7 +459,10 @@ def ordenar():
     print('0. Capacidad de la Habitación')
     print('1. Fecha de entrada')
     print('2. Número de habitación')
-    print('3. Salir')
+    print('3. Precio Total')
+    print('4. Fecha de salida')
+    print('5. Duración de la estadía')
+    print('99. Salir')
     
     opcion = int(input('Seleccione una opción: '))
     
@@ -471,45 +474,66 @@ def ordenar():
 2. Descendente
 """)
     
-    if opcion == 3:
+    if opcion == 99:
         return
     else:
         array = reservasPeriodo(fechaInicial, fechaFinal)
 
-        if orden == "1" or default == "asc":
+        if orden == "1":
             array = quickSort_NoMultiple_ASC(array, 0, len(array)-1, opcion)
             verReserervas(array)
-        elif orden == "2" or default == "desc":
+        elif orden == "2":
+            array = quickSort_NoMultiple_DESC(array, 0, len(array)-1, opcion)
+            verReserervas(array)
+        elif default == "asc":
+            array = quickSort_NoMultiple_ASC(array, 0, len(array)-1, opcion)
+            verReserervas(array)
+        elif default == "desc":
             array = quickSort_NoMultiple_DESC(array, 0, len(array)-1, opcion)
             verReserervas(array)
         else:
             print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
     
-    opcion = input("Desea volver a ordenar las reservas? (S=1/N=0): ")
-    
-    if opcion == "1":
-        print('\n\nMENÚ DE CRITERIOS DE ORDENAMIENTO | ' + hotel)
-        print('___')
-        print('0. Capacidad de la Habitación')
-        print('1. Fecha de entrada')
-        print('2. Número de habitación')
-        print('3. Salir')
+        opcion = input("Desea volver a ordenar las reservas? (S=1/N=0): ")
 
-        opcion = int(input('Seleccione una opción: '))
+        while opcion !=0:
+
+            if opcion == "1":
+                print('\n\nMENÚ DE CRITERIOS DE ORDENAMIENTO | ' + hotel)
+                print('___')
+                print('0. Capacidad de la Habitación')
+                print('1. Fecha de entrada')
+                print('2. Número de habitación')
+                print('3. Precio Total')
+                print('4. Fecha de salida')
+                print('5. Duración de la estadía')
+                print('99. Salir')
+
+                opcion = int(input('Seleccione una opción: '))
         
-        if opcion == 3:
-            return
-        else:
-            if orden == "1" or default == "asc":
-                array = quickSort_NoMultiple_ASC(array, 0, len(array)-1, opcion)
-                verReserervas(array)
-            elif orden == "2" or default == "desc":
-                array = quickSort_NoMultiple_DESC(array, 0, len(array)-1, opcion)
-                verReserervas(array)
+                if opcion == 99:
+                    opcion == 0
+                    return
+                else:
+                    if orden == "1":
+                        array = quickSort_NoMultiple_ASC(array, 0, len(array)-1, opcion)
+                        verReserervas(array)
+                    elif orden == "2":
+                        array = quickSort_NoMultiple_DESC(array, 0, len(array)-1, opcion)
+                        verReserervas(array)
+                    elif default == "asc":
+                        array = quickSort_NoMultiple_ASC(array, 0, len(array)-1, opcion)
+                        verReserervas(array)
+                    elif default == "desc":
+                        array = quickSort_NoMultiple_DESC(array, 0, len(array)-1, opcion)
+                        verReserervas(array)
+                    else:
+                        print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
+                    
+                    opcion = input("Desea volver a ordenar las reservas? (S=1/N=0): ")
             else:
-                print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
-    else:
-        return
+                return
+
 
 # def ordenMultiple():
 #     print('\n\nMENÚ DE CRITERIOS DE ORDENAMIENTO | ' + hotel)
@@ -565,20 +589,32 @@ def reportes():
             fechaFinal = fecha(input("Indique la fecha final (DD/MM/AAAA): "))
             array = reservasPeriodo(fechaInicial, fechaFinal)
             
-            if orden == "1" or default == "asc":
+            if orden == "1":
                 array = mergesort_RangoFechas_ASC(array)
                 verReserervas(array)
-            elif orden == "2" or default == "desc":
+            elif orden == "2":
+                array = mergesort_RangoFechas_DESC(array)
+                verReserervas(array)
+            elif default == "asc":
+                array = mergesort_RangoFechas_ASC(array)
+                verReserervas(array)
+            elif default == "desc":
                 array = mergesort_RangoFechas_DESC(array)
                 verReserervas(array)
             else:
                 print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
                 
         case 1:
-            if orden == "1" or default == "asc":
+            if orden == "1":
                 array = shellsort_NoReservaciones_ASC(usuarios)
                 verReserervas(array)
-            elif orden == "2" or default == "desc":
+            elif orden == "2":
+                array = shellsort_NoReservaciones_DESC(usuarios)
+                verReserervas(array)
+            elif default == "asc":
+                array = shellsort_NoReservaciones_ASC(usuarios)
+                verReserervas(array)
+            elif default == "desc":
                 array = shellsort_NoReservaciones_DESC(usuarios)
                 verReserervas(array)
             else:
@@ -586,10 +622,16 @@ def reportes():
                 
         case 2:
 
-            if orden == "1" or default == "asc":
+            if orden == "1":
                 array = heapSort_Duracion_ASC(reservas)
                 verReserervas(array)
-            elif orden == "2" or default == "desc":
+            elif orden == "2":
+                array = heapSort_Duracion_DESC(reservas)
+                verReserervas(array)
+            elif default == "asc":
+                array = heapSort_Duracion_ASC(reservas)
+                verReserervas(array)
+            elif default == "desc":
                 array = heapSort_Duracion_DESC(reservas)
                 verReserervas(array)
             else:
@@ -617,6 +659,7 @@ def main():
         print('1. Crear Reserva')
         print('2. Ver reservas por periodo')
         print('3. Ordenar reservas por criterios en un periodo')
+        print('4. Reportes')
         # print('4. Ordenar reservas por múltiples criterios')
         print('10. Ver todas las reservas')
         print('11. Ver todas los usuarios')
@@ -637,6 +680,8 @@ def main():
                 ordenar()
             # case 4:
             #     ordenMultiple()
+            case 4:
+                reportes()
             case 10:
                 verReserervas(reservas)
             case 11:
