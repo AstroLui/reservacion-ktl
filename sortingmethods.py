@@ -73,41 +73,66 @@ def mergesort_RangoFechas_DESC(arr):
 #
 #2. Quicksort: Ordenamiento Multiple
 #
-def quickSort_NoMultiple_ASC(arr, low, high):
+
+criterios= ["capacidad","fechaEntrada","id"]
+
+def quickSort_NoMultiple_ASC(arr, low, high, criterio):
     if low < high:
-        pi = __particion_NoMultiple_ASC(arr, low, high)
-        quickSort_NoMultiple_ASC(arr, low, pi-1)
-        quickSort_NoMultiple_ASC(arr, pi+1, high)
+        pi = __particion_NoMultiple_ASC(arr, low, high, criterio)
+        quickSort_NoMultiple_ASC(arr, low, pi-1, criterio)
+        quickSort_NoMultiple_ASC(arr, pi+1, high, criterio)
     return arr
 
-def __particion_NoMultiple_ASC(arr, low, high):
-    pivot = arr[high]
+def __particion_NoMultiple_ASC(arr, low, high, criterio):
     i = low - 1
-    for j in range(low, high):
-        if arr[j] <=  pivot:
-            i +=1
-            (arr[i], arr[j]) = (arr[j], arr[i])
-    i = i + 1
-    (arr[i], arr[high]) = (arr[high], arr[i])
-    return i
 
-def quickSort_NoMultiple_DESC(arr, low, high):
+    if criterio == 0 or criterio == 2:
+        pivot = getattr(arr[high].habitacion, criterios[criterio])
+        for j in range(low, high):
+            if getattr(arr[j].habitacion,criterios[criterio]) <=  pivot:
+                i +=1
+                (arr[i], arr[j]) = (arr[j], arr[i])
+        i = i + 1
+        (arr[i], arr[high]) = (arr[high], arr[i])
+        return i
+    else:
+        pivot = getattr(arr[high], criterios[criterio])
+        for j in range(low, high):
+            if getattr(arr[j],criterios[criterio]) <=  pivot:
+                i +=1
+                (arr[i], arr[j]) = (arr[j], arr[i])
+        i = i + 1
+        (arr[i], arr[high]) = (arr[high], arr[i])
+        return i
+
+def quickSort_NoMultiple_DESC(arr, low, high, criterio):
     if low < high:
-        pi = __particion_NoMultiple_DESC(arr, low, high)
-        quickSort_NoMultiple_DESC(arr, low, pi-1)
-        quickSort_NoMultiple_DESC(arr, pi+1, high)
+        pi = __particion_NoMultiple_DESC(arr, low, high, criterio)
+        quickSort_NoMultiple_DESC(arr, low, pi-1, criterio)
+        quickSort_NoMultiple_DESC(arr, pi+1, high, criterio)
     return arr
 
-def __particion_NoMultiple_DESC(arr, low, high):
-    pivot = arr[high]
+def __particion_NoMultiple_DESC(arr, low, high, criterio):
     i = low - 1
-    for j in range(low, high):
-        if arr[j] >=  pivot:
-            i +=1
-            (arr[i], arr[j]) = (arr[j], arr[i])
-    i = i + 1
-    (arr[i], arr[high]) = (arr[high], arr[i])
-    return i
+    
+    if criterio == 0 or criterio == 2:
+        pivot = getattr(arr[high].habitacion, criterios[criterio])
+        for j in range(low, high):
+            if getattr(arr[j].habitacion,criterios[criterio]) >=  pivot:
+                i +=1
+                (arr[i], arr[j]) = (arr[j], arr[i])
+        i = i + 1
+        (arr[i], arr[high]) = (arr[high], arr[i])
+        return i
+    else:
+        pivot = getattr(arr[high], criterios[criterio])
+        for j in range(low, high):
+            if getattr(arr[j],criterios[criterio]) >=  pivot:
+                i +=1
+                (arr[i], arr[j]) = (arr[j], arr[i])
+        i = i + 1
+        (arr[i], arr[high]) = (arr[high], arr[i])
+        return i
 
 def quickSort_Multiple_ASC(arr):
     if len(arr) <= 1:
