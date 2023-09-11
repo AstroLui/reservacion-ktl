@@ -386,14 +386,14 @@ def crearReserva():
 """
 Funcion que permite listar todas las reservas
 """
-def verReserervas():
+def verReserervas(arr):
     print('\n_________')
 
     # Variable auxiliar de conteo
     i = 1
 
     # Recorre todas las reservas
-    for reserva in reservas:
+    for reserva in arr:
 
         # Imprime en la terminal todas las reservas formateadas
         print("RESERVA", i , ': ', reserva.infoLineal())
@@ -450,6 +450,152 @@ def reservasPeriodo(fechaInicio = fecha("01/01/2023"), fechaFinal = fecha("31/12
     print('‾‾‾‾‾‾‾‾‾')
     return reservasPeriodoDB
 
+
+
+def ordenar():
+    print('\n\nMENÚ DE CRITERIOS DE ORDENAMIENTO | ' + hotel)
+    print('___')
+    print('0. Capacidad de la Habitación')
+    print('1. Fecha de entrada')
+    print('2. Número de habitación')
+    print('3. Salir')
+    
+    opcion = int(input('Seleccione una opción: '))
+    
+    fechaInicial = fecha(input("Indique la fecha inicial (DD/MM/AAAA): "))
+    fechaFinal = fecha(input("Indique la fecha final (DD/MM/AAAA): "))
+    
+    orden = input("""Seleccione el tipo de ordenamiento:
+1. Ascendente
+2. Descendente
+""")
+    
+    if opcion == 3:
+        return
+    else:
+        array = reservasPeriodo(fechaInicial, fechaFinal)
+
+        if orden == "1" or default == "asc":
+            array = quickSort_NoMultiple_ASC(array, 0, len(array)-1, opcion)
+            verReserervas(array)
+        elif orden == "2" or default == "desc":
+            array = quickSort_NoMultiple_DESC(array, 0, len(array)-1, opcion)
+            verReserervas(array)
+        else:
+            print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
+    
+    opcion = input("Desea volver a ordenar las reservas? (S=1/N=0): ")
+    
+    if opcion == "1":
+        print('\n\nMENÚ DE CRITERIOS DE ORDENAMIENTO | ' + hotel)
+        print('___')
+        print('0. Capacidad de la Habitación')
+        print('1. Fecha de entrada')
+        print('2. Número de habitación')
+        print('3. Salir')
+
+        opcion = int(input('Seleccione una opción: '))
+        
+        if opcion == 3:
+            return
+        else:
+            if orden == "1" or default == "asc":
+                array = quickSort_NoMultiple_ASC(array, 0, len(array)-1, opcion)
+                verReserervas(array)
+            elif orden == "2" or default == "desc":
+                array = quickSort_NoMultiple_DESC(array, 0, len(array)-1, opcion)
+                verReserervas(array)
+            else:
+                print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
+    else:
+        return
+
+# def ordenMultiple():
+#     print('\n\nMENÚ DE CRITERIOS DE ORDENAMIENTO | ' + hotel)
+#     print('___')
+#     print('0. Capacidad de la Habitación')
+#     print('1. Fecha de entrada')
+#     print('2. Número de habitación')
+#     print('3. Salir')
+    
+#     opcion1 = int(input('Seleccione su primer criterio: '))
+#     opcion2 = int(input('Seleccione su segundo criterio: '))
+    
+#     fechaInicial = fecha(input("Indique la fecha inicial (DD/MM/AAAA): "))
+#     fechaFinal = fecha(input("Indique la fecha final (DD/MM/AAAA): "))
+    
+#     orden = input("""Seleccione el tipo de ordenamiento:
+# 1. Ascendente
+# 2. Descendente
+# """)
+    
+#     if opcion1 == 3 or opcion2 == 3:
+#         return
+#     else:
+#         array = reservasPeriodo(fechaInicial, fechaFinal)
+
+#         if orden == "1" or default == "asc":
+#             array = quickSort_Multiple_ASC(array, opcion1, opcion2)
+#             verReserervas(array)
+#         elif orden == "2" or default == "desc":
+#             array = quickSort_Multiple_DESC(array, opcion1, opcion2)
+#             verReserervas(array)
+#         else:
+#             print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
+
+def reportes():
+    print('\n\nMENU DE REPORTES | ' + hotel)
+    print('___')
+    print('0. Reservaciones por período según el precio total')
+    print('1. Usuarios según el número de reservaciones que tengan realizadas')
+    print('2. Reservaciones según la duración de estadía')
+    print('3. Salir')
+    
+    opcion = int(input('Seleccione una opción: '))
+    
+    orden = input("""Seleccione el tipo de ordenamiento:
+1. Ascendente
+2. Descendente
+""")
+    
+    match opcion:
+        case 0:
+            fechaInicial = fecha(input("Indique la fecha inicial (DD/MM/AAAA): "))
+            fechaFinal = fecha(input("Indique la fecha final (DD/MM/AAAA): "))
+            array = reservasPeriodo(fechaInicial, fechaFinal)
+            
+            if orden == "1" or default == "asc":
+                array = mergesort_RangoFechas_ASC(array)
+                verReserervas(array)
+            elif orden == "2" or default == "desc":
+                array = mergesort_RangoFechas_DESC(array)
+                verReserervas(array)
+            else:
+                print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
+                
+        case 1:
+            if orden == "1" or default == "asc":
+                array = shellsort_NoReservaciones_ASC(usuarios)
+                verReserervas(array)
+            elif orden == "2" or default == "desc":
+                array = shellsort_NoReservaciones_DESC(usuarios)
+                verReserervas(array)
+            else:
+                print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
+                
+        case 2:
+
+            if orden == "1" or default == "asc":
+                array = heapSort_Duracion_ASC(reservas)
+                verReserervas(array)
+            elif orden == "2" or default == "desc":
+                array = heapSort_Duracion_DESC(reservas)
+                verReserervas(array)
+            else:
+                print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
+        case 3:
+            return
+
 """
 Funcion principal
 """
@@ -468,7 +614,9 @@ def main():
         print('___')
         print('0. Cargar Seed')
         print('1. Crear Reserva')
-        print('2. Reserva Periodo')
+        print('2. Ver reservas por periodo')
+        print('3. Ordenar reservas por criterios en un periodo')
+        # print('4. Ordenar reservas por múltiples criterios')
         print('10. Ver todas las reservas')
         print('11. Ver todas los usuarios')
         print('99. Salir')
@@ -484,8 +632,12 @@ def main():
                 crearReserva()
             case 2:
                 reservasPeriodo()
+            case 3:
+                ordenar()
+            # case 4:
+            #     ordenMultiple()
             case 10:
-                verReserervas()
+                verReserervas(reservas)
             case 11:
                 verUsuarios()
             case 99:
