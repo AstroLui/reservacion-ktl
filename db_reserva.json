@@ -108,7 +108,7 @@
       "nombre": "Jean Odriozola",
       "idn": 20000008,
       "correo": "jodriozola@test.com",
-      "telf": "+584141401147"
+      "telf": "+5841414011478"
     },
     "habitacion": {
       "id": "KTL-0003",
@@ -121,12 +121,25 @@
       "nombre": "Argenis Rodiguez",
       "idn": 20000009,
       "correo": "arodriguez@test.com",
-      "telf": "+584141401148"
+      "telf": "+584141401149"
     },
     "habitacion": {
       "id": "KTL-0001",
       "fechaEntrada": "06/09/2023",
       "fechaSalida": "10/10/2023"
+    }
+  },
+  {
+    "cliente": {
+      "nombre": "Maria Garcia",
+      "idn": 20000010,
+      "correo": "mgarcia@test.com",
+      "telf": "+584141401150"
+    },
+    "habitacion": {
+      "id": "KTL-0020",
+      "fechaEntrada": "05/06/2022",
+      "fechaSalida": "26/07/2022"
     }
   },
   {
@@ -140,6 +153,45 @@
       "id": "KTL-0020",
       "fechaEntrada": "18/11/2023",
       "fechaSalida": "22/12/2023"
+    }
+  },
+  {
+    "cliente": {
+      "nombre": "Argenis Rodiguez",
+      "idn": 20000009,
+      "correo": "arodriguez@test.com",
+      "telf": "+584141401149"
+    },
+    "habitacion": {
+      "id": "KTL-0013",
+      "fechaEntrada": "20/11/2023",
+      "fechaSalida": "05/12/2023"
+    }
+  },
+  {
+    "cliente": {
+      "nombre": "Argenis Rodiguez",
+      "idn": 20000009,
+      "correo": "arodriguez@test.com",
+      "telf": "+584141401149"
+    },
+    "habitacion": {
+      "id": "KTL-0007",
+      "fechaEntrada": "20/05/2023",
+      "fechaSalida": "13/06/2023"
+    }
+  },
+  {
+    "cliente": {
+      "nombre": "Maria Chang",
+      "idn": 20000002,
+      "correo": "mchang@test.com",
+      "telf": "+584141401142"
+    },
+    "habitacion": {
+      "id": "KTL-0010",
+      "fechaEntrada": "01/10/2022",
+      "fechaSalida": "15/10/2022"
     }
   }
 ]
