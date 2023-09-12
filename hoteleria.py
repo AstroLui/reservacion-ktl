@@ -6,10 +6,12 @@ from sortingmethods import *
 
 # Almacena todas las reservas activas en la aplicación (tempDB)
 reservas = []
+global reservasCargadas
 reservasCargadas = False
 
 # Almacena todas las habitaciones activas de la aplicación (tempDB)
 habitaciones = []
+global habitacionesCargadas
 habitacionesCargadas = False
 
 # Almacena todas las habitaciones activas de la aplicación (tempDB)
@@ -210,6 +212,7 @@ def cargarConfig():
 Funcion que carga todas las habitaciones disponibles en el hotel
 """
 def cargarHabitaciones():
+    global habitacionesCargadas
     if (not habitacionesCargadas):
         # Abre el archivo de habitaciones en modo lectura
         with open(ruta_habs, 'r') as db:
@@ -231,6 +234,7 @@ def cargarHabitaciones():
 
             # Se agrega la habitacion a la tempDB
             habitaciones.append(habitacion)
+            
         habitacionesCargadas = True
     return
 
@@ -238,6 +242,7 @@ def cargarHabitaciones():
 Funcion que carga reservas de prueba
 """
 def cargarReservas():
+    global reservasCargadas
     if (not reservasCargadas):
         # Abre el archivo de reservas en modo lectura
         with open(ruta_reserv, 'r') as db:
