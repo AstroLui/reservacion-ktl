@@ -6,9 +6,11 @@ from sortingmethods import *
 
 # Almacena todas las reservas activas en la aplicación (tempDB)
 reservas = []
+reservasCargadas = False
 
 # Almacena todas las habitaciones activas de la aplicación (tempDB)
 habitaciones = []
+habitacionesCargadas = False
 
 # Almacena todas las habitaciones activas de la aplicación (tempDB)
 usuarios = []
@@ -208,80 +210,86 @@ def cargarConfig():
 Funcion que carga todas las habitaciones disponibles en el hotel
 """
 def cargarHabitaciones():
-    # Abre el archivo de habitaciones en modo lectura
-    with open(ruta_habs, 'r') as db:
+    if (not habitacionesCargadas):
+        # Abre el archivo de habitaciones en modo lectura
+        with open(ruta_habs, 'r') as db:
 
-        # Interpreta el formato JSON
-        dbJSON = json.load(db)
+            # Interpreta el formato JSON
+            dbJSON = json.load(db)
 
-    # Recorre la lista de obtenida
-    for habitacion in dbJSON:
+        # Recorre la lista de obtenida
+        for habitacion in dbJSON:
 
-        # Asigna los valores a variables
-        id = habitacion["id"]
-        tipo = habitacion["tipo"]
-        capacidad = habitacion["capacidad"]
-        precio = habitacion["precio"]
-        
-        # Se construye el objeto del tipo Habitacion
-        habitacion = Habitacion(id, tipo, capacidad, precio)
+            # Asigna los valores a variables
+            id = habitacion["id"]
+            tipo = habitacion["tipo"]
+            capacidad = habitacion["capacidad"]
+            precio = habitacion["precio"]
+            
+            # Se construye el objeto del tipo Habitacion
+            habitacion = Habitacion(id, tipo, capacidad, precio)
 
-        # Se agrega la habitacion a la tempDB
-        habitaciones.append(habitacion)
+            # Se agrega la habitacion a la tempDB
+            habitaciones.append(habitacion)
+        habitacionesCargadas = True
     return
 
 """
 Funcion que carga reservas de prueba
 """
 def cargarReservas():
-    # Abre el archivo de reservas en modo lectura
-    with open(ruta_reserv, 'r') as db:
+    if (not reservasCargadas):
+        # Abre el archivo de reservas en modo lectura
+        with open(ruta_reserv, 'r') as db:
 
-        # Interpreta el formato JSON
-        dbJSON = json.load(db)
+            # Interpreta el formato JSON
+            dbJSON = json.load(db)
 
-    # Recorre la lista de obtenida
-    for reserva in dbJSON:
-        bandUsuario = 0
-        # Asigna los valores a variables
-        cliente = reserva["cliente"]
-        nombre = cliente["nombre"]
-        correo = cliente["correo"]
-        telf = cliente["telf"]
-        idn = cliente["idn"]
-        habitacion = reserva["habitacion"]
-        habitacionId = habitacion["id"]
-        fechaEntrada = fecha(habitacion["fechaEntrada"])
-        fechaSalida = fecha(habitacion["fechaSalida"])
+        # Recorre la lista de obtenida
+        for reserva in dbJSON:
+            bandUsuario = 0
+            # Asigna los valores a variables
+            cliente = reserva["cliente"]
+            nombre = cliente["nombre"]
+            correo = cliente["correo"]
+            telf = cliente["telf"]
+            idn = cliente["idn"]
+            habitacion = reserva["habitacion"]
+            habitacionId = habitacion["id"]
+            fechaEntrada = fecha(habitacion["fechaEntrada"])
+            fechaSalida = fecha(habitacion["fechaSalida"])
 
-        # Recorre la lista de habitaciones
-        for habitacionI in habitaciones:
-            # Encuentra el objeto de la habitacion y se lo asigna
-            if habitacionI.getId() == habitacionId:
-                habitacionId = habitacionI
+            # Recorre la lista de habitaciones
+            for habitacionI in habitaciones:
+                # Encuentra el objeto de la habitacion y se lo asigna
+                if habitacionI.getId() == habitacionId:
+                    habitacionId = habitacionI
 
-        for usuario in usuarios:
-            if usuario.getIDN() == idn:       
-                bandUsuario = 1
+            for usuario in usuarios:
+                if usuario.getIDN() == idn:       
+                    bandUsuario = 1
+                    # Se construye el objeto del tipo Reserva
+                    reserva = Reserva(usuario, habitacionId, fechaEntrada, fechaSalida)
+
+                    # Se agrega la reserva a la tempDB0
+                    reservas.append(reserva)
+                    usuario.setReservacion()
+
+            if bandUsuario == 0:
+                usuarioNuevo = Usuario(nombre, idn, correo, telf)
+                usuarios.append(usuarioNuevo)
+
                 # Se construye el objeto del tipo Reserva
-                reserva = Reserva(usuario, habitacionId, fechaEntrada, fechaSalida)
+                reserva = Reserva(usuarioNuevo, habitacionId, fechaEntrada, fechaSalida)
 
                 # Se agrega la reserva a la tempDB0
                 reservas.append(reserva)
-                usuario.setReservacion()
+                usuarioNuevo.setReservacion()
 
-        if bandUsuario == 0:
-            usuarioNuevo = Usuario(nombre, idn, correo, telf)
-            usuarios.append(usuarioNuevo)
-
-            # Se construye el objeto del tipo Reserva
-            reserva = Reserva(usuarioNuevo, habitacionId, fechaEntrada, fechaSalida)
-
-            # Se agrega la reserva a la tempDB0
-            reservas.append(reserva)
-            usuarioNuevo.setReservacion()
-
-    print('\n!!! Archivo cargado exitosamente')
+        reservasCargadas = True
+        print('\n!!! Archivo cargado exitosamente')
+    else:
+        print('\n!!! Archivo previamente cargado')
     return
 
 """
