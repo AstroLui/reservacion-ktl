@@ -345,57 +345,60 @@ def crearReserva():
     
     # Solicita al usuario los datos necesarios y los almacena en sus respectivas variables
     print('')
-    idn = int(input("Indique su número de cédula: "))
+    try:
+        idn = int(input("Indique su número de cédula: "))
 
-    for usuario in usuarios:
-        if usuario.getIDN() == idn:
-            fechaEntrada = fecha(input("Indique la fecha de entrada (DD/MM/AAAA): "))
-            fechaSalida = fecha(input("Indique la fecha de salida (DD/MM/AAAA): "))
+        for usuario in usuarios:
+            if usuario.getIDN() == idn:
+                fechaEntrada = fecha(input("Indique la fecha de entrada (DD/MM/AAAA): "))
+                fechaSalida = fecha(input("Indique la fecha de salida (DD/MM/AAAA): "))
 
-            # Se llama a la funcion seleccionarHabitacion para poder escoger dentro de las habitaciones disponibles
-            habitacion = seleccionarHabitacion(fechaEntrada, fechaSalida)
+                # Se llama a la funcion seleccionarHabitacion para poder escoger dentro de las habitaciones disponibles
+                habitacion = seleccionarHabitacion(fechaEntrada, fechaSalida)
 
-            # Crea un nuevo objeto de la clase reserva
-            reserva = Reserva(usuario, habitacion, fechaEntrada, fechaSalida)
+                # Crea un nuevo objeto de la clase reserva
+                reserva = Reserva(usuario, habitacion, fechaEntrada, fechaSalida)
 
-            # Se agrega la reserva a la tempDB
-            reservas.append(reserva)
-            usuario.setReservacion()
+                # Se agrega la reserva a la tempDB
+                reservas.append(reserva)
+                usuario.setReservacion()
 
-            print('\n_________')
-            # Imprime en la terminal los detalles de la reserva realizada.
-            print("RESERVA:\n",reserva.info())
-            print('‾‾‾‾‾‾‾‾‾')
+                print('\n_________')
+                # Imprime en la terminal los detalles de la reserva realizada.
+                print("RESERVA:\n",reserva.info())
+                print('‾‾‾‾‾‾‾‾‾')
 
-            print('\n!!! Reserva realizada exitosamente')
-            return
+                print('\n!!! Reserva realizada exitosamente')
+                return
 
-    nombre = input("Indique su nombre: ")
-    correo = input("Indique su correo electrónico: ")
-    telf = input("Indique su número telefónico: ")
-    fechaEntrada = fecha(input("Indique la fecha de entrada (DD/MM/AAAA): "))
-    fechaSalida = fecha(input("Indique la fecha de salida (DD/MM/AAAA): "))
+        nombre = input("Indique su nombre: ")
+        correo = input("Indique su correo electrónico: ")
+        telf = input("Indique su número telefónico: ")
+        fechaEntrada = fecha(input("Indique la fecha de entrada (DD/MM/AAAA): "))
+        fechaSalida = fecha(input("Indique la fecha de salida (DD/MM/AAAA): "))
 
-    # Se llama a la funcion seleccionarHabitacion para poder escoger dentro de las habitaciones disponibles
-    habitacion = seleccionarHabitacion(fechaEntrada, fechaSalida)
+        # Se llama a la funcion seleccionarHabitacion para poder escoger dentro de las habitaciones disponibles
+        habitacion = seleccionarHabitacion(fechaEntrada, fechaSalida)
 
-    usuarioNuevo = Usuario(nombre, idn, correo, telf)
-    usuarios.append(usuarioNuevo)
+        usuarioNuevo = Usuario(nombre, idn, correo, telf)
+        usuarios.append(usuarioNuevo)
 
-    # Crea un nuevo objeto de la clase reserva
-    reserva = Reserva(usuarioNuevo, habitacion, fechaEntrada, fechaSalida)
+        # Crea un nuevo objeto de la clase reserva
+        reserva = Reserva(usuarioNuevo, habitacion, fechaEntrada, fechaSalida)
 
-    # Se agrega la reserva a la tempDB
-    reservas.append(reserva)
-    usuario.setReservacion()
+        # Se agrega la reserva a la tempDB
+        reservas.append(reserva)
+        usuario.setReservacion()
 
-    print('\n_________')
-    # Imprime en la terminal los detalles de la reserva realizada.
-    print("RESERVA:\n",reserva.info())
-    print('‾‾‾‾‾‾‾‾‾')
+        print('\n_________')
+        # Imprime en la terminal los detalles de la reserva realizada.
+        print("RESERVA:\n",reserva.info())
+        print('‾‾‾‾‾‾‾‾‾')
 
-    print('\n!!! Reserva realizada exitosamente')
-    return
+        print('\n!!! Reserva realizada exitosamente')
+        return
+    except ValueError:
+            print('\n( X ) Su cedula debe solo debe contener numeros')
 
 """
 Funcion que permite listar todas las reservas
@@ -676,27 +679,31 @@ def main():
         print('11. Ver todas los usuarios')
         print('99. Salir')
 
-        # Solicita al usuario la opcion y la escucha
-        opcion = int(input('Seleccione una opción: '))
+        try:
+            # Solicita al usuario la opcion y la escucha
+            opcion = int(input('Seleccione una opción: '))
 
-        # Ejecuta las fuciones segun el caso
-        match opcion:
-            case 0:
-                cargarReservas()
-            case 1:
-                crearReserva()
-            case 2:
-                reservasPeriodo()
-            case 3:
-                ordenar()
-            # case 4:
-            #     ordenMultiple()
-            case 4:
-                reportes()
-            case 10:
-                verReserervas(reservas)
-            case 11:
-                verUsuarios()
-            case 99:
-                sys.exit()
+            # Ejecuta las fuciones segun el caso
+            match opcion:
+                case 0:
+                    cargarReservas()
+                case 1:
+                    crearReserva()
+                case 2:
+                    reservasPeriodo()
+                case 3:
+                    ordenar()
+                # case 4:
+                #     ordenMultiple()
+                case 4:
+                    reportes()
+                case 10:
+                    verReserervas(reservas)
+                case 11:
+                    verUsuarios()
+                case 99:
+                    sys.exit()
+        except ValueError:
+            print('\n( X ) Debe ingresar el número de la opción')
+
 main()
