@@ -3,6 +3,7 @@ from datetime import date, datetime
 import json
 import sys
 from sortingmethods import *
+from log import Accion
 
 # Almacena todas las reservas activas en la aplicación (tempDB)
 reservas = []
@@ -606,32 +607,42 @@ def reportes():
             if orden == "1":
                 array = mergesort_RangoFechas_ASC(array)
                 verReserervas(array)
+                Accion("Menu", "Se seleccionó la opcion de 'Reservaciones por período según el precio total' de forma 'Ascendente' en el periodo de {} a {}".format(fechaInicial.strftime("%d/%m/%y"),fechaFinal.strftime("%d/%m/%y"))).guardar()
             elif orden == "2":
                 array = mergesort_RangoFechas_DESC(array)
                 verReserervas(array)
+                Accion("Menu", "Se seleccionó la opcion de 'Reservaciones por período según el precio total' de forma 'Descendiente' en el periodo de {} a {}".format(fechaInicial.strftime("%d/%m/%y"),fechaFinal.strftime("%d/%m/%y"))).guardar()
             elif default == "asc":
                 array = mergesort_RangoFechas_ASC(array)
                 verReserervas(array)
+                Accion("Menu", "Se seleccionó la opcion de 'Reservaciones por período según el precio total' por defecto 'Ascendente' en el periodo de {} a {}".format(fechaInicial.strftime("%d/%m/%y"),fechaFinal.strftime("%d/%m/%y"))).guardar()
             elif default == "desc":
                 array = mergesort_RangoFechas_DESC(array)
                 verReserervas(array)
+                Accion("Menu", "Se seleccionó la opcion de 'Reservaciones por período según el precio total' por defecto 'Descendiente' en el periodo de {} a {}".format(fechaInicial.strftime("%d/%m/%y"),fechaFinal.strftime("%d/%m/%y"))).guardar()
             else:
+                Accion("Error", "Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración").guardar()
                 print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
                 
         case 1:
             if orden == "1":
                 array = shellsort_NoReservaciones_ASC(usuarios)
                 verReserervas(array)
+                Accion("Menu", "Se seleccionó la opcion de 'Usuarios según el número de reservaciones que tengan realizadas' de forma 'Ascendente'").guardar()
             elif orden == "2":
                 array = shellsort_NoReservaciones_DESC(usuarios)
                 verReserervas(array)
+                Accion("Menu", "Se seleccionó la opcion de 'Usuarios según el número de reservaciones que tengan realizadas' de forma 'Descendiente'").guardar()
             elif default == "asc":
                 array = shellsort_NoReservaciones_ASC(usuarios)
                 verReserervas(array)
+                Accion("Menu", "Se seleccionó la opcion de 'Usuarios según el número de reservaciones que tengan realizadas' por defecto 'Ascendente'").guardar()
             elif default == "desc":
                 array = shellsort_NoReservaciones_DESC(usuarios)
                 verReserervas(array)
+                Accion("Menu", "Se seleccionó la opcion de 'Usuarios según el número de reservaciones que tengan realizadas' por defecto 'Descendiente'").guardar()
             else:
+                Accion("Error", "Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración").guardar()
                 print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
                 
         case 2:
@@ -648,9 +659,12 @@ def reportes():
             elif default == "desc":
                 array = heapSort_Duracion_DESC(reservas)
                 verReserervas(array)
+                Accion("Menu", "Se seleccionó la opcion de 'Usuarios según el número de reservaciones que tengan realizadas' por defecto 'Descendiente'").guardar()
             else:
+                Accion("Error", "Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración").guardar()
                 print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
         case 3:
+            Accion("Menu", "Se salio del menu 'Reportes'").guardar()
             return
 
 """
@@ -659,9 +673,11 @@ Funcion principal
 def main():
     # Carga el archivo de configuracion
     cargarConfig()
-
+    Accion("Sistema", "Se cargó la configuracion inicial").guardar()
+    
     # Carga las habitaciones
     cargarHabitaciones()
+    Accion("Sistema", "Se cargó la bases de datos de las habitaciones").guardar()
 
     # Ciclo para mostrar el menu
     while True:
@@ -686,24 +702,33 @@ def main():
             # Ejecuta las fuciones segun el caso
             match opcion:
                 case 0:
+                    Accion("Menu", "Se seleccionó la opcion de 'Cargar Seed'").guardar()
                     cargarReservas()
                 case 1:
+                    Accion("Menu", "Se seleccionó la opcion de 'Crear Reserva'").guardar()
                     crearReserva()
                 case 2:
+                    Accion("Menu", "Se seleccionó la opcion de 'Ver reservas por periodo'").guardar()
                     reservasPeriodo()
                 case 3:
+                    Accion("Menu", "Se seleccionó la opcion de 'Ordenar reservas por criterios en un periodo'").guardar()
                     ordenar()
                 # case 4:
                 #     ordenMultiple()
                 case 4:
+                    Accion("Menu", "Se seleccionó la opcion de 'Reportes'").guardar()
                     reportes()
                 case 10:
+                    Accion("Menu", "Se seleccionó la opcion de 'Ver todas las reservas'").guardar()
                     verReserervas(reservas)
                 case 11:
+                    Accion("Menu", "Se seleccionó la opcion de 'Ver todas los usuarios'").guardar()
                     verUsuarios()
                 case 99:
+                    Accion("SALIDA", "Se salió del sistema").guardar()
                     sys.exit()
         except ValueError:
+            Accion("Error", "El menu solo admite numeros enteros. Por favor ingrese el numero de la opción").guardar()
             print('\n( X ) Debe ingresar el número de la opción')
 
 main()
