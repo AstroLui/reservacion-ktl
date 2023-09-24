@@ -51,7 +51,6 @@ class Cola:
                 while nodo_temp.siguiente != None: 
                     nodo_temp= nodo_temp.siguiente
                 self.fin = nodo_temp
-
     __criterios = ["idn", "totalReservaciones","duracion", "fechaEntrada", "fechaSalida", "precio"]
     def Search_Reservacion(self, valor, i=0): 
         if self.__Empty__(): 
