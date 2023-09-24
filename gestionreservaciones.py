@@ -7,6 +7,8 @@ class Nodo:
         self.siguiente = None
 
 class Cola: 
+    __Longitud = 0
+
     def __init__(self):
         self.frente = None
         self.fin = None 
@@ -21,16 +23,34 @@ class Cola:
         else: 
             self.fin.siguiente= nodo_nuevo
         self.fin = nodo_nuevo
-    
-    def Delete(self): 
+        self.__Longitud += 1
+
+    def Delete(self, posicion=0, i=0): 
         if self.__Empty__():
             return None
-        else: 
-            valor_eliminado = self.frente.valor
-            self.frente = self.frente.siguiente
+        else:
+            if posicion > self.__Longitud-1:
+                print("Error")
+                pass
+
+            elif posicion != 0:
+                nodo_temp = nodo_inicio = self.frente
+                while i < posicion: 
+                    self.frente = nodo_temp
+                    nodo_temp = nodo_temp.siguiente
+                    i+= 1
+                self.frente.siguiente = nodo_temp.siguiente
+                self.frente = nodo_inicio
+            else: 
+                self.frente = self.frente.siguiente
+                
             if self.frente == None: 
                 self.fin = None
-            return valor_eliminado
+            else:
+                nodo_temp = self.frente
+                while nodo_temp.siguiente != None: 
+                    nodo_temp= nodo_temp.siguiente
+                self.fin = nodo_temp
 
     def ViewList(self):
         if self.__Empty__() is False:
@@ -38,5 +58,5 @@ class Cola:
 
     def __AuxView__(self, nodo):
         if nodo is not None: 
-            print(nodo.valor.usuario)
+            print(nodo.valor.infoLineal())
             self.__AuxView__(nodo.siguiente)
