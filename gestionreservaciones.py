@@ -51,7 +51,25 @@ class Cola:
                 while nodo_temp.siguiente != None: 
                     nodo_temp= nodo_temp.siguiente
                 self.fin = nodo_temp
-
+    __criterios = ["idn", "totalReservaciones","duracion", "fechaEntrada", "fechaSalida", "precio"]
+    def Search_Reservacion(self, valor, i=0): 
+        if self.__Empty__(): 
+            return None
+        else: 
+            nodo_temp = self.frente
+            while nodo_temp != None: 
+                if i <= 1: 
+                    if getattr(nodo_temp.valor.usuario, self.__criterios[i])== valor:
+                        print(nodo_temp.valor.infoLineal())
+                elif i > 1 and i <= 4:
+                    if getattr(nodo_temp.valor, self.__criterios[i])== valor:
+                        print(nodo_temp.valor.infoLineal())
+                else: 
+                    if getattr(nodo_temp.valor.habitacion, self.__criterios[i])== valor:
+                        print(nodo_temp.valor.infoLineal())
+                        
+                nodo_temp = nodo_temp.siguiente
+        
     def ViewList(self):
         if self.__Empty__() is False:
             self.__AuxView__(self.frente)
