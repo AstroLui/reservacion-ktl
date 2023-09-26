@@ -611,7 +611,7 @@ def reportes():
             elif orden == "2":
                 array = mergesort_RangoFechas_DESC(array)
                 verReserervas(array)
-                Accion("Menu", "Se seleccionó la opcion de 'Reservaciones por período según el precio total' de forma 'Descendiente' en el periodo de {} a {}".format(fechaInicial.strftime("%d/%m/%y"),fechaFinal.strftime("%d/%m/%y"))).guardar()
+                Accion("Menu", "Se seleccionó la opcion de 'Reservaciones por período según el precio total' de forma 'Descendente' en el periodo de {} a {}".format(fechaInicial.strftime("%d/%m/%y"),fechaFinal.strftime("%d/%m/%y"))).guardar()
             elif default == "asc":
                 array = mergesort_RangoFechas_ASC(array)
                 verReserervas(array)
@@ -619,7 +619,7 @@ def reportes():
             elif default == "desc":
                 array = mergesort_RangoFechas_DESC(array)
                 verReserervas(array)
-                Accion("Menu", "Se seleccionó la opcion de 'Reservaciones por período según el precio total' por defecto 'Descendiente' en el periodo de {} a {}".format(fechaInicial.strftime("%d/%m/%y"),fechaFinal.strftime("%d/%m/%y"))).guardar()
+                Accion("Menu", "Se seleccionó la opcion de 'Reservaciones por período según el precio total' por defecto 'Descendente' en el periodo de {} a {}".format(fechaInicial.strftime("%d/%m/%y"),fechaFinal.strftime("%d/%m/%y"))).guardar()
             else:
                 Accion("Error", "Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración").guardar()
                 print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
@@ -632,7 +632,7 @@ def reportes():
             elif orden == "2":
                 array = shellsort_NoReservaciones_DESC(usuarios)
                 verReserervas(array)
-                Accion("Menu", "Se seleccionó la opcion de 'Usuarios según el número de reservaciones que tengan realizadas' de forma 'Descendiente'").guardar()
+                Accion("Menu", "Se seleccionó la opcion de 'Usuarios según el número de reservaciones que tengan realizadas' de forma 'Descendente'").guardar()
             elif default == "asc":
                 array = shellsort_NoReservaciones_ASC(usuarios)
                 verReserervas(array)
@@ -640,7 +640,7 @@ def reportes():
             elif default == "desc":
                 array = shellsort_NoReservaciones_DESC(usuarios)
                 verReserervas(array)
-                Accion("Menu", "Se seleccionó la opcion de 'Usuarios según el número de reservaciones que tengan realizadas' por defecto 'Descendiente'").guardar()
+                Accion("Menu", "Se seleccionó la opcion de 'Usuarios según el número de reservaciones que tengan realizadas' por defecto 'Descendente'").guardar()
             else:
                 Accion("Error", "Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración").guardar()
                 print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
@@ -650,16 +650,19 @@ def reportes():
             if orden == "1":
                 array = heapSort_Duracion_ASC(reservas)
                 verReserervas(array)
+                Accion("Menu", "Se seleccionó la opcion de 'Reservaciones según la duración de estadía' de forma 'Ascendente'").guardar()
             elif orden == "2":
                 array = heapSort_Duracion_DESC(reservas)
                 verReserervas(array)
+                Accion("Menu", "Se seleccionó la opcion de 'Reservaciones según la duración de estadía' de forma 'Descendente'").guardar()
             elif default == "asc":
                 array = heapSort_Duracion_ASC(reservas)
                 verReserervas(array)
+                Accion("Menu", "Se seleccionó la opcion de 'Reservaciones según la duración de estadía' por defecto 'Ascendente'").guardar()
             elif default == "desc":
                 array = heapSort_Duracion_DESC(reservas)
                 verReserervas(array)
-                Accion("Menu", "Se seleccionó la opcion de 'Usuarios según el número de reservaciones que tengan realizadas' por defecto 'Descendiente'").guardar()
+                Accion("Menu", "Se seleccionó la opcion de 'Reservaciones según la duración de estadía' por defecto 'Descendente'").guardar()
             else:
                 Accion("Error", "Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración").guardar()
                 print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
