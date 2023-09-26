@@ -165,6 +165,8 @@ def verificarID():
         if reserva.getId() == id:
             verificarID()
     
+    Accion("Operacion", "Se que el id {}, sea unico".format(id)).guardar()
+
     # Retorna el identificador verificado
     return id
 
@@ -183,6 +185,8 @@ def fecha(fecha):
     # Crea el objeto del tipo Fecha
     fechaObjeto = date(ano, mes, dia)
 
+    Accion("Operacion", "Se creo el objeto de la fecha {}".format(fecha)).guardar()
+  
     # Retorna el objeto
     return fechaObjeto
 
@@ -208,6 +212,7 @@ def cargarConfig():
         
         global hotel
         hotel = configJSON[0]["name_hotel"]
+    Accion("Sistema", "Archivo de configuracion './config.json' cargado exitosamente").guardar()
 
 """
 Funcion que carga todas las habitaciones disponibles en el hotel
@@ -237,6 +242,7 @@ def cargarHabitaciones():
             habitaciones.append(habitacion)
             
         habitacionesCargadas = True
+    Accion("Sistema", "Archivo {} cargado exitosamente".format(ruta_habs)).guardar()
     return
 
 """
@@ -293,10 +299,10 @@ def cargarReservas():
                 usuarioNuevo.setReservacion()
 
         reservasCargadas = True
-        Accion("Sistema", "Archivo de reservas guardadas cargado exitosamente").guardar()
+        Accion("Sistema", "Archivo {} cargado exitosamente".format(ruta_reserv)).guardar()
         print('\n!!! Archivo cargado exitosamente')
     else:
-        Accion("Sistema", "Archivo de reservas guardadas ya habia sido cargado previamente").guardar()
+        Accion("Sistema", "Archivo {} ya habia sido cargado previamente".format(ruta_reserv)).guardar()
         print('\n!!! Archivo previamente cargado')
     return
 
@@ -331,6 +337,8 @@ def seleccionarHabitacion(fechaEntrada, fechaSalida):
         print("{: >2}.    ".format(i),hab.info())
         i += 1
     print('‾‾‾‾‾‾‾‾‾')
+    
+    Accion("Habitacion", "Se mostraron todas las habitaciones").guardar()
 
     # Solicita la seleccion de habitacion
     index = int(input('Seleccione una habitacion: '))
@@ -339,6 +347,7 @@ def seleccionarHabitacion(fechaEntrada, fechaSalida):
     habitacionSeleccionada = habitacionesDiponibles[index]
     
     # Retorna el objeto de la habitacion seleccionada
+    Accion("Habitacion", "Se selecciono la habitacion {}".format(habitacionSeleccionada.info())).guardar()
     return habitacionSeleccionada
 
 """
@@ -423,6 +432,8 @@ def verReserervas(arr):
         i += 1
     print('\nTOTAL: ', len(arr), 'reservas')
     print('‾‾‾‾‾‾‾‾‾')
+
+    Accion("REPORTE", "Se visualizaron todas las reservas almacenadas").guardar()
     return
 
 """
@@ -442,6 +453,7 @@ def verUsuarios():
         i += 1
     print('\nTOTAL: ', len(usuarios), 'usuarios')
     print('‾‾‾‾‾‾‾‾‾')
+    Accion("REPORTE", "Se visualizaron todos los usuarios almacenadas").guardar()
     return
 
 """
@@ -496,6 +508,7 @@ def ordenar():
     orden = input("Seleccione el tipo de ordenamiento: ")
     
     if opcion == 99:
+        Accion("Menu", "Se salio del menu 'Ordenar'").guardar()
         return
     else:
         array = reservasPeriodo(fechaInicial, fechaFinal)
@@ -503,22 +516,27 @@ def ordenar():
         if orden == "1":
             array = quickSort_NoMultiple_ASC(array, 0, len(array)-1, opcion)
             verReserervas(array)
+            Accion("Menu", "Se ordeno de forma 'Ascendente'").guardar()
         elif orden == "2":
             array = quickSort_NoMultiple_DESC(array, 0, len(array)-1, opcion)
             verReserervas(array)
+            Accion("Menu", "Se ordeno de forma 'Descendente'").guardar()
         elif default == "asc":
             array = quickSort_NoMultiple_ASC(array, 0, len(array)-1, opcion)
             verReserervas(array)
+            Accion("Menu", "Se ordeno por defecto 'Ascendente'").guardar()
         elif default == "desc":
             array = quickSort_NoMultiple_DESC(array, 0, len(array)-1, opcion)
             verReserervas(array)
+            Accion("Menu", "Se ordeno por defecto 'Descendente'").guardar()
         else:
+            Accion("Error", "Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración").guardar()
             print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
     
         opcion = input("Desea volver a ordenar las reservas? (Si = 1 / No = 0): ")
 
         while opcion !=0:
-
+            Accion("Menu", "Se selecciono la opcion de volver a ordenar las reservas").guardar()
             if opcion == "1":
                 print('\n\nMENÚ DE CRITERIOS DE ORDENAMIENTO | ' + hotel)
                 print('___')
@@ -533,22 +551,28 @@ def ordenar():
                 opcion = int(input('Seleccione una opción: '))
         
                 if opcion == 99:
+                    Accion("Menu", "Se salio del menu 'Ordenar'").guardar()
                     opcion == 0
                     return
                 else:
                     if orden == "1":
                         array = quickSort_NoMultiple_ASC(array, 0, len(array)-1, opcion)
                         verReserervas(array)
+                        Accion("Menu", "Se ordeno de forma 'Ascendente'").guardar()
                     elif orden == "2":
                         array = quickSort_NoMultiple_DESC(array, 0, len(array)-1, opcion)
                         verReserervas(array)
+                        Accion("Menu", "Se ordeno de forma 'Descendente'").guardar()
                     elif default == "asc":
                         array = quickSort_NoMultiple_ASC(array, 0, len(array)-1, opcion)
                         verReserervas(array)
+                        Accion("Menu", "Se ordeno por defecto 'Ascendente'").guardar()
                     elif default == "desc":
                         array = quickSort_NoMultiple_DESC(array, 0, len(array)-1, opcion)
                         verReserervas(array)
+                        Accion("Menu", "Se ordeno por defecto 'Descendente'").guardar()
                     else:
+                        Accion("Error", "Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración").guardar()
                         print("Por favor ingrese una opción válida, o configure correctamente el orden por defecto en el archivo de configuración")
                     
                     opcion = input("Desea volver a ordenar las reservas? (S=1/N=0): ")
