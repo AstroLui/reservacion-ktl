@@ -498,13 +498,11 @@ def crearReserva():
     print('')
     try:
         hotel= input("Seleccione el Hotel donde hara la reservación:\n" + 
-                      " 1. JML Exclusive Hotel\n" + 
-                      " 2. Resort Celeste\n" + "\n" +
+                      " 1. JML Exclusive Hotel\n" + "\n" +
                       "Su selección es: ")
         if hotel == "1":
             hotel = "JML Exclusive Hotel"
-        else: 
-            hotel = "Resort Celeste"
+
         print()
         idn = int(input("Indique su número de cédula: "))
 
