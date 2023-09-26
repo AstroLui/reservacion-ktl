@@ -3,6 +3,7 @@ from datetime import date, datetime
 import json
 import sys
 from sortingmethods import *
+from gestionreservaciones import Cola
 from log import Accion
 
 # Almacena todas las reservas activas en la aplicación (tempDB)
@@ -225,7 +226,7 @@ Clase reserva que encapsula la información y las operaciones de cada reserva.
 """
 class Reserva:
 
-    def __init__(self, usuario, habitacion, fechaEntrada, fechaSalida):
+    def __init__(self, usuario, habitacion, hotel ,fechaEntrada, fechaSalida):
         """
         Construye los objetos de la clase Reserva.
         
@@ -245,19 +246,20 @@ class Reserva:
         self.fechaEntrada = fechaEntrada
         self.fechaSalida = fechaSalida
         self.duracion = fechaSalida - fechaEntrada
+        self.hotel = hotel
         self.costoTotal = self.duracion.days * self.habitacion.getPrecio()
 
     def info(self):
         """
         Devuelve le información del objeto de forma imprimible por consola.
         """ 
-        return "ID: {:0>5}\n Nombres: {}\n Habitacion: {}\n Entrada: {}\n Salida: {}\n Duración: {} días\n\n TOTAL: {}$".format(self.id, self.usuario.getNombre(), self.habitacion.getId(), self.fechaEntrada.strftime("%A %d. %B %Y"), self.fechaSalida.strftime("%A %d. %B %Y"), self.duracion.days, self.costoTotal)
+        return "ID: {:0>5}\n Nombres: {}\n Habitacion: {} Hotel: {}\n \n Entrada: {}\n Salida: {}\n Duración: {} días\n\n TOTAL: {}$".format(self.id, self.usuario.getNombre(), self.habitacion.getId(), self.hotel, self.fechaEntrada.strftime("%A %d. %B %Y"), self.fechaSalida.strftime("%A %d. %B %Y"), self.duracion.days, self.costoTotal)
 
     def infoLineal(self):
         """
         Devuelve le información del objeto de forma imprimible en una sola linea por consola.
         """ 
-        return "ID: {:0>5}, Nombres: {}, Habitacion: {}, Entrada: {}, Salida: {}, Duración: {} días, TOTAL: {}$".format(self.id, self.usuario.getNombre(), self.habitacion.getId(), self.fechaEntrada.strftime("%d/%m/%y"), self.fechaSalida.strftime("%d/%m/%y"), self.duracion.days, self.costoTotal)
+        return "ID: {:0>5}, Nombres: {}, Habitacion: {}, Hotel: {}, Entrada: {}, Salida: {}, Duración: {} días, TOTAL: {}$".format(self.id, self.usuario.getNombre(), self.habitacion.getId(),self.hotel ,self.fechaEntrada.strftime("%d/%m/%y"), self.fechaSalida.strftime("%d/%m/%y"), self.duracion.days, self.costoTotal)
 
     """
     Getters de :class:`Reserva`
@@ -400,6 +402,7 @@ def cargarReservas():
             telf = cliente["telf"]
             idn = cliente["idn"]
             habitacion = reserva["habitacion"]
+            hotel= habitacion["hotel"]
             habitacionId = habitacion["id"]
             fechaEntrada = fecha(habitacion["fechaEntrada"])
             fechaSalida = fecha(habitacion["fechaSalida"])
@@ -414,7 +417,7 @@ def cargarReservas():
                 if usuario.getIDN() == idn:       
                     bandUsuario = 1
                     # Se construye el objeto del tipo Reserva
-                    reserva = Reserva(usuario, habitacionId, fechaEntrada, fechaSalida)
+                    reserva = Reserva(usuario, habitacionId, hotel,fechaEntrada, fechaSalida)
 
                     # Se agrega la reserva a la tempDB0
                     reservas.append(reserva)
@@ -425,7 +428,7 @@ def cargarReservas():
                 usuarios.append(usuarioNuevo)
 
                 # Se construye el objeto del tipo Reserva
-                reserva = Reserva(usuarioNuevo, habitacionId, fechaEntrada, fechaSalida)
+                reserva = Reserva(usuarioNuevo, habitacionId, hotel ,fechaEntrada, fechaSalida)
 
                 # Se agrega la reserva a la tempDB0
                 reservas.append(reserva)
@@ -529,8 +532,9 @@ def crearReserva():
         usuarioNuevo = Usuario(nombre, idn, correo, telf)
         usuarios.append(usuarioNuevo)
 
+        hotel = "JML Exclusive Hotel"
         # Crea un nuevo objeto de la clase reserva
-        reserva = Reserva(usuarioNuevo, habitacion, fechaEntrada, fechaSalida)
+        reserva = Reserva(usuarioNuevo, habitacion, hotel ,fechaEntrada, fechaSalida)
 
         # Se agrega la reserva a la tempDB
         reservas.append(reserva)

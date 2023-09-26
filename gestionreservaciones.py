@@ -1,3 +1,4 @@
+
 # El archivo `gestionreservaciones` es para la clase de la lista entrelazada tipo Cola
 # sobre la reservaciones de cada hotel
 
@@ -51,8 +52,10 @@ class Cola:
                 while nodo_temp.siguiente != None: 
                     nodo_temp= nodo_temp.siguiente
                 self.fin = nodo_temp
-    __criterios = ["idn", "totalReservaciones","duracion", "fechaEntrada", "fechaSalida", "precio"]
-    def Search_Reservacion(self, valor, i=0): 
+
+    __criterios = ["idn", "totalReservaciones","costoTotal", "fechaEntrada", "fechaSalida", "hotel", "precio"]
+
+    def Search_Reservacion(self, valor, i=0, valor1=0, valor2=0): 
         if self.__Empty__(): 
             return None
         else: 
@@ -61,18 +64,23 @@ class Cola:
                 if i <= 1: 
                     if getattr(nodo_temp.valor.usuario, self.__criterios[i])== valor:
                         print(nodo_temp.valor.infoLineal())
-                elif i > 1 and i <= 4:
-                    if getattr(nodo_temp.valor, self.__criterios[i])== valor:
-                        print(nodo_temp.valor.infoLineal())
+                elif i > 1 and i <= 5:
+                    if i == 2: 
+                        if getattr(nodo_temp.valor, self.__criterios[i])>= valor1 and getattr(nodo_temp.valor, self.__criterios[i]) <= valor2:
+                            print(nodo_temp.valor.infoLineal())
+                    else:
+                        if getattr(nodo_temp.valor, self.__criterios[i])== valor:
+                            print(nodo_temp.valor.infoLineal())
                 else: 
                     if getattr(nodo_temp.valor.habitacion, self.__criterios[i])== valor:
                         print(nodo_temp.valor.infoLineal())
                         
                 nodo_temp = nodo_temp.siguiente
-        
+
     def ViewList(self):
         if self.__Empty__() is False:
             self.__AuxView__(self.frente)
+       
 
     def __AuxView__(self, nodo):
         if nodo is not None: 
