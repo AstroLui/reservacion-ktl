@@ -293,8 +293,10 @@ def cargarReservas():
                 usuarioNuevo.setReservacion()
 
         reservasCargadas = True
+        Accion("Sistema", "Archivo de reservas guardadas cargado exitosamente").guardar()
         print('\n!!! Archivo cargado exitosamente')
     else:
+        Accion("Sistema", "Archivo de reservas guardadas ya habia sido cargado previamente").guardar()
         print('\n!!! Archivo previamente cargado')
     return
 
@@ -369,6 +371,7 @@ def crearReserva():
                 print("RESERVA:\n",reserva.info())
                 print('‾‾‾‾‾‾‾‾‾')
 
+                Accion("Reserva", "Reserva de usurios recurrente realizada exitosamente / {}".format(reserva.info())).guardar()
                 print('\n!!! Reserva realizada exitosamente')
                 return
 
@@ -396,10 +399,12 @@ def crearReserva():
         print("RESERVA:\n",reserva.info())
         print('‾‾‾‾‾‾‾‾‾')
 
+        Accion("Reserva", "Reserva de usurios nuevo realizada exitosamente / {}".format(reserva.info())).guardar()
         print('\n!!! Reserva realizada exitosamente')
         return
     except ValueError:
-            print('\n( X ) Su cedula debe solo debe contener numeros')
+            Accion("Error", "La cedula solo debe contener numeros").guardar()
+            print('\n( X ) Su cedula solo debe contener numeros')
 
 """
 Funcion que permite listar todas las reservas
