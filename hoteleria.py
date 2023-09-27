@@ -416,6 +416,7 @@ def crearReserva():
         else: 
             hotel = "Hotel Hilton Caracas"
         print()
+
         idn = int(input("Indique su número de cédula: "))
 
         for usuario in usuarios:
@@ -445,14 +446,20 @@ def crearReserva():
 
         nombre = input("Indique su nombre: ")
         correo = input("Indique su correo electrónico: ")
-        telf = input("Indique su número telefónico: ")
+        try:
+            telf = int(input("Indique su número telefónico: "))
+        except ValueError:
+            Accion("Error", "El numero telefonico solo admite numeros").guardar()
+            print('\n( X ) El numero telefonico solo admite numeros\n')
+            return
+            
         fechaEntrada = fecha(input("Indique la fecha de entrada (DD/MM/AAAA): "))
         fechaSalida = fecha(input("Indique la fecha de salida (DD/MM/AAAA): "))
 
         # Se llama a la funcion seleccionarHabitacion para poder escoger dentro de las habitaciones disponibles
         habitacion = seleccionarHabitacion(fechaEntrada, fechaSalida)
 
-        usuarioNuevo = Usuario(nombre, idn, correo, telf)
+        usuarioNuevo = Usuario(nombre, idn, correo, str(telf))
         usuarios.append(usuarioNuevo)
 
         # Crea un nuevo objeto de la clase reserva
@@ -472,8 +479,8 @@ def crearReserva():
         print('\n!!! Reserva realizada exitosamente')
         return
     except ValueError:
-            Accion("Error", "La cedula solo debe contener numeros").guardar()
-            print('\n( X ) Su cedula solo debe contener numeros')
+        Accion("Error", "La cedula solo debe contener numeros").guardar()
+        print('\n( X ) Su cedula solo debe contener numeros')
 
 """
 Funcion que permite listar todas las reservas
