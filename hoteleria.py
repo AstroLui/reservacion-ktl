@@ -1023,6 +1023,9 @@ def main():
                 case 12:
                     gestion_reservaciones()
                 case 13:  
+                    print('___')
+                    print('\nMENÚ DE GESTIÓN DE RESERVACIONES |')
+                    print('___')
                     for i in range(lista_hoteles.longitud):
                         lista_hoteles.obtener(i).mostrar_lista_hoteles()
                 case 99:
