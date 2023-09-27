@@ -3,7 +3,7 @@ from datetime import date, datetime
 import json
 import sys
 from sortingmethods import *
-from gestionreservaciones import Cola
+from gestionreservaciones import *
 from log import Accion
 
 # Almacena todas las reservas activas en la aplicación (tempDB)
@@ -24,7 +24,9 @@ usuarios = []
 reservasPeriodoDB = []
 
 #Almacena los hoteles
+global ruta_hoteles
 hoteles = []
+
 
 class Hotel:
     def __init__(self, nombre, direccion, numero):
@@ -42,20 +44,19 @@ class Hotel:
     def añadir_habitacion(self, habitacion):
         self.habitaciones.append(habitacion)
 
-    def mostrar_lista_hoteles(hoteles):
-        for hotel in hoteles:
-            print(f"Hotel: {hotel.nombre}")
-            print(f"Dirección: {hotel.direccion}")
-            print(f"Número: {hotel.numero}")
-            print(f"Reservas:")
-            for reservacion in hotel.reservaciones:
-                print(f"- Nombre: {reservacion.nombre}")
-                print(f"- Fecha de inicio: {reservacion.fechaEntrada}")
-                print(f"- Fecha de fin: {reservacion.fechaSalida}")
-            print(f"Habitaciones:")
-            for habitacion in hotel.habitaciones:
+    def mostrar_lista_hoteles(self):
+            print(f"Hotel: {self.nombre}")
+            print(f"Dirección: {self.direccion}")
+            print(f"Número: {self.numero}")
+            print(f"Reservas:\n")
+            for reserva in self.reservaciones:
+                print(f"- Nombre: {reserva.usuario.nombre}")
+                print(f"- Fecha de inicio: {reserva.fechaEntrada}")
+                print(f"- Fecha de fin: {reserva.fechaSalida}\n")
+            print(f"\nHabitaciones:\n")
+            for habitacion in self.habitaciones:
                 print(f"- Número: {habitacion.id}")
-                print(f"- Tipo: {habitacion.tipo}")
+                print(f"- Tipo: {habitacion.tipo}\n")
 
 class ListaEnlazada:
     def __init__(self):
@@ -107,7 +108,7 @@ class ListaEnlazada:
             nuevo_nodo.siguiente = actual.siguiente
             actual.siguiente = nuevo_nodo
         self.longitud += 1
-    def obtener(self, indice):
+    def obtener(self, indice, i=0):
         if indice < 0 or indice >= self.longitud:
             raise IndexError("Índice fuera de rango")
         actual = self.cabeza
@@ -144,17 +145,10 @@ class ListaEnlazada:
         actual = self.cabeza
         if self.cabeza is not None:
             while actual != None:
-                print(actual.valor.marca)
+                print(actual.valor.nombre)
                 actual = actual.siguiente
-
-# Función para añadir una nueva reservación a un hotel
-def añadir_reservacion_a_hotel(hoteles, hotel, reservacion):
-    hotel.añadir_reservacion(reservacion)
-
-# Función para añadir una nueva habitación a un hotel
-def añadir_habitacion_a_hotel(hoteles, hotel, habitacion):
-    hotel.añadir_habitacion(habitacion)
-
+    
+lista_hoteles = ListaEnlazada()
 
 class Usuario:
     def __init__(self, nombre: str, idn: int, correo: str, telf: str):
@@ -348,8 +342,25 @@ def cargarConfig():
         
         global hotel
         hotel = configJSON[0]["name_hotel"]
-    Accion("Sistema", "Archivo de configuracion './config.json' cargado exitosamente").guardar()
 
+        global ruta_hoteles
+        ruta_hoteles = configJSON[0]["seed_hoteles"]
+
+    Accion("Sistema", "Archivo de configuracion './config.json' cargado exitosamente").guardar()
+"""
+Funcion que carga todas las habitaciones disponibles en el hotel
+"""
+def cargarHoteles():
+    with open(ruta_hoteles, 'r') as seed:
+            dbJSON = json.load(seed)
+            for hotel in dbJSON:
+                nom = hotel["nombre"]
+                dir = hotel["direccion"]
+                tel = hotel["telefono"]
+                Hoteles = Hotel(nom, dir, tel)
+                hoteles.append(Hoteles)
+                lista_hoteles.agregar(Hoteles)
+    return
 """
 Funcion que carga todas las habitaciones disponibles en el hotel
 """
@@ -436,6 +447,11 @@ def cargarReservas():
                 reservas.append(reserva)
                 lista_reservacion.Add(reserva)
                 usuarioNuevo.setReservacion()
+        for i in range(lista_hoteles.longitud):
+            for reserva in reservas:
+                if lista_hoteles.obtener(i).nombre == reserva.hotel:
+                    lista_hoteles.obtener(i).añadir_reservacion(reserva)
+                    lista_hoteles.obtener(i).añadir_habitacion(reserva.habitacion)
 
         reservasCargadas = True
         Accion("Sistema", "Archivo {} cargado exitosamente".format(ruta_reserv)).guardar()
@@ -498,11 +514,16 @@ def crearReserva():
     print('')
     try:
         hotel= input("Seleccione el Hotel donde hara la reservación:\n" + 
-                      " 1. JML Exclusive Hotel\n" + "\n" +
+                      " 1. Hotel Gran Meliá Caracas\n" + 
+                      " 2. Hotel JW Marriott Caracas\n" + 
+                      " 3. Hotel Hilton Caracas\n" +
                       "Su selección es: ")
         if hotel == "1":
-            hotel = "JML Exclusive Hotel"
-
+            hotel = "Hotel Gran Meliá Caracas"
+        elif hotel == "2":
+            hotel = "Hotel JW Marriott Caracas"
+        else: 
+            hotel = "Hotel Hilton Caracas"
         print()
         idn = int(input("Indique su número de cédula: "))
 
@@ -604,6 +625,7 @@ def verUsuarios():
     Accion("REPORTE", "Se visualizaron todos los usuarios almacenadas").guardar()
     return
 
+
 """
 Funcion para obtener la lista de reservas en una fecha
 """
@@ -656,11 +678,14 @@ def gestion_reservaciones():
                 lista_reservacion.ViewList()
                 print('!!Eliminación de reserva exitosa')
             case 2:
-                print('\nLISTA DE RESERVACIONES | JML Exclusive Hotel\n')
-                lista_reservacion.Search_Reservacion("JML Exclusive Hotel", 4)
+                print('\nLISTA DE RESERVACIONES | Hotel Gran Meliá Caracas\n')
+                lista_reservacion.Search_Reservacion("Hotel Gran MeliÃ¡ Caracas", 4)
 
-                print('\nLISTA DE RESERVACIONES | Resort Celeste\n')
-                lista_reservacion.Search_Reservacion("Resort Celeste", 4)
+                print('\nLISTA DE RESERVACIONES | Hotel JW Marriott Caracas\n')
+                lista_reservacion.Search_Reservacion("Hotel JW Marriott Caracas", 4)
+
+                print('\nLISTA DE RESERVACIONES | Hotel Hilton Caracas\n')
+                lista_reservacion.Search_Reservacion("Hotel Hilton Caracas", 4)
             case 3:
                 bandi=True
                 while bandi == True:
@@ -961,7 +986,8 @@ def main():
         # print('4. Ordenar reservas por múltiples criterios')
         print('10. Ver todas las reservas')
         print('11. Ver todas los usuarios')
-        print('12. Gestion de reservaciones')
+        print('12. Gestión de reservaciones')
+        print('13. Gestión de hoteles')
         print('99. Salir')
 
         try:
@@ -972,6 +998,7 @@ def main():
             match opcion:
                 case 0:
                     Accion("Menu", "Se seleccionó la opcion de 'Cargar Seed'").guardar()
+                    cargarHoteles()
                     cargarReservas()
                 case 1:
                     Accion("Menu", "Se seleccionó la opcion de 'Crear Reserva'").guardar()
@@ -995,6 +1022,9 @@ def main():
                     verUsuarios()
                 case 12:
                     gestion_reservaciones()
+                case 13:  
+                    for i in range(lista_hoteles.longitud):
+                        lista_hoteles.obtener(i).mostrar_lista_hoteles()
                 case 99:
                     Accion("SALIDA", "Se salió del sistema").guardar()
                     sys.exit()
