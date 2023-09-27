@@ -196,10 +196,13 @@ def fecha(fecha):
     dia, mes, ano = fecha.split("/")
 
     # Se convierte en el texto en numero
-    dia = int(dia)
-    mes = int(mes)
-    ano = int(ano)
-
+    try:
+        dia = int(dia)
+        mes = int(mes)
+        ano = int(ano)
+    except ValueError:
+        Accion("Error", "La fecha solo admite el formato dd/mm/aaaa").guardar()
+        print('\n( X ) La fecha solo admite el formato dd/mm/aaaa')
     # Crea el objeto del tipo Fecha
     fechaObjeto = date(ano, mes, dia)
 
@@ -993,6 +996,9 @@ def main():
     # Carga las habitaciones
     cargarHabitaciones()
     Accion("Sistema", "Se cargó la bases de datos de las habitaciones").guardar()
+    Accion("Menu", "Se seleccionó la opcion de 'Cargar Seed'").guardar()
+    cargarHoteles()
+    cargarReservas()
 
     # Ciclo para mostrar el menu
     while True:
@@ -1052,5 +1058,7 @@ def main():
         except ValueError:
             Accion("Error", "El menu solo admite numeros enteros. Por favor ingrese el numero de la opción").guardar()
             print('\n( X ) Debe ingresar el número de la opción')
-
+        except IndexError:
+            Accion("Error", "Indice fuera de rango").guardar()
+            print('\n( X ) Indice fuera de rango')
 main()
