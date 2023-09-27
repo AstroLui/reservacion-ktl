@@ -1066,7 +1066,7 @@ def main():
         # Imprime en la terminal las opciones del menu
         print('\n\nMENU PRINCIPAL | ' + hotel)
         print('___')
-        print('0. Cargar Seed')
+        # print('0. Cargar Seed')
         print('1. Crear Reserva')
         print('2. Ver reservas por periodo')
         print('3. Ordenar reservas por criterios en un periodo')
@@ -1083,10 +1083,10 @@ def main():
 
             # Ejecuta las fuciones segun el caso
             match opcion:
-                case 0:
-                    Accion("Menu", "Se seleccionó la opcion de 'Cargar Seed'").guardar()
-                    cargarHoteles()
-                    cargarReservas()
+                # case 0:
+                #     Accion("Menu", "Se seleccionó la opcion de 'Cargar Seed'").guardar()
+                #     cargarHoteles()
+                #     cargarReservas()
                 case 1:
                     Accion("Menu", "Se seleccionó la opcion de 'Crear Reserva'").guardar()
                     crearReserva()
