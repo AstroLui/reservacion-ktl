@@ -5,6 +5,7 @@ import sys
 from sortingmethods import *
 from gestionreservaciones import *
 from hoteles import *
+from arbol import *
 from log import Accion
 
 # Almacena todas las reservas activas en la aplicación (tempDB)
@@ -363,7 +364,7 @@ def cargarEmpleados():
                 nom = empleado["nombre"]
                 pos = empleado["posicion"]
                 sal = empleado["salario"]
-                fecha = fecha(empleado["fechaContratacion"])
+                fech = fecha(empleado["fechaContratacion"])
                 empleado = Empleado(hotel, nom, pos, sal, fecha)
                 for i in range(lista_hoteles.longitud):
                     if lista_hoteles.obtener(i).nombre == hotel:
@@ -1000,9 +1001,9 @@ def main():
             match opcion:
                 case 0:
                     Accion("Menu", "Se seleccionó la opcion de 'Cargar Seed'").guardar()
+                    cargarEmpleados()
                     cargarHoteles()
                     cargarReservas()
-                    cargarEmpleados()
                 case 1:
                     Accion("Menu", "Se seleccionó la opcion de 'Crear Reserva'").guardar()
                     crearReserva()
