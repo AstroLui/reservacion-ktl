@@ -6,6 +6,7 @@ from sortingmethods import *
 from gestionreservaciones import *
 from facturaspagos import *
 from hoteles import *
+from arbol import *
 from log import Accion
 
 # Almacena todas las reservas activas en la aplicación (tempDB)
@@ -240,6 +241,9 @@ def cargarConfig():
 
         global ruta_hoteles
         ruta_hoteles = configJSON[0]["seed_hoteles"]
+        
+        global ruta_empleados
+        ruta_empleados = configJSON[0]["seed_empleados"]
 
     Accion("Sistema", "Archivo de configuracion './config.json' cargado exitosamente").guardar()
 """
@@ -356,6 +360,24 @@ def cargarReservas():
     else:
         Accion("Sistema", "Archivo {} ya habia sido cargado previamente".format(ruta_reserv)).guardar()
         print('\n!!! Archivo previamente cargado')
+    return
+
+"""
+Funcion que carga el arbol binario para cada hotel de la lista enlazada de Hoteles
+"""
+def cargarEmpleados():
+    with open(ruta_empleados, 'r') as seed:
+            dbJSON = json.load(seed)
+            for empleado in dbJSON:
+                hotel = empleado["hotel"]
+                nom = empleado["nombre"]
+                pos = empleado["posicion"]
+                sal = empleado["salario"]
+                fech = fecha(empleado["fechaContratacion"])
+                empleado = Empleado(hotel, nom, pos, sal, fecha)
+                for i in range(lista_hoteles.longitud):
+                    if lista_hoteles.obtener(i).nombre == hotel:
+                        lista_hoteles.obtener(i).empleados.insertar(empleado)
     return
 
 """
@@ -1126,10 +1148,18 @@ def main():
 
             # Ejecuta las fuciones segun el caso
             match opcion:
+
+                case 0:
+                    Accion("Menu", "Se seleccionó la opcion de 'Cargar Seed'").guardar()
+                    cargarEmpleados()
+                    cargarHoteles()
+                    cargarReservas()
+=======
                 # case 0:
                 #     Accion("Menu", "Se seleccionó la opcion de 'Cargar Seed'").guardar()
                 #     cargarHoteles()
                 #     cargarReservas()
+
                 case 1:
                     Accion("Menu", "Se seleccionó la opcion de 'Crear Reserva'").guardar()
                     crearReserva()

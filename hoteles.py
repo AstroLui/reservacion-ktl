@@ -1,4 +1,4 @@
-import arbol
+from arbol import *
 
 class Nodo: 
     def __init__(self, valor):
@@ -6,7 +6,7 @@ class Nodo:
         self.siguiente = None
         
 class Hotel:
-    def __init__(self, nombre, direccion, numero, empleados):
+    def __init__(self, nombre, direccion, numero):
         self.nombre = nombre
         self.direccion = direccion
         self.numero = numero
@@ -45,6 +45,7 @@ class Hotel:
                 print(f"- Número: {habitacion.id}")
                 print(f"- Tipo: {habitacion.tipo}\n")
 
+#Estructura para almacenar todos los hoteles en una lista
 class ListaEnlazada:
     def __init__(self):
         self.cabeza = None

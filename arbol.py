@@ -1,13 +1,11 @@
 class Empleado:
-    def __init__(self, hotel, nombre, posicion, salario, fechaContratacion, izquierda, derecha):
+    def __init__(self, hotel, nombre, posicion, salario, fechaContratacion):
         self.hotel = hotel
         self.nombre = nombre
         self.posicion = posicion
         self.salario = salario
         self.fechaContratacion = fechaContratacion
-        self.izquierda = None
-        self.derecha = None
-    
+
     def get_hotel(self):
         return self.hotel
 
@@ -22,6 +20,22 @@ class Empleado:
 
     def get_fecha_contratacion(self):
         return self.fechaContratacion
+    
+    def print_empleado(self):
+        print(f"Nombre: {self.nombre}")
+        print(f"Posición: {self.posicion}")
+        print(f"Salario: {self.salario}")
+        print(f"Fecha de contratación: {self.fechaContratacion}")
+
+#Estructura para poder almacenar los empleados en el arbol binario
+class NodoArbol:
+    def __init__(self, objeto):
+        self.valor = objeto
+        self.izquierda = None
+        self.derecha = None
+    
+    def get_dato(self):
+        return self.dato
 
     def get_izquierda(self):
         return self.izquierda
@@ -29,26 +43,26 @@ class Empleado:
     def get_derecha(self):
         return self.derecha
 
-
+#Esta estructura es la que se utilizará para almacenar los empleados de cada hotel
 class ArbolBinario:
     def __init__(self):
         self.raiz = None
 
     def insertar(self, valor):
         if self.raiz is None:
-            self.raiz = Nodo(valor)
+            self.raiz = NodoArbol(valor)
         else:
             self._insertar_recursivo(valor, self.raiz)
 
     def _insertar_recursivo(self, valor, nodo_actual):
-        if valor < nodo_actual.valor:
+        if valor.fechaContratacion < nodo_actual.valor.fechaContratacion:
             if nodo_actual.izquierda is None:
-                nodo_actual.izquierda = Nodo(valor)
+                nodo_actual.izquierda = NodoArbol(valor)
             else:
                 self._insertar_recursivo(valor, nodo_actual.izquierda)
-        elif valor > nodo_actual.valor:
+        elif valor.fechaContratacion > nodo_actual.valor.fechaContratacion:
             if nodo_actual.derecha is None:
-                nodo_actual.derecha = Nodo(valor)
+                nodo_actual.derecha = NodoArbol(valor)
         else:
             self._insertar_recursivo(valor, nodo_actual.derecha)
 
@@ -58,7 +72,7 @@ class ArbolBinario:
     def _eliminar_recursivo(self, valor, nodo_actual):
         if nodo_actual is None:
             return None
-        if valor < nodo_actual.valor:
+        if valor.fechaContratacion < nodo_actual.valor.fechaContratacion:
             nodo_actual.izquierda = self._eliminar_recursivo(valor, nodo_actual.izquierda)
         elif valor > nodo_actual.valor:
             nodo_actual.derecha = self._eliminar_recursivo(valor, nodo_actual.derecha)
@@ -88,7 +102,7 @@ class ArbolBinario:
     def _consultar_recursivo(self, valor, nodo_actual):
         if nodo_actual is None or nodo_actual.valor == valor:
             return nodo_actual
-        if valor < nodo_actual.valor:
+        if valor.fechaContratacion < nodo_actual.valor.fechaContratacion:
             return self._consultar_recursivo(valor,nodo_actual.izquierda)
         return self._consultar_recursivo(valor, nodo_actual.derecha)
 
@@ -98,7 +112,7 @@ class ArbolBinario:
     def _inorden_recursivo(self, nodo_actual):
         if nodo_actual is not None:
             self._inorden_recursivo(nodo_actual.izquierda)
-            print(nodo_actual.valor, end=" ")
+            nodo_actual.valor.print_empleado
             self._inorden_recursivo(nodo_actual.derecha)
     
     def preorden(self):
@@ -106,7 +120,7 @@ class ArbolBinario:
     
     def _preorden_recursivo(self, nodo_actual):
         if nodo_actual is not None:
-            print(nodo_actual.valor, end=" ")
+            nodo_actual.valor.print_empleado
             self._preorden_recursivo(nodo_actual.izquierda)
             self._preorden_recursivo(nodo_actual.derecha)
     
@@ -117,25 +131,9 @@ class ArbolBinario:
         if nodo_actual is not None:
             self._postorden_recursivo(nodo_actual.izquierda)
             self._postorden_recursivo(nodo_actual.derecha)
-            print(nodo_actual.valor, end=" ")
+            nodo_actual.valor.print_empleado
     
     def empty(self):
         if self.raiz is None:
             return True
         return False
-    
-    def __InOrderTraversal(self, curr_node):
-        nodeList = []
-        if curr_node is not None:
-            nodeList.insert(0, curr_node)
-            nodeList = nodeList + self.__InOrderTraversal(curr_node.getLeft())
-            nodeList = nodeList + self.__InOrderTraversal(curr_node.getRight())
-        return nodeList
-
-    
-    def __str__(self):
-        list = self.__InOrderTraversal(self.root)
-        str = ""
-        for x in list:
-            str = str + " " + x.getLabel().__str__()
-        return str

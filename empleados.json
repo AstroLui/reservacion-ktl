@@ -4,62 +4,153 @@
         "nombre": "John Doe",
         "posicion": "Recepcionista",
         "salario": 2500,
-        "fechaContratacion": "2021/01/01"
+        "fechaContratacion": "01/01/2021"
     },
     {
         "hotel": "Hotel Gran Meliá Caracas",
         "nombre": "Jane Smith",
         "posicion": "Gerente",
         "salario": 5000,
-        "fechaContratacion": "2020/05/15"
+        "fechaContratacion": "15/05/2020"
     },
     {
         "hotel": "Hotel Gran Meliá Caracas",
         "nombre": "Bob Johnson",
         "posicion": "Cocinero",
         "salario": 3000,
-        "fechaContratacion": "2019/10/01"
+        "fechaContratacion": "01/10/2019"
     },
     {
         "hotel": "Hotel JW Marriott Caracas",
         "nombre": "Alice Brown",
         "posicion": "Recepcionista",
         "salario": 2800,
-        "fechaContratacion": "2021/02/10"
+        "fechaContratacion": "10/02/2021"
     },
     {
         "hotel": "Hotel JW Marriott Caracas",
         "nombre": "Bob Green",
         "posicion": "Gerente",
         "salario": 5500,
-        "fechaContratacion": "2020/06/20"
+        "fechaContratacion": "20/06/2020"
     },
     {
         "hotel": "Hotel JW Marriott Caracas",
         "nombre": "Charlie White",
         "posicion": "Cocinero",
         "salario": 3200,
-        "fechaContratacion": "2019/11/15"
+        "fechaContratacion": "15/11/2019"
+    },
+    {
+        "hotel": "Hotel JW Marriott Caracas",
+        "nombre": "Carlos Gonzalez",
+        "posicion": "Recepcionista",
+        "salario": 2700,
+        "fechaContratacion": "01/04/2021"
+    },
+    {
+        "hotel": "Hotel JW Marriott Caracas",
+        "nombre": "Maria Hernandez",
+        "posicion": "Gerente",
+        "salario": 4800,
+        "fechaContratacion": "15/08/2020"
+    },
+    {
+        "hotel": "Hotel JW Marriott Caracas",
+        "nombre": "Juan Garcia",
+        "posicion": "Cocinero",
+        "salario": 3100,
+        "fechaContratacion": "01/12/2019"
+    },
+    {
+        "hotel": "Hotel JW Marriott Caracas",
+        "nombre": "Laura Perez",
+        "posicion": "Recepcionista",
+        "salario": 2900,
+        "fechaContratacion": "01/05/2021"
+    },
+    {
+        "hotel": "Hotel Gran Meliá Caracas",
+        "nombre": "Carlos Rodriguez",
+        "posicion": "Gerente",
+        "salario": 5300,
+        "fechaContratacion": "15/09/2020"
+    },
+    {
+        "hotel": "Hotel Gran Meliá Caracas",
+        "nombre": "Maria Garcia",
+        "posicion": "Cocinera",
+        "salario": 3300,
+        "fechaContratacion": "01/01/2020"
     },
     {
         "hotel": "Hotel Hilton Caracas",
         "nombre": "David Black",
         "posicion": "Recepcionista",
         "salario": 2600,
-        "fechaContratacion": "2021/03/05"
+        "fechaContratacion": "05/03/2021"
     },
     {
         "hotel": "Hotel Hilton Caracas",
         "nombre": "Emily Grey",
         "posicion": "Gerente",
         "salario": 5200,
-        "fechaContratacion": "2020/07/25"
+        "fechaContratacion": "25/07/2020"
     },
     {
         "hotel": "Hotel Hilton Caracas",
         "nombre": "Frank Brown",
         "posicion": "Cocinero",
         "salario": 2900,
-        "fechaContratacion": "2019/12/10"
+        "fechaContratacion": "10/12/2019"
+    },
+    {
+        "hotel": "Hotel Hilton Caracas",
+        "nombre": "Maria Rodriguez",
+        "posicion": "Recepcionista",
+        "salario": 2800,
+        "fechaContratacion": "01/03/2021"
+    },
+    {
+        "hotel": "Hotel Hilton Caracas",
+        "nombre": "Juan Perez",
+        "posicion": "Gerente",
+        "salario": 5500,
+        "fechaContratacion": "15/07/2020"
+    },
+    {
+        "hotel": "Hotel Hilton Caracas",
+        "nombre": "Luisa Gomez",
+        "posicion": "Cocinera",
+        "salario": 3200,
+        "fechaContratacion": "01/11/2019"
+    },
+    {
+        "hotel": "Hotel Hilton Caracas",
+        "nombre": "Pedro Hernandez",
+        "posicion": "Recepcionista",
+        "salario": 2500,
+        "fechaContratacion": "10/02/2021"
+    },
+    {
+        "hotel": "Hotel Hilton Caracas",
+        "nombre": "Ana Martinez",
+        "posicion": "Gerente",
+        "salario": 5000,
+        "fechaContratacion": "20/06/2020"
+    },
+    {
+        "hotel": "Hotel Gran Meliá Caracas",
+        "nombre": "Juan Perez",
+        "posicion": "Gerente",
+        "salario": 5200,
+        "fechaContratacion": "10/10/2020"
+    },
+    {
+        "hotel": "Hotel Gran Meliá Caracas",
+        "nombre": "Ana Rodriguez",
+        "posicion": "Cocinera",
+        "salario": 3000,
+        "fechaContratacion": "20/02/2021"
     }
 ]
