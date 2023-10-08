@@ -1,15 +1,18 @@
+import arbol
+
 class Nodo: 
     def __init__(self, valor):
         self.valor = valor
         self.siguiente = None
         
 class Hotel:
-    def __init__(self, nombre, direccion, numero):
+    def __init__(self, nombre, direccion, numero, empleados):
         self.nombre = nombre
         self.direccion = direccion
         self.numero = numero
         self.reservaciones = []
-        self.habitaciones = []  
+        self.habitaciones = []
+        self.empleados = ArbolBinario()
 
     # Método para añadir una reservación
     def añadir_reservacion(self, reservacion):
