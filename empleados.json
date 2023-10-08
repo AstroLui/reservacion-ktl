@@ -1,0 +1,65 @@
+[
+    {
+        "hotel": "Hotel Gran Meliá Caracas",
+        "nombre": "John Doe",
+        "posicion": "Recepcionista",
+        "salario": 2500,
+        "fechaContratacion": "2021/01/01"
+    },
+    {
+        "hotel": "Hotel Gran Meliá Caracas",
+        "nombre": "Jane Smith",
+        "posicion": "Gerente",
+        "salario": 5000,
+        "fechaContratacion": "2020/05/15"
+    },
+    {
+        "hotel": "Hotel Gran Meliá Caracas",
+        "nombre": "Bob Johnson",
+        "posicion": "Cocinero",
+        "salario": 3000,
+        "fechaContratacion": "2019/10/01"
+    },
+    {
+        "hotel": "Hotel JW Marriott Caracas",
+        "nombre": "Alice Brown",
+        "posicion": "Recepcionista",
+        "salario": 2800,
+        "fechaContratacion": "2021/02/10"
+    },
+    {
+        "hotel": "Hotel JW Marriott Caracas",
+        "nombre": "Bob Green",
+        "posicion": "Gerente",
+        "salario": 5500,
+        "fechaContratacion": "2020/06/20"
+    },
+    {
+        "hotel": "Hotel JW Marriott Caracas",
+        "nombre": "Charlie White",
+        "posicion": "Cocinero",
+        "salario": 3200,
+        "fechaContratacion": "2019/11/15"
+    },
+    {
+        "hotel": "Hotel Hilton Caracas",
+        "nombre": "David Black",
+        "posicion": "Recepcionista",
+        "salario": 2600,
+        "fechaContratacion": "2021/03/05"
+    },
+    {
+        "hotel": "Hotel Hilton Caracas",
+        "nombre": "Emily Grey",
+        "posicion": "Gerente",
+        "salario": 5200,
+        "fechaContratacion": "2020/07/25"
+    },
+    {
+        "hotel": "Hotel Hilton Caracas",
+        "nombre": "Frank Brown",
+        "posicion": "Cocinero",
+        "salario": 2900,
+        "fechaContratacion": "2019/12/10"
+    }
+]
