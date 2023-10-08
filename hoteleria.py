@@ -4,6 +4,7 @@ import json
 import sys
 from sortingmethods import *
 from gestionreservaciones import *
+from facturaspagos import *
 from hoteles import *
 from arbol import *
 from log import Accion
@@ -11,6 +12,7 @@ from log import Accion
 # Almacena todas las reservas activas en la aplicación (tempDB)
 reservas = []
 lista_reservacion = Cola()
+Three_reservacion = AVL()
 global reservasCargadas
 reservasCargadas = False
 
@@ -29,6 +31,7 @@ reservasPeriodoDB = []
 global ruta_hoteles
 lista_hoteles = ListaEnlazada()
 hoteles = []
+
 
 
 class Usuario:
@@ -110,7 +113,7 @@ Clase reserva que encapsula la información y las operaciones de cada reserva.
 """
 class Reserva:
 
-    def __init__(self, usuario, habitacion, hotel ,fechaEntrada, fechaSalida):
+    def __init__(self, usuario, habitacion, hotel ,fechaEntrada, fechaSalida, metodoPago):
         """
         Construye los objetos de la clase Reserva.
         
@@ -132,6 +135,7 @@ class Reserva:
         self.duracion = fechaSalida - fechaEntrada
         self.hotel = hotel
         self.costoTotal = self.duracion.days * self.habitacion.getPrecio()
+        self.metodoPago = metodoPago
 
     def info(self):
         """
@@ -197,10 +201,13 @@ def fecha(fecha):
     dia, mes, ano = fecha.split("/")
 
     # Se convierte en el texto en numero
-    dia = int(dia)
-    mes = int(mes)
-    ano = int(ano)
-
+    try:
+        dia = int(dia)
+        mes = int(mes)
+        ano = int(ano)
+    except ValueError:
+        Accion("Error", "La fecha solo admite el formato dd/mm/aaaa").guardar()
+        print('\n( X ) La fecha solo admite el formato dd/mm/aaaa')
     # Crea el objeto del tipo Fecha
     fechaObjeto = date(ano, mes, dia)
 
@@ -305,6 +312,7 @@ def cargarReservas():
             correo = cliente["correo"]
             telf = cliente["telf"]
             idn = cliente["idn"]
+            metodo = cliente["metodoPago"]
             habitacion = reserva["habitacion"]
             hotel= habitacion["hotel"]
             habitacionId = habitacion["id"]
@@ -321,7 +329,7 @@ def cargarReservas():
                 if usuario.getIDN() == idn:       
                     bandUsuario = 1
                     # Se construye el objeto del tipo Reserva
-                    reserva = Reserva(usuario, habitacionId, hotel ,fechaEntrada, fechaSalida)
+                    reserva = Reserva(usuario, habitacionId, hotel ,fechaEntrada, fechaSalida, metodo)
 
                     # Se agrega la reserva a la tempDB0
                     reservas.append(reserva)
@@ -333,12 +341,13 @@ def cargarReservas():
                 usuarios.append(usuarioNuevo)
 
                 # Se construye el objeto del tipo Reserva
-                reserva = Reserva(usuarioNuevo, habitacionId, hotel ,fechaEntrada, fechaSalida)
+                reserva = Reserva(usuarioNuevo, habitacionId, hotel ,fechaEntrada, fechaSalida, metodo)
 
                 # Se agrega la reserva a la tempDB0
                 reservas.append(reserva)
                 lista_reservacion.Add(reserva)
                 usuarioNuevo.setReservacion()
+
         for i in range(lista_hoteles.longitud):
             for reserva in reservas:
                 if lista_hoteles.obtener(i).nombre == reserva.hotel:
@@ -434,8 +443,34 @@ def crearReserva():
             hotel = "Hotel JW Marriott Caracas"
         else: 
             hotel = "Hotel Hilton Caracas"
-        print()
-        idn = int(input("Indique su número de cédula: "))
+
+        idn = int(input("\nIndique su número de cédula: "))
+
+        try:
+            metodo= int(input('Seleccione su Metodo de Pago: '+
+                '1. Efectivo' +
+                '2. Cheque Nomativo' +
+                '3. Tarjeta de Credito' +
+                '4. Transferencia Electronica' +
+                '5. Dinero Electronico' +
+                'Su seleccion es: '))
+            if metodo > 0 and metodo <=5:
+                match metodo:
+                    case 1:
+                        metodo = 'Efectivo'
+                    case 2:
+                        metodo = 'Cheque Nomativo'
+                    case 3: 
+                        metodo = 'Tarjeta de Credito'
+                    case 4:
+                        metodo = 'Transferencia Electronica'
+                    case 5:
+                        metodo = 'Dinero Electronico'
+            else: 
+                raise ValueError
+        except ValueError:
+            Accion("Error", "Mal seleccion hecha en metodo de pagos").guardar()
+            print('\n( X ) Ingrese una opcion correcta\n')
 
         for usuario in usuarios:
             if usuario.getIDN() == idn:
@@ -446,7 +481,7 @@ def crearReserva():
                 habitacion = seleccionarHabitacion(fechaEntrada, fechaSalida)
 
                 # Crea un nuevo objeto de la clase reserva
-                reserva = Reserva(usuario, habitacion, hotel, fechaEntrada, fechaSalida)
+                reserva = Reserva(usuario, habitacion, hotel, fechaEntrada, fechaSalida, metodo)
 
                 # Se agrega la reserva a la tempDB
                 reservas.append(reserva)
@@ -464,18 +499,25 @@ def crearReserva():
 
         nombre = input("Indique su nombre: ")
         correo = input("Indique su correo electrónico: ")
-        telf = input("Indique su número telefónico: ")
+        try:
+            telf = int(input("Indique su número telefónico: "))
+        except ValueError:
+            Accion("Error", "El numero telefonico solo admite numeros").guardar()
+            print('\n( X ) El numero telefonico solo admite numeros\n')
+            return
+        
+        
         fechaEntrada = fecha(input("Indique la fecha de entrada (DD/MM/AAAA): "))
         fechaSalida = fecha(input("Indique la fecha de salida (DD/MM/AAAA): "))
 
         # Se llama a la funcion seleccionarHabitacion para poder escoger dentro de las habitaciones disponibles
         habitacion = seleccionarHabitacion(fechaEntrada, fechaSalida)
 
-        usuarioNuevo = Usuario(nombre, idn, correo, telf)
+        usuarioNuevo = Usuario(nombre, idn, correo, str(telf))
         usuarios.append(usuarioNuevo)
 
         # Crea un nuevo objeto de la clase reserva
-        reserva = Reserva(usuarioNuevo, habitacion, hotel, fechaEntrada, fechaSalida)
+        reserva = Reserva(usuarioNuevo, habitacion, hotel, fechaEntrada, fechaSalida, metodo)
 
         # Se agrega la reserva a la tempDB
         reservas.append(reserva)
@@ -784,19 +826,28 @@ def gestion_hoteles():
         print('4. Ver reservaciones')
         print('99. Salir')
         opcion = int(input('Seleccione una opcion: '))
-        
+
         match opcion: 
             case 0:
+                Accion("Menu", "Se seleccionó la opcion de 'Crear hotel'").guardar()
                 print('___')
                 print('\nCREACIÓN DE HOTEL |')
                 print('___\n')
                 Nombre = input('Ingrese el nombre del Hotel: ')
                 Direccion = input('Ingrese la dirección del Hotel: ')
-                Numero = input('Ingrese el número de teléfono del Hotel: ') 
-                hotel = Hotel(Nombre, Direccion, Numero)
+                try:
+                    Numero = int(input('Ingrese el número de teléfono del Hotel: '))
+                except ValueError:
+                    Accion("Error", "El numero del hotel no admite Letras. Por favor ingrese nuevamente").guardar()
+                    print('\n( X ) Debe de ingresar solo numeros')
+                    break
+                
+                hotel = Hotel(Nombre, Direccion, str(Numero))
                 lista_hoteles.agregar(hotel)
+                Accion("operacion", "Creación del Hotel '{}'".format(Nombre)).guardar()
                 print('\n!!Creación de Hotel exitosa')
             case 1: 
+                Accion("Menu", "Se seleccionó la opcion de 'Eliminar hotel'").guardar()
                 print('\n___')
                 print('\nELIMINACIÓN DE HOTEL')
                 print('___\n')
@@ -807,10 +858,16 @@ def gestion_hoteles():
                     i += 1
                 op = int(input('\nSeleccione el Hotel que desea eliminar: '))
                 op = op - 1
-                lista_hoteles.pop(op)
-
+                try:
+                    lista_hoteles.pop(op)
+                except IndexError: 
+                    Accion("Error", "El hotel que selecciona no existe en la lista. Por favor ingrese nuevamente").guardar()
+                    print('\n( X ) Debe de ingresar un hotel valido')
+                    break
+                Accion("operacion", "Eliminación de Hotel exitosa").guardar()
                 print('\n!!Eliminación de Hotel exitosa\n')
             case 2: 
+                Accion("Menu", "Se seleccionó la opcion de 'Ver lista de hoteles'").guardar()
                 print('\n___')
                 print('\nLISTA DE HOTEL')
                 print('___\n')
@@ -818,9 +875,10 @@ def gestion_hoteles():
                 for hotel in lista_hoteles: 
                     print("HOTEL {}: {}".format(i, hotel.Hotel_infoLineal()))
                     i += 1
+                Accion("operacion", "Se listaron los hoteles disponibles").guardar()
             case 3: 
-                band = True
-                while band == True: 
+                Accion("Menu", "Se seleccionó la opcion de 'Habitaciones'").guardar()
+                while True: 
                     bandi = True
                     print('\n___')
                     print('\nSELECCION DE HOTEL |')
@@ -829,20 +887,34 @@ def gestion_hoteles():
                     for lista in lista_hoteles:
                         print("{}. {}".format(j, lista.nombre))
                         j +=1
+                    print('99. Salir')
                     opcion = int(input('Seleccione una opcion: '))
+                    if opcion == 99: 
+                        break
                     po = opcion - 1
-                    hotel = lista_hoteles.obtener(po).nombre
-            
+                    try:
+                        hotel = lista_hoteles.obtener(po).nombre
+                    except IndexError: 
+                        Accion("Error", "El hotel que selecciona no existe en la lista. Por favor ingrese nuevamente").guardar()
+                        print('\n( X ) Debe de ingresar un hotel valido\n')
+                        break 
+
                     while bandi == True: 
                         print('\n___')
                         print('\nMENÚ DE HABITACIONES DE HOTELES | ' + hotel)
-                        print('___\n')
+                        print('___')
                         print('0. Crear Habitacion')
                         print('1. Ver Habitaciones')
                         print('2. Modificar Habitacion')
                         print('99. Salir')
-                        op = int(input('Seleccione una opcion: '))
-                        
+
+                        try:
+                            op = int(input('Seleccione una opcion: '))
+                        except ValueError: 
+                            Accion("Error", "El menu de habitaciones solo admite numeros enteros. Por favor ingrese el numero de la opcion").guardar()
+                            print('\n( X ) Debe ingresar el número de la opción')
+                            break
+
                         match op:
                             case 0: 
                                 print('\n___')
@@ -850,8 +922,14 @@ def gestion_hoteles():
                                 print('___\n')
                                 id = input('Ingrese el ID de la Habitacion: ')
                                 tip = input('Ingrese el Tipo de la Habitacion: ')
-                                Capacidad = int(input('Ingrese la Capacidad de la Habitacion: '))
-                                Precio = int(input('Ingrese el Precio de la Habitacion: '))
+                                try:
+                                    Capacidad = int(input('Ingrese la Capacidad de la Habitacion: '))
+                                    Precio = int(input('Ingrese el Precio de la Habitacion: '))
+                                except ValueError: 
+                                    Accion("Error", "El la capacidad o el precio solo admite numeros enteros. Por favor ingrese un valor correcto").guardar()
+                                    print('\n( X ) Debe ingresar un valor correcto')
+                                    break
+
                                 habitacion = Habitacion(id, tip, Capacidad, Precio)
                                 habitaciones.append(habitacion)
                                 lista_hoteles.obtener(po).habitaciones.append(habitacion)
@@ -871,12 +949,24 @@ def gestion_hoteles():
                                 for i in range(len(lista_hoteles.obtener(po).habitaciones)): 
                                     print("HABITACION {} : {}". format(k, lista_hoteles.obtener(po).Hotel_infoHabitacionLineal(i)))
                                     k += 1
-                                o = int(input("Seleccione la habitacion que desea modificar: "))
-                                        
+        
+                                try:
+                                    o = int(input("Seleccione la habitacion que desea modificar: "))
+                                    if o < 1: 
+                                        raise IndexError
+                                except:
+                                    Accion("Error", "El numero de habitacion que selecciono no existe en el hotel o El ingreso solo admite numeros enteros. Por favor ingrese un numero correcto").guardar()
+                                    print('\n( X ) Debe ingresar el numero de habitacion existente o un numero entero')
+                                    break
                                 id = input('\nIngrese el ID de la Habitacion: ')
                                 tip = input('Ingrese el Tipo de la Habitacion: ')
-                                Capacidad = int(input('Ingrese la Capacidad de la Habitacion: '))
-                                Precio = int(input('Ingrese el Precio de la Habitacion: '))
+                                try:
+                                    Capacidad = int(input('Ingrese la Capacidad de la Habitacion: '))
+                                    Precio = int(input('Ingrese el Precio de la Habitacion: '))
+                                except ValueError: 
+                                    Accion("Error", "El la capacidad o el precio solo admite numeros enteros. Por favor ingrese un valor correcto").guardar()
+                                    print('\n( X ) Debe ingresar un valor correcto')
+                                    break
                                 ID = lista_hoteles.obtener(po).habitaciones[o-1].getId()
                                 lista_hoteles.obtener(po).habitaciones[o-1].setHabitacion(id, tip, Capacidad, Precio)
                                 for habitacion in habitaciones:
@@ -885,111 +975,164 @@ def gestion_hoteles():
                                 print('\n!!Modificacion de habitacion exitosa')    
                             case 99:
                                 bandi = False
-                    var = int(input('Deseas seleccionar otro Hotel(Si = 1 / No = 0): '))
-                    if var == 0: 
-                        band = False        
             case 4: 
+                Accion("Menu", "Se seleccionó la opcion de 'Ver reservaciones'").guardar()
                 print('\n___')
                 print('\nLISTADO DE RESERVACIONES DE HOTELES |')
                 print('___\n')
                 for hotel in lista_hoteles:
                     hotel.mostrar_lista_hoteles()
+                Accion("operacion", "Se listaron las reservaciones").guardar()
             case 99: 
+                Accion("Menu", "Se salio del menu 'Gestion de hoteles'").guardar()
                 return 
                 
 
 def gestion_reservaciones():
     while True:
-        print('___')
-        print('\nMENÚ DE GESTIÓN DE RESERVACIONES |')
-        print('___')
-        print('0. Crear reservación')
-        print('1. Eliminar reservación')
-        print('2. Listar reservaciones por Hotel')
-        print('3. Buscar reservación exitente')
-        print('99. Salir')
-    
-        opcion = int(input('Seleccione una opción: '))
 
-        match opcion:
-            case 0: 
-                crearReserva()
-            case 1:
-                lista_reservacion.ViewList()
-                eliminacion = int(input('Seleccione el Numero de la reservación que desea eliminar: '))
-                lista_reservacion.Delete(eliminacion-1)
-                lista_reservacion.ViewList()
-                print('!!Eliminación de reserva exitosa')
-            case 2:
-                print('\nLISTA DE RESERVACIONES | Hotel Gran Meliá Caracas\n')
-                lista_reservacion.Search_Reservacion("Hotel Gran MeliÃ¡ Caracas", 4)
+            print('___')
+            print('\nMENÚ DE GESTIÓN DE RESERVACIONES |')
+            print('___')
+            print('0. Crear reservación')
+            print('1. Eliminar reservación')
+            print('2. Listar reservaciones por Hotel')
+            print('3. Buscar reservación exitente')
+            print('99. Salir')
+        
+            opcion = int(input('Seleccione una opción: '))
+        
 
-                print('\nLISTA DE RESERVACIONES | Hotel JW Marriott Caracas\n')
-                lista_reservacion.Search_Reservacion("Hotel JW Marriott Caracas", 4)
+            match opcion:
+                case 0: 
+                    crearReserva()
+                    Accion("Menu", "Se seleccionó la opcion de 'Eliminar reservación'").guardar()
+                case 1:
+                    Accion("Menu", "Se seleccionó la opcion de 'Crear reservación'").guardar()
+                    lista_reservacion.ViewList()
+                    try:
+                        eliminacion = int(input('Seleccione el Numero de la reservación que desea eliminar: '))
+                        if eliminacion-1 < 0: 
+                            raise IndexError
+                    except: 
+                        Accion("Error", "El la reservacion que eligio no existe o ingreso algo que sea un numero. Por favor ingrese el numero de la opcion").guardar()
+                        print('\n( X ) Debe ingresar un número de la opción o un numero entero')
+                        break
+                    lista_reservacion.Delete(eliminacion-1)
+                    lista_reservacion.ViewList()
+                    Accion("Sistema", "Eliminación de reserva exitosa").guardar()
+                    print('!! Eliminación de reserva exitosa')
+                case 2:
+                    Accion("Menu", "Se seleccionó la opcion de 'Listar reservaciones por Hotel'").guardar()
 
-                print('\nLISTA DE RESERVACIONES | Hotel Hilton Caracas\n')
-                lista_reservacion.Search_Reservacion("Hotel Hilton Caracas", 4)
-            case 3:
-                bandi=True
-                while bandi == True:
-                    print('\n___')
-                    print('MENÚ DE BUSQUEDA DE RESERVAS EXISTENTE |')
-                    print('___')
-                    print('0. IDN del cliente')
-                    print('1. Rango de costo total de reservaciones')
-                    print('2. Rango de fecha de entrada')
-                    print('3. Rango de fecha de salida')
-                    print('4. Tipo de habitacion')
-                    print('99. Salir\n')
-                    op= int(input('Seleccione una opcion: '))
-                    match op:
-                        case 0:
-                            IDN = int(input('\nIngrese el IDN del cliente: '))
-                            print()
-                            lista_reservacion.Search_Reservacion(IDN, 0)
-                        case 1: 
-                            valor1 = int(input('\nIngrese el minimo de costo total: '))
-                            valor2 = int(input('Ingrese el maximo de costo total: '))
-                            print()
-                            lista_reservacion.Search_Reservacion(None, 1, valor1, valor2)
+                    print('\nLISTA DE RESERVACIONES | Hotel Gran Meliá Caracas\n')
+                    lista_reservacion.Search_Reservacion("Hotel Gran MeliÃ¡ Caracas", 4)
+                    Accion("operacion", "Se listaron las reservaciones del 'Hotel Gran Meliá Caracas'").guardar()
 
-                        case 2: 
-                            fechaEntrada1 = fecha(input("\nIndique el minimo de fecha de entrada (DD/MM/AAAA): "))
-                            fechaEntrada2 = fecha(input("Indique el maximo de fecha de entrada (DD/MM/AAAA): "))
-                            print()
-                            lista_reservacion.Search_Reservacion(None, 2, fechaEntrada1, fechaEntrada2)
-                        case 3: 
-                            fechaSalida1 = fecha(input("\nIndique el minimo de fecha de salida (DD/MM/AAAA): "))
-                            fechaSalida2 = fecha(input("Indique el maximo de fecha de salida (DD/MM/AAAA): "))
-                            print()
-                            lista_reservacion.Search_Reservacion(None, 3, fechaSalida1, fechaSalida2)
-                        case 4:
-                            print('\n___')
-                            print('TIPO DE HABITACIÓN |')
-                            print('___')
-                            print('0. Standard')
-                            print('1. Standard Doble')
-                            print('2. Suite')
-                            print('3. Deluxe\n')
-                            o = int(input('Seleccione una opcion: '))
-                            print()
-                            match o:
-                                case 0:
-                                    print('RESERVACION CON HABITACIONES DE TIPO Standard\n')
-                                    lista_reservacion.Search_Reservacion("Standard", 5)
-                                case 1:
-                                    print('RESERVACION CON HABITACIONES DE TIPO Standard Doble\n')
-                                    lista_reservacion.Search_Reservacion("Standard Doble", 5)
-                                case 2:
-                                    print('RESERVACION CON HABITACIONES DE TIPO Suite\n')
-                                    lista_reservacion.Search_Reservacion("Suite", 5)
-                                case 3:
-                                    print('RESERVACION CON HABITACIONES DE TIPO Standard\n')
-                                    lista_reservacion.Search_Reservacion("Deluxe", 5)
-                        case 99:
-                            bandi = False
-            case 99:
-                return
+
+                    print('\nLISTA DE RESERVACIONES | Hotel JW Marriott Caracas\n')
+                    lista_reservacion.Search_Reservacion("Hotel JW Marriott Caracas", 4)
+                    Accion("operacion", "Se listaron las reservaciones del 'Hotel JW Marriott Caracas'").guardar()
+
+
+                    print('\nLISTA DE RESERVACIONES | Hotel Hilton Caracas\n')
+                    lista_reservacion.Search_Reservacion("Hotel Hilton Caracas", 4)
+                    Accion("operacion", "Se listaron las reservaciones del 'Hotel Hilton Caracas'").guardar()
+                
+                case 3:
+                    Accion("Menu", "Se seleccionó la opcion de 'Buscar reservación exitente'").guardar()
+
+                    bandi=True
+                    while bandi == True:
+                        print('\n___')
+                        print('\nMENÚ DE BUSQUEDA DE RESERVAS EXISTENTE |')
+                        print('___')
+                        print('0. IDN del cliente')
+                        print('1. Rango de costo total de reservaciones')
+                        print('2. Rango de fecha de entrada')
+                        print('3. Rango de fecha de salida')
+                        print('4. Tipo de habitacion')
+                        print('99. Salir\n')
+                        try:
+                            op= int(input('Seleccione una opcion: '))
+                        except ValueError: 
+                            Accion("Error", "El menu de busqueda de reservaciones solo admite numeros enteros. Por favor ingrese el numero de la opcion").guardar()
+                            print('\n( X ) Debe ingresar el número de la opción')
+                            op = -1
+                        match op:
+                            case 0:
+                                Accion("Menu", "Se seleccionó la opcion de 'IDN del cliente'").guardar()
+                                IDN = int(input('\nIngrese el IDN del cliente: '))
+                                print()
+                                lista_reservacion.Search_Reservacion(IDN, 0)
+                                Accion("Operacion", "Se listaron las reservaciones del cliente'{}'".format(IDN)).guardar()
+                            case 1: 
+                                Accion("Menu", "Se seleccionó la opcion de 'Rango de costo total de reservaciones'").guardar()
+                                valor1 = int(input('\nIngrese el minimo de costo total: '))
+                                valor2 = int(input('Ingrese el maximo de costo total: '))
+                                print()
+                                lista_reservacion.Search_Reservacion(None, 1, valor1, valor2)
+                                Accion("Operacion", "Se listaron las reservaciones del rango {} al {}".format(valor1, valor2)).guardar()
+
+                            case 2: 
+                                Accion("Menu", "Se seleccionó la opcion de 'Rango de fecha de entrada'").guardar()
+                                fechaEntrada1 = fecha(input("\nIndique el minimo de fecha de entrada (DD/MM/AAAA): "))
+                                fechaEntrada2 = fecha(input("Indique el maximo de fecha de entrada (DD/MM/AAAA): "))
+                                print()
+                                lista_reservacion.Search_Reservacion(None, 2, fechaEntrada1, fechaEntrada2)
+                                Accion("Operacion", "Se listaron las reservaciones del rango {} al {}".format(fechaEntrada1, fechaEntrada2)).guardar()
+                            case 3:
+                                Accion("Menu", "Se seleccionó la opcion de 'Rango de fecha de salida'").guardar()
+                                fechaSalida1 = fecha(input("\nIndique el minimo de fecha de salida (DD/MM/AAAA): "))
+                                fechaSalida2 = fecha(input("Indique el maximo de fecha de salida (DD/MM/AAAA): "))
+                                print()
+                                lista_reservacion.Search_Reservacion(None, 3, fechaSalida1, fechaSalida2)
+                                Accion("Operacion", "Se listaron las reservaciones del rango {} al {}".format(fechaSalida1, fechaSalida2)).guardar()
+                            case 4:
+                                Accion("Menu", "Se seleccionó la opcion de 'Tipo de habitacion'").guardar()
+                                print('\n___')
+                                print('\nTIPO DE HABITACIÓN |')
+                                print('___')
+                                print('0. Standard')
+                                print('1. Standard Doble')
+                                print('2. Suite')
+                                print('3. Deluxe\n')
+                                try:
+                                    o= int(input('Seleccione una opcion: '))
+                                except ValueError: 
+                                    Accion("Error", "El menu de busqueda de reservaciones solo admite numeros enteros. Por favor ingrese el numero de la opcion").guardar()
+                                    print('\n( X ) Debe ingresar el número de la opción')
+                                    o = -1
+                                print()
+                                match o:
+                                    case 0:
+                                        Accion("Menu", "Se seleccionó el tipo de habitacion 'Standard'").guardar()
+                                        print('RESERVACION CON HABITACIONES DE TIPO Standard\n')
+                                        lista_reservacion.Search_Reservacion("Standard", 5)
+                                        Accion("operacion", "Se listaron las reservaciones de las habitaciones 'Standard'").guardar()
+                                    case 1:
+                                        Accion("Menu", "Se seleccionó el tipo de habitacion 'Standard Doble'").guardar()
+                                        print('RESERVACION CON HABITACIONES DE TIPO Standard Doble\n')
+                                        lista_reservacion.Search_Reservacion("Standard Doble", 5)
+                                        Accion("operacion", "Se listaron las reservaciones de las habitaciones 'Standard Doble'").guardar()
+                                    case 2:
+                                        Accion("Menu", "Se seleccionó el tipo de habitacion 'Suite'").guardar()
+                                        print('RESERVACION CON HABITACIONES DE TIPO Suite\n')
+                                        lista_reservacion.Search_Reservacion("Suite", 5)
+                                        Accion("operacion", "Se listaron las reservaciones de las habitaciones 'Suite'").guardar()
+                                    case 3:
+                                        Accion("Menu", "Se seleccionó el tipo de habitacion 'Deluxe'").guardar()
+                                        print('RESERVACION CON HABITACIONES DE TIPO Deluxe\n')
+                                        lista_reservacion.Search_Reservacion("Deluxe", 5)
+                                        Accion("operacion", "Se listaron las reservaciones de las habitaciones 'Deluxe'").guardar()
+                            case 99:
+                                Accion("Menu", "Se salio del menu 'Busqueda de reservas existentes'").guardar()
+                                bandi = False
+                case 99:
+                    Accion("Menu", "Se salio del menu 'Gestion de reservaciones'").guardar()
+                    return
+        
+
 
 def reportes():
     print('\n\nMENU DE REPORTES | ' + hotel)
@@ -1088,6 +1231,13 @@ def main():
     # Carga las habitaciones
     cargarHabitaciones()
     Accion("Sistema", "Se cargó la bases de datos de las habitaciones").guardar()
+    Accion("Menu", "Se seleccionó la opcion de 'Cargar Seed'").guardar()
+    cargarHoteles()
+    cargarReservas()
+    i=0
+    for reserva in reservas:
+        Three_reservacion.Add(Factura(reserva, i))
+        i+=1
 
     # Ciclo para mostrar el menu
     while True:
@@ -1095,12 +1245,11 @@ def main():
         # Imprime en la terminal las opciones del menu
         print('\n\nMENU PRINCIPAL | Cadena de hoteles premium  ' + hotel)
         print('___')
-        print('0. Cargar Seed')
+        # print('0. Cargar Seed')
         print('1. Crear Reserva')
         print('2. Ver reservas por periodo')
         print('3. Ordenar reservas por criterios en un periodo')
         print('4. Reportes')
-        # print('4. Ordenar reservas por múltiples criterios')
         print('10. Ver todas las reservas')
         print('11. Ver todas los usuarios')
         print('12. Gestión de reservaciones')
@@ -1113,11 +1262,18 @@ def main():
 
             # Ejecuta las fuciones segun el caso
             match opcion:
+
                 case 0:
                     Accion("Menu", "Se seleccionó la opcion de 'Cargar Seed'").guardar()
                     cargarEmpleados()
                     cargarHoteles()
                     cargarReservas()
+=======
+                # case 0:
+                #     Accion("Menu", "Se seleccionó la opcion de 'Cargar Seed'").guardar()
+                #     cargarHoteles()
+                #     cargarReservas()
+
                 case 1:
                     Accion("Menu", "Se seleccionó la opcion de 'Crear Reserva'").guardar()
                     crearReserva()
@@ -1139,14 +1295,26 @@ def main():
                     Accion("Menu", "Se seleccionó la opcion de 'Ver todas los usuarios'").guardar()
                     verUsuarios()
                 case 12:
-                    gestion_reservaciones()
+                    try:
+                        gestion_reservaciones()
+                    except ValueError: 
+                        Accion("Error", "El menu de gestion de reservaciones solo admite numeros enteros. Por favor ingrese el numero de la opcion").guardar()
+                        print('\n( X ) Debe ingresar el número de la opción')
+                        gestion_reservaciones()
                 case 13:  
-                    gestion_hoteles()
+                    try:
+                        gestion_hoteles()
+                    except ValueError: 
+                        Accion("Error", "El menu de gestion de hotelessolo admite numeros enteros. Por favor ingrese el numero de la opcion").guardar()
+                        print('\n( X ) Debe ingresar el número de la opción')
+                        gestion_hoteles()                  
                 case 99:
                     Accion("SALIDA", "Se salió del sistema").guardar()
                     sys.exit()
         except ValueError:
             Accion("Error", "El menu solo admite numeros enteros. Por favor ingrese el numero de la opción").guardar()
             print('\n( X ) Debe ingresar el número de la opción')
-
+        except IndexError:
+            Accion("Error", "Indice fuera de rango").guardar()
+            print('\n( X ) Indice fuera de rango')
 main()
