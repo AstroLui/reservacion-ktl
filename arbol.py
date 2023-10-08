@@ -1,13 +1,11 @@
 class Empleado:
-    def __init__(self, hotel, nombre, posicion, salario, fechaContratacion, izquierda, derecha):
+    def __init__(self, hotel, nombre, posicion, salario, fechaContratacion):
         self.hotel = hotel
         self.nombre = nombre
         self.posicion = posicion
         self.salario = salario
         self.fechaContratacion = fechaContratacion
-        self.izquierda = None
-        self.derecha = None
-    
+
     def get_hotel(self):
         return self.hotel
 
@@ -23,6 +21,17 @@ class Empleado:
     def get_fecha_contratacion(self):
         return self.fechaContratacion
 
+
+class NodoArbol:
+    def __init__(self, dato):
+        # "dato" puede ser de cualquier tipo, incluso un objeto si se sobrescriben los operadores de comparación
+        self.dato = dato
+        self.izquierda = None
+        self.derecha = None
+    
+    def get_dato(self):
+        return self.dato
+
     def get_izquierda(self):
         return self.izquierda
 
@@ -36,19 +45,19 @@ class ArbolBinario:
 
     def insertar(self, valor):
         if self.raiz is None:
-            self.raiz = Nodo(valor)
+            self.raiz = NodoArbol(valor)
         else:
             self._insertar_recursivo(valor, self.raiz)
 
     def _insertar_recursivo(self, valor, nodo_actual):
         if valor < nodo_actual.valor:
             if nodo_actual.izquierda is None:
-                nodo_actual.izquierda = Nodo(valor)
+                nodo_actual.izquierda = NodoArbol(valor)
             else:
                 self._insertar_recursivo(valor, nodo_actual.izquierda)
         elif valor > nodo_actual.valor:
             if nodo_actual.derecha is None:
-                nodo_actual.derecha = Nodo(valor)
+                nodo_actual.derecha = NodoArbol(valor)
         else:
             self._insertar_recursivo(valor, nodo_actual.derecha)
 
