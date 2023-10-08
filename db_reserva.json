@@ -4,7 +4,8 @@
       "nombre": "Josefrancisco Africano",
       "idn": 20000000,
       "correo": "jafricanot@test.com",
-      "telf": "+584141401140"
+      "telf": "+584141401140",
+      "metodoPago":"Efectivo"
     },
     "habitacion": {
       "id": "KTL-0020",
@@ -18,7 +19,8 @@
       "nombre": "Luis Amias",
       "idn": 20000001,
       "correo": "lamias@test.com",
-      "telf": "+584141401141"
+      "telf": "+584141401141",
+      "metodoPago":"Efectivo"
     },
     "habitacion": {
       "id": "KTL-0010",
@@ -32,7 +34,8 @@
       "nombre": "Maria Chang",
       "idn": 20000002,
       "correo": "mchang@test.com",
-      "telf": "+584141401142"
+      "telf": "+584141401142",
+      "metodoPago":"Efectivo"
     },
     "habitacion": {
       "id": "KTL-0001",
@@ -46,7 +49,8 @@
       "nombre": "Jose Vergara",
       "idn": 20000003,
       "correo": "jvergara@test.com",
-      "telf": "+584141401143"
+      "telf": "+584141401143",
+      "metodoPago":"Dinero Electronico"
     },
     "habitacion": {
       "id": "KTL-0005",
@@ -60,7 +64,8 @@
       "nombre": "Natassja Leon",
       "idn": 20000004,
       "correo": "nleon@test.com",
-      "telf": "+584141401144"
+      "telf": "+584141401144",
+      "metodoPago":"Dinero Electronico"
     },
     "habitacion": {
       "id": "KTL-0016",
@@ -74,7 +79,8 @@
       "nombre": "Jennire Vetri",
       "idn": 20000005,
       "correo": "jvetri@test.com",
-      "telf": "+584141401145"
+      "telf": "+584141401145",
+      "metodoPago":"Dinero Electronico"
     },
     "habitacion": {
       "id": "KTL-0006",
@@ -88,7 +94,8 @@
       "nombre": "Moises Londoño",
       "idn": 20000006,
       "correo": "mlondono@test.com",
-      "telf": "+584141401146"
+      "telf": "+584141401146",
+      "metodoPago":"Efectivo"
     },
     "habitacion": {
       "id": "KTL-0011",
@@ -102,7 +109,8 @@
       "nombre": "Annuar Abourhab",
       "idn": 20000007,
       "correo": "aabourhab@test.com",
-      "telf": "+584141401147"
+      "telf": "+584141401147",
+      "metodoPago":"Efectivo"
     },
     "habitacion": {
       "id": "KTL-0013",
@@ -116,7 +124,8 @@
       "nombre": "Jean Odriozola",
       "idn": 20000008,
       "correo": "jodriozola@test.com",
-      "telf": "+5841414011478"
+      "telf": "+5841414011478",
+      "metodoPago":"Transferencia Electronica"
     },
     "habitacion": {
       "id": "KTL-0003",
@@ -130,7 +139,8 @@
       "nombre": "Argenis Rodiguez",
       "idn": 20000009,
       "correo": "arodriguez@test.com",
-      "telf": "+584141401149"
+      "telf": "+584141401149",
+      "metodoPago":"Transferencia Electronica"
     },
     "habitacion": {
       "id": "KTL-0001",
@@ -144,7 +154,8 @@
       "nombre": "Maria Garcia",
       "idn": 20000010,
       "correo": "mgarcia@test.com",
-      "telf": "+584141401150"
+      "telf": "+584141401150",
+      "metodoPago":"Transferencia Electronica"
     },
     "habitacion": {
       "id": "KTL-0020",
@@ -158,7 +169,8 @@
       "nombre": "Josefrancisco Africano",
       "idn": 20000000,
       "correo": "jafricanot@test.com",
-      "telf": "+584141401140"
+      "telf": "+584141401140",
+      "metodoPago":"Efectivo"
     },
     "habitacion": {
       "id": "KTL-0020",
@@ -172,7 +184,8 @@
       "nombre": "Argenis Rodiguez",
       "idn": 20000009,
       "correo": "arodriguez@test.com",
-      "telf": "+584141401149"
+      "telf": "+584141401149",
+      "metodoPago":"Efectivo"
     },
     "habitacion": {
       "id": "KTL-0013",
@@ -186,7 +199,8 @@
       "nombre": "Argenis Rodiguez",
       "idn": 20000009,
       "correo": "arodriguez@test.com",
-      "telf": "+584141401149"
+      "telf": "+584141401149",
+      "metodoPago":"Tarjeta de Credito"
     },
     "habitacion": {
       "id": "KTL-0007",
@@ -200,7 +214,8 @@
       "nombre": "Maria Chang",
       "idn": 20000002,
       "correo": "mchang@test.com",
-      "telf": "+584141401142"
+      "telf": "+584141401142",
+      "metodoPago":"Tarjeta de Credito"
     },
     "habitacion": {
       "id": "KTL-0010",
