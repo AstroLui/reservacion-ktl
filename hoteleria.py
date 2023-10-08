@@ -957,7 +957,7 @@ def main():
     while True:
 
         # Imprime en la terminal las opciones del menu
-        print('\n\nMENU PRINCIPAL | ' + hotel)
+        print('\n\nMENU PRINCIPAL | Cadena de hoteles premium  ' + hotel)
         print('___')
         print('0. Cargar Seed')
         print('1. Crear Reserva')
