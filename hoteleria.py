@@ -363,7 +363,7 @@ def cargarEmpleados():
                 nom = empleado["nombre"]
                 pos = empleado["posicion"]
                 sal = empleado["salario"]
-                fecha = empleado["fechaContratacion"]
+                fecha = fecha(empleado["fechaContratacion"])
                 empleado = Empleado(hotel, nom, pos, sal, fecha)
                 for i in range(lista_hoteles.longitud):
                     if lista_hoteles.obtener(i).nombre == hotel:

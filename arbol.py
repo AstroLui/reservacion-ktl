@@ -56,12 +56,12 @@ class ArbolBinario:
             self._insertar_recursivo(valor, self.raiz)
 
     def _insertar_recursivo(self, valor, nodo_actual):
-        if valor.salario < nodo_actual.valor.salario:
+        if valor.fechaContratacion < nodo_actual.valor.fechaContratacion:
             if nodo_actual.izquierda is None:
                 nodo_actual.izquierda = NodoArbol(valor)
             else:
                 self._insertar_recursivo(valor, nodo_actual.izquierda)
-        elif valor.salario > nodo_actual.valor.salario:
+        elif valor.fechaContratacion > nodo_actual.valor.fechaContratacion:
             if nodo_actual.derecha is None:
                 nodo_actual.derecha = NodoArbol(valor)
         else:
@@ -73,7 +73,7 @@ class ArbolBinario:
     def _eliminar_recursivo(self, valor, nodo_actual):
         if nodo_actual is None:
             return None
-        if valor.salario < nodo_actual.valor.salario:
+        if valor.fechaContratacion < nodo_actual.valor.fechaContratacion:
             nodo_actual.izquierda = self._eliminar_recursivo(valor, nodo_actual.izquierda)
         elif valor > nodo_actual.valor:
             nodo_actual.derecha = self._eliminar_recursivo(valor, nodo_actual.derecha)
@@ -103,7 +103,7 @@ class ArbolBinario:
     def _consultar_recursivo(self, valor, nodo_actual):
         if nodo_actual is None or nodo_actual.valor == valor:
             return nodo_actual
-        if valor.salario < nodo_actual.valor.salario:
+        if valor.fechaContratacion < nodo_actual.valor.fechaContratacion:
             return self._consultar_recursivo(valor,nodo_actual.izquierda)
         return self._consultar_recursivo(valor, nodo_actual.derecha)
 
