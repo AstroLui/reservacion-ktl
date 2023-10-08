@@ -27,10 +27,9 @@ class Empleado:
         print(f"Salario: {self.salario}")
         print(f"Fecha de contratación: {self.fechaContratacion}")
 
-
+#Estructura para poder almacenar los empleados en el arbol binario
 class NodoArbol:
     def __init__(self, objeto):
-        # "dato" puede ser de cualquier tipo, incluso un objeto si se sobrescriben los operadores de comparación
         self.valor = objeto
         self.izquierda = None
         self.derecha = None
@@ -44,7 +43,7 @@ class NodoArbol:
     def get_derecha(self):
         return self.derecha
 
-
+#Esta estructura es la que se utilizará para almacenar los empleados de cada hotel
 class ArbolBinario:
     def __init__(self):
         self.raiz = None

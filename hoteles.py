@@ -45,6 +45,7 @@ class Hotel:
                 print(f"- Número: {habitacion.id}")
                 print(f"- Tipo: {habitacion.tipo}\n")
 
+#Estructura para almacenar todos los hoteles en una lista
 class ListaEnlazada:
     def __init__(self):
         self.cabeza = None
