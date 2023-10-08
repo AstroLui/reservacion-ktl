@@ -4,12 +4,14 @@ import json
 import sys
 from sortingmethods import *
 from gestionreservaciones import *
+from facturaspagos import *
 from hoteles import *
 from log import Accion
 
 # Almacena todas las reservas activas en la aplicación (tempDB)
 reservas = []
 lista_reservacion = Cola()
+Three_reservacion = AVL()
 global reservasCargadas
 reservasCargadas = False
 
@@ -28,6 +30,7 @@ reservasPeriodoDB = []
 global ruta_hoteles
 lista_hoteles = ListaEnlazada()
 hoteles = []
+
 
 
 class Usuario:
@@ -109,7 +112,7 @@ Clase reserva que encapsula la información y las operaciones de cada reserva.
 """
 class Reserva:
 
-    def __init__(self, usuario, habitacion, hotel ,fechaEntrada, fechaSalida):
+    def __init__(self, usuario, habitacion, hotel ,fechaEntrada, fechaSalida, metodoPago):
         """
         Construye los objetos de la clase Reserva.
         
@@ -131,6 +134,7 @@ class Reserva:
         self.duracion = fechaSalida - fechaEntrada
         self.hotel = hotel
         self.costoTotal = self.duracion.days * self.habitacion.getPrecio()
+        self.metodoPago = metodoPago
 
     def info(self):
         """
@@ -304,6 +308,7 @@ def cargarReservas():
             correo = cliente["correo"]
             telf = cliente["telf"]
             idn = cliente["idn"]
+            metodo = cliente["metodoPago"]
             habitacion = reserva["habitacion"]
             hotel= habitacion["hotel"]
             habitacionId = habitacion["id"]
@@ -320,7 +325,7 @@ def cargarReservas():
                 if usuario.getIDN() == idn:       
                     bandUsuario = 1
                     # Se construye el objeto del tipo Reserva
-                    reserva = Reserva(usuario, habitacionId, hotel ,fechaEntrada, fechaSalida)
+                    reserva = Reserva(usuario, habitacionId, hotel ,fechaEntrada, fechaSalida, metodo)
 
                     # Se agrega la reserva a la tempDB0
                     reservas.append(reserva)
@@ -332,12 +337,13 @@ def cargarReservas():
                 usuarios.append(usuarioNuevo)
 
                 # Se construye el objeto del tipo Reserva
-                reserva = Reserva(usuarioNuevo, habitacionId, hotel ,fechaEntrada, fechaSalida)
+                reserva = Reserva(usuarioNuevo, habitacionId, hotel ,fechaEntrada, fechaSalida, metodo)
 
                 # Se agrega la reserva a la tempDB0
                 reservas.append(reserva)
                 lista_reservacion.Add(reserva)
                 usuarioNuevo.setReservacion()
+
         for i in range(lista_hoteles.longitud):
             for reserva in reservas:
                 if lista_hoteles.obtener(i).nombre == reserva.hotel:
@@ -415,9 +421,34 @@ def crearReserva():
             hotel = "Hotel JW Marriott Caracas"
         else: 
             hotel = "Hotel Hilton Caracas"
-        print()
 
-        idn = int(input("Indique su número de cédula: "))
+        idn = int(input("\nIndique su número de cédula: "))
+
+        try:
+            metodo= int(input('Seleccione su Metodo de Pago: '+
+                '1. Efectivo' +
+                '2. Cheque Nomativo' +
+                '3. Tarjeta de Credito' +
+                '4. Transferencia Electronica' +
+                '5. Dinero Electronico' +
+                'Su seleccion es: '))
+            if metodo > 0 and metodo <=5:
+                match metodo:
+                    case 1:
+                        metodo = 'Efectivo'
+                    case 2:
+                        metodo = 'Cheque Nomativo'
+                    case 3: 
+                        metodo = 'Tarjeta de Credito'
+                    case 4:
+                        metodo = 'Transferencia Electronica'
+                    case 5:
+                        metodo = 'Dinero Electronico'
+            else: 
+                raise ValueError
+        except ValueError:
+            Accion("Error", "Mal seleccion hecha en metodo de pagos").guardar()
+            print('\n( X ) Ingrese una opcion correcta\n')
 
         for usuario in usuarios:
             if usuario.getIDN() == idn:
@@ -428,7 +459,7 @@ def crearReserva():
                 habitacion = seleccionarHabitacion(fechaEntrada, fechaSalida)
 
                 # Crea un nuevo objeto de la clase reserva
-                reserva = Reserva(usuario, habitacion, hotel, fechaEntrada, fechaSalida)
+                reserva = Reserva(usuario, habitacion, hotel, fechaEntrada, fechaSalida, metodo)
 
                 # Se agrega la reserva a la tempDB
                 reservas.append(reserva)
@@ -452,7 +483,8 @@ def crearReserva():
             Accion("Error", "El numero telefonico solo admite numeros").guardar()
             print('\n( X ) El numero telefonico solo admite numeros\n')
             return
-            
+        
+        
         fechaEntrada = fecha(input("Indique la fecha de entrada (DD/MM/AAAA): "))
         fechaSalida = fecha(input("Indique la fecha de salida (DD/MM/AAAA): "))
 
@@ -463,7 +495,7 @@ def crearReserva():
         usuarios.append(usuarioNuevo)
 
         # Crea un nuevo objeto de la clase reserva
-        reserva = Reserva(usuarioNuevo, habitacion, hotel, fechaEntrada, fechaSalida)
+        reserva = Reserva(usuarioNuevo, habitacion, hotel, fechaEntrada, fechaSalida, metodo)
 
         # Se agrega la reserva a la tempDB
         reservas.append(reserva)
@@ -1066,6 +1098,10 @@ def main():
     Accion("Menu", "Se seleccionó la opcion de 'Cargar Seed'").guardar()
     cargarHoteles()
     cargarReservas()
+    i=0
+    for reserva in reservas:
+        Three_reservacion.Add(Factura(reserva, i))
+        i+=1
 
     # Ciclo para mostrar el menu
     while True:
@@ -1127,7 +1163,7 @@ def main():
                     except ValueError: 
                         Accion("Error", "El menu de gestion de hotelessolo admite numeros enteros. Por favor ingrese el numero de la opcion").guardar()
                         print('\n( X ) Debe ingresar el número de la opción')
-                        gestion_hoteles()
+                        gestion_hoteles()                  
                 case 99:
                     Accion("SALIDA", "Se salió del sistema").guardar()
                     sys.exit()
