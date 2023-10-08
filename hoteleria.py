@@ -355,7 +355,7 @@ def cargarReservas():
 """
 Funcion que carga el arbol binario para cada hotel de la lista enlazada de Hoteles
 """
-def cargarArbol():
+def cargarEmpleados():
     with open(ruta_empleados, 'r') as seed:
             dbJSON = json.load(seed)
             for empleado in dbJSON:
@@ -1002,6 +1002,7 @@ def main():
                     Accion("Menu", "Se seleccionó la opcion de 'Cargar Seed'").guardar()
                     cargarHoteles()
                     cargarReservas()
+                    cargarEmpleados()
                 case 1:
                     Accion("Menu", "Se seleccionó la opcion de 'Crear Reserva'").guardar()
                     crearReserva()
