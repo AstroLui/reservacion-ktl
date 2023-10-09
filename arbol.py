@@ -137,3 +137,13 @@ class ArbolBinario:
         if self.raiz is None:
             return True
         return False
+    
+    def buscar_por_atributo(self, atributo, valor):
+        if arbol is None:
+            return None
+        if getattr(arbol.valor, atributo) == valor:
+            return arbol.valor
+        if getattr(arbol.valor, atributo) > valor:
+            return buscar_por_atributo(arbol.izquierda, atributo, valor)
+        else:
+            return buscar_por_atributo(arbol.derecha, atributo, valor)
