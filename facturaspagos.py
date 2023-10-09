@@ -9,7 +9,7 @@ class Factura:
     def __init__(self, Reserva, NumeroF): 
         self.Reserva= Reserva
         self.Estado = 'Pendiente'
-        self.NumeroF = NumeroF + 1
+        self.NumeroF = NumeroF 
     
     def InfoFactura(self): 
         print('\n++ FACTURA No.{} del {} ++'.format(self.NumeroF, self.Reserva.hotel))
@@ -62,7 +62,7 @@ class AVL:
         
         return current_nodo
     
-    __criterios = ["idn", "costoTotal", "hotel"]
+    __criterios = ["idn", "costoTotal", "hotel", "NumeroF"]
     def Search(self, value, i):
         self.__Searching__(self.Root, value, i)
         
@@ -82,8 +82,15 @@ class AVL:
                     self.__Searching__(Nodo.Left, value, i)
                 if Nodo.Right is not None: 
                     self.__Searching__(Nodo.Right, value, i)
-            else:
+            elif i == 2:
                 if getattr(Nodo.Value.Reserva, self.__criterios[i]) == value:
+                    Nodo.Value.InfoFactura() 
+                if Nodo.Left is not None:
+                    self.__Searching__(Nodo.Left, value, i)
+                if Nodo.Right is not None: 
+                    self.__Searching__(Nodo.Right, value, i)
+            else:
+                if getattr(Nodo.Value, self.__criterios[i]) == value:
                     Nodo.Value.InfoFactura() 
                 if Nodo.Left is not None:
                     self.__Searching__(Nodo.Left, value, i)
@@ -187,3 +194,35 @@ class AVL:
             self.__Showing__(nodo_actual.Left)
             print(nodo_actual.Value.InfoFacturaLineal())
             self.__Showing__(nodo_actual.Right)
+
+    def __SearchingR__(self, Nodo, value):
+        if Nodo is not None: 
+            if getattr(Nodo.Value, "NumeroF") == value:
+                return Nodo 
+            if Nodo.Left is not None:
+                return self.__SearchingR__(Nodo.Left, value)
+            if Nodo.Right is not None: 
+                return self.__SearchingR__(Nodo.Right, value)
+        return Nodo
+    
+    def Pay(self, limit):
+        print('\n_________')
+        self.Show()
+        
+        numero = int(input('Seleccion el numero de factura que desea pagar: '))
+        if numero > limit: 
+            raise ValueError
+        self.Search(numero, 3)
+        Temp = self.__SearchingR__(self.Root, numero)
+        if (Temp.Value.Reserva.getCostoTotal() != 0):
+            costo = int(input('Ingrese el monto del costo: '))
+            if costo <= Temp.Value.Reserva.getCostoTotal():
+                Temp.Value.Reserva.setCostoTotal(costo)
+                print("Monto ingresado correctamente!!")
+            else:
+                raise ValueError
+
+        else: 
+            print('Ya la reserva ha sido cancelada')
+        if(Temp.Value.Reserva.getCostoTotal() == 0):
+            Temp.Value.Estado = 'Cancelado'
