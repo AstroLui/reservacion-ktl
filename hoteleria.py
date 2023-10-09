@@ -175,6 +175,10 @@ class Reserva:
     
     def getCostoTotal(self):
         return self.costoTotal
+    
+    def setCostoTotal(self, costo):
+        self.costoTotal = self.costoTotal - costo
+
 
 """
 Genera un identificador aleatorio y verifica que no concida
@@ -447,12 +451,12 @@ def crearReserva():
         idn = int(input("\nIndique su número de cédula: "))
 
         try:
-            metodo= int(input('Seleccione su Metodo de Pago: '+
-                '1. Efectivo' +
-                '2. Cheque Nomativo' +
-                '3. Tarjeta de Credito' +
-                '4. Transferencia Electronica' +
-                '5. Dinero Electronico' +
+            metodo= int(input('Seleccione su Metodo de Pago: \n'+
+                '1. Efectivo\n' +
+                '2. Cheque Nomativo\n' +
+                '3. Tarjeta de Credito\n' +
+                '4. Transferencia Electronica\n' +
+                '5. Dinero Electronico\n' +
                 'Su seleccion es: '))
             if metodo > 0 and metodo <=5:
                 match metodo:
@@ -1018,7 +1022,81 @@ def gestion_reservaciones():
                     Accion("Menu", "Se salio del menu 'Gestion de reservaciones'").guardar()
                     return
         
+def facturacion(): 
+    while True:
+        print('___')
+        print('\nMENU DE FACTURACIÓN |')
+        print('___')
+        print('0. Ver todas las Facturas de las reservaciones')
+        print('1. Busqueda de una Factura')
+        print('2. Eliminar una Factura')
+        print('3. Efectura Pago de Factura')
+        print('4. Salir')
+        opcion = int(input('Seleccione una opción: '))
 
+        match opcion: 
+            case 0:
+                print('\n_________')
+                Three_reservacion.Show()
+                print('_________\n')
+            case 1: 
+                print('\n__')
+                print('MENU DE BUSQUEDA DE FACTURA |')
+                print('0. IDN del Cliente')
+                print('1. Minimo de Costo Total de la reservación')
+                print('2. Por Hotel')
+                print('3. Numero de Factura')
+                opcio = int(input('Seleccione una opción: '))
+                match opcio: 
+                    case 0: 
+                        idn = int(input('\nIngrese el numero de IDN: '))
+                        Three_reservacion.Search(idn, 0)
+                    case 1:
+                        costo = int(input('\nIngrese un costo minimo: '))
+                        Three_reservacion.Search(costo, 1)
+                    case 2: 
+                        hotel= int(input("Seleccione el Hotel donde hara la reservación:\n" + 
+                        " 1. Hotel Gran Meliá Caracas\n" + 
+                        " 2. Hotel JW Marriott Caracas\n" + 
+                        " 3. Hotel Hilton Caracas\n" +
+                        "Su selección es: "))
+                        match hotel:
+                            case 1:
+                                hoteles = 'Hotel Gran Meliá Caracas'
+                            case 2:
+                                hoteles = 'Hotel JW Marriott Caracas'
+                            case 3:
+                                hoteles = 'Hotel Hilton Caracas'
+                        Three_reservacion.Search(hoteles, 2)
+                    case 3: 
+                        try:
+                            numero = int(input('\nSeleccion el numero de la factura: '))
+                            if( numero < len(reservas)):
+                                Three_reservacion.Search(numero, 3)
+                            else:
+                                raise ValueError
+                        except ValueError:
+                            print('( X ) Ingrese una numero de Factura correcta')
+                        
+            case 2:
+                try:
+                    print('\n_________')
+                    Three_reservacion.Show()
+                    numero = int(input('Seleccion el numero de la factura: '))
+                    if( numero < len(reservas) or numero < 0):
+                        Three_reservacion.Delete(numero)
+                    else:
+                        raise ValueError
+                    print('_________\n')
+                except ValueError: 
+                    print('( X ) Ingrese una numero de Factura correcta')
+            case 3: 
+                try:
+                    Three_reservacion.Pay(len(reservas))
+                except ValueError:
+                    print('\n( X ) El monto que ingreso excede el Costo Total de la reserva o el numero de factura es incorrecto')
+            case 4:
+                break
 
 def reportes():
     print('\n\nMENU DE REPORTES | ' + hotel)
@@ -1140,6 +1218,7 @@ def main():
         print('11. Ver todas los usuarios')
         print('12. Gestión de reservaciones')
         print('13. Gestión de hoteles')
+        print('15. Facturacion y Pagos')
         print('99. Salir')
 
         try:
@@ -1154,7 +1233,6 @@ def main():
                     cargarEmpleados()
                     cargarHoteles()
                     cargarReservas()
-=======
                 # case 0:
                 #     Accion("Menu", "Se seleccionó la opcion de 'Cargar Seed'").guardar()
                 #     cargarHoteles()
@@ -1193,7 +1271,13 @@ def main():
                     except ValueError: 
                         Accion("Error", "El menu de gestion de hotelessolo admite numeros enteros. Por favor ingrese el numero de la opcion").guardar()
                         print('\n( X ) Debe ingresar el número de la opción')
-                        gestion_hoteles()                  
+                        gestion_hoteles()   
+                case 15:
+                    try:
+                        facturacion()
+                    except ValueError: 
+                        print('\n( X ) Debe ingresar el número de la opción')
+                        facturacion()               
                 case 99:
                     Accion("SALIDA", "Se salió del sistema").guardar()
                     sys.exit()
