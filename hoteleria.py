@@ -1268,7 +1268,7 @@ def main():
                     cargarEmpleados()
                     cargarHoteles()
                     cargarReservas()
-=======
+
                 # case 0:
                 #     Accion("Menu", "Se seleccionó la opcion de 'Cargar Seed'").guardar()
                 #     cargarHoteles()
