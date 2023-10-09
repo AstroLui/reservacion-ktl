@@ -1,6 +1,7 @@
 [
     {
         "hotel": "Hotel Gran Meliá Caracas",
+        "cedula": 25456320,
         "nombre": "John Doe",
         "posicion": "Recepcionista",
         "salario": 2500,
@@ -8,6 +9,7 @@
     },
     {
         "hotel": "Hotel Gran Meliá Caracas",
+        "cedula": 5456320,
         "nombre": "Jane Smith",
         "posicion": "Gerente",
         "salario": 5000,
@@ -15,6 +17,7 @@
     },
     {
         "hotel": "Hotel Gran Meliá Caracas",
+        "cedula": 7890123,
         "nombre": "Bob Johnson",
         "posicion": "Cocinero",
         "salario": 3000,
@@ -22,6 +25,7 @@
     },
     {
         "hotel": "Hotel JW Marriott Caracas",
+        "cedula": 8765433,
         "nombre": "Alice Brown",
         "posicion": "Recepcionista",
         "salario": 2800,
@@ -29,6 +33,7 @@
     },
     {
         "hotel": "Hotel JW Marriott Caracas",
+        "cedula": 12345671,
         "nombre": "Bob Green",
         "posicion": "Gerente",
         "salario": 5500,
@@ -36,6 +41,7 @@
     },
     {
         "hotel": "Hotel JW Marriott Caracas",
+        "cedula": 5567892,
         "nombre": "Charlie White",
         "posicion": "Cocinero",
         "salario": 3200,
@@ -43,6 +49,7 @@
     },
     {
         "hotel": "Hotel JW Marriott Caracas",
+        "cedula": 5678901,
         "nombre": "Carlos Gonzalez",
         "posicion": "Recepcionista",
         "salario": 2700,
@@ -50,6 +57,7 @@
     },
     {
         "hotel": "Hotel JW Marriott Caracas",
+        "cedula": 7901236,
         "nombre": "Maria Hernandez",
         "posicion": "Gerente",
         "salario": 4800,
@@ -57,6 +65,7 @@
     },
     {
         "hotel": "Hotel JW Marriott Caracas",
+        "cedula": 18765431,
         "nombre": "Juan Garcia",
         "posicion": "Cocinero",
         "salario": 3100,
@@ -64,6 +73,7 @@
     },
     {
         "hotel": "Hotel JW Marriott Caracas",
+        "cedula": 12345670,
         "nombre": "Laura Perez",
         "posicion": "Recepcionista",
         "salario": 2900,
@@ -71,6 +81,7 @@
     },
     {
         "hotel": "Hotel Gran Meliá Caracas",
+        "cedula": 24567891,
         "nombre": "Carlos Rodriguez",
         "posicion": "Gerente",
         "salario": 5300,
@@ -78,6 +89,7 @@
     },
     {
         "hotel": "Hotel Gran Meliá Caracas",
+        "cedula": 5678901,
         "nombre": "Maria Garcia",
         "posicion": "Cocinera",
         "salario": 3300,
@@ -85,6 +97,7 @@
     },
     {
         "hotel": "Hotel Hilton Caracas",
+        "cedula": 18901235,
         "nombre": "David Black",
         "posicion": "Recepcionista",
         "salario": 2600,
@@ -92,6 +105,7 @@
     },
     {
         "hotel": "Hotel Hilton Caracas",
+        "cedula": 18765430,
         "nombre": "Emily Grey",
         "posicion": "Gerente",
         "salario": 5200,
@@ -99,6 +113,7 @@
     },
     {
         "hotel": "Hotel Hilton Caracas",
+        "cedula": 12345679,
         "nombre": "Frank Brown",
         "posicion": "Cocinero",
         "salario": 2900,
@@ -106,6 +121,7 @@
     },
     {
         "hotel": "Hotel Hilton Caracas",
+        "cedula": 14567890,
         "nombre": "Maria Rodriguez",
         "posicion": "Recepcionista",
         "salario": 2800,
@@ -113,6 +129,7 @@
     },
     {
         "hotel": "Hotel Hilton Caracas",
+        "cedula": 16789012,
         "nombre": "Juan Perez",
         "posicion": "Gerente",
         "salario": 5500,
@@ -120,6 +137,7 @@
     },
     {
         "hotel": "Hotel Hilton Caracas",
+        "cedula": 28901234,
         "nombre": "Luisa Gomez",
         "posicion": "Cocinera",
         "salario": 3200,
@@ -127,6 +145,7 @@
     },
     {
         "hotel": "Hotel Hilton Caracas",
+        "cedula": 28765432,
         "nombre": "Pedro Hernandez",
         "posicion": "Recepcionista",
         "salario": 2500,
@@ -134,6 +153,7 @@
     },
     {
         "hotel": "Hotel Hilton Caracas",
+        "cedula": 12345678,
         "nombre": "Ana Martinez",
         "posicion": "Gerente",
         "salario": 5000,
@@ -141,6 +161,7 @@
     },
     {
         "hotel": "Hotel Gran Meliá Caracas",
+        "cedula": 45678901,
         "nombre": "Juan Perez",
         "posicion": "Gerente",
         "salario": 5200,
@@ -148,6 +169,7 @@
     },
     {
         "hotel": "Hotel Gran Meliá Caracas",
+        "cedula": 23654789,
         "nombre": "Ana Rodriguez",
         "posicion": "Cocinera",
         "salario": 3000,
