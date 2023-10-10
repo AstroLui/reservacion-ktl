@@ -1,3 +1,6 @@
+from datetime import date
+from log import Accion
+
 class Empleado:
     def __init__(self,hotel, id, name, position, salary, date_of_recruitment):
         self.hotel = hotel
