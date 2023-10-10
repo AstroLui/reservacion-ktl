@@ -13,11 +13,13 @@ class Empleado:
         self.right = None
     
     def print_empleado(self):
+        print()
         print(f"Nombre: {self.name}")
         print(f"Cédula: {self.id}")
         print(f"Posición: {self.position}")
         print(f"Salario: {self.salary}")
         print(f"Fecha de reclutamiento: {self.date_of_recruitment}")
+        print()
 
 class BinaryTree:
     def __init__(self):
@@ -176,7 +178,7 @@ def fecha(fecha):
     return fechaObjeto
 
 def create_empleado(hotel):
-    name = input("ENombre del empleado: ")
+    name = input("Nombre del empleado: ")
     id = int(input("Cédula: "))
     position = input("Posición: ")
     salary = float(input("Salario: "))
