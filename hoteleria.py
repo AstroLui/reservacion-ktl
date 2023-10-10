@@ -1106,9 +1106,8 @@ def facturacion():
         print('___')
         print('0. Ver todas las Facturas de las reservaciones')
         print('1. Busqueda de una Factura')
-        print('2. Eliminar una Factura')
-        print('3. Efectura Pago de Factura')
-        print('4. Salir')
+        print('2. Efectura Pago de Factura')
+        print('3. Salir')
         opcion = int(input('Seleccione una opción: '))
 
         match opcion: 
@@ -1154,25 +1153,12 @@ def facturacion():
                                 raise ValueError
                         except ValueError:
                             print('( X ) Ingrese una numero de Factura correcta')
-                        
-            case 2:
-                try:
-                    print('\n_________')
-                    Three_reservacion.Show()
-                    numero = int(input('Seleccion el numero de la factura: '))
-                    if( numero < len(reservas) or numero < 0):
-                        Three_reservacion.Delete(numero)
-                    else:
-                        raise ValueError
-                    print('_________\n')
-                except ValueError: 
-                    print('( X ) Ingrese una numero de Factura correcta')
-            case 3: 
+            case 2: 
                 try:
                     Three_reservacion.Pay(len(reservas))
                 except ValueError:
                     print('\n( X ) El monto que ingreso excede el Costo Total de la reserva o el numero de factura es incorrecto')
-            case 4:
+            case 3:
                 break
 
 def reportes():
