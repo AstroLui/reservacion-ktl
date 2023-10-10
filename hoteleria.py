@@ -736,12 +736,14 @@ def nomina():
         if choice == "1":
             empleado = create_empleado(hotel.nombre)
             hotel.empleados.insert(empleado)
+
         elif choice == "2":
             id = int(input("Ingrese la cédula del empleado a eliminar: "))
-            try:
+            empleado = hotel.empleados.search(id)
+            if empleado is not None:
                 hotel.empleados.delete(id)
                 print("Empleado eliminado!")
-            except AttributeError:
+            else:
                 print("Empleado no encontrado!")
         elif choice == "3":
             id = int(input("Ingrese la cédula del empleado a buscar: "))

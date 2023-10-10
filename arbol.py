@@ -28,7 +28,6 @@ class BinaryTree:
     def insert(self, empleado):
         if self.root is None:
             self.root = empleado
-            print("Empleado creado satisfactoriamente!")
         else:
             self._insert(empleado, self.root)
 
@@ -36,13 +35,11 @@ class BinaryTree:
         if empleado.id < current_node.id:
             if current_node.left is None:
                 current_node.left = empleado
-                print("Empleado creado satisfactoriamente!")
             else:
                 self._insert(empleado, current_node.left)
         elif empleado.id > current_node.id:
             if current_node.right is None:
                 current_node.right = empleado
-                print("Empleado creado satisfactoriamente!")
             else:
                 self._insert(empleado, current_node.right)
         else:
