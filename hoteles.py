@@ -1,4 +1,4 @@
-from arbol import ArbolBinario
+from arbol import BinaryTree
 
 class Nodo: 
     def __init__(self, valor):
@@ -12,7 +12,7 @@ class Hotel:
         self.numero = numero
         self.reservaciones = []
         self.habitaciones = []
-        self.empleados = ArbolBinario()
+        self.empleados = BinaryTree()
 
     # Método para añadir una reservación
     def añadir_reservacion(self, reservacion):
