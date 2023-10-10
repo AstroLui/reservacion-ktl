@@ -734,7 +734,7 @@ def nomina():
         print_menu()
         choice = input("Ingrese su opción: ")
         if choice == "1":
-            empleado = create_empleado()
+            empleado = create_empleado(hotel.nombre)
             hotel.empleados.insert(empleado)
         elif choice == "2":
             id = int(input("Ingrese la cédula del empleado a eliminar: "))
