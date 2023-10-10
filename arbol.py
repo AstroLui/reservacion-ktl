@@ -175,8 +175,7 @@ def fecha(fecha):
     # Retorna el objeto
     return fechaObjeto
 
-def create_empleado():
-    hotel= input("Nombre del hotel: ")
+def create_empleado(hotel):
     name = input("ENombre del empleado: ")
     id = int(input("Cédula: "))
     position = input("Posición: ")
