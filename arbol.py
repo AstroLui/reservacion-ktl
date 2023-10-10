@@ -178,7 +178,7 @@ def create_empleado():
     id = int(input("Cédula: "))
     position = input("Posición: ")
     salary = float(input("Salario: "))
-    date_of_recruitment = fecha(input("Fecha de contratación (YYYY/MM/DD): "))
+    date_of_recruitment = fecha(input("Fecha de contratación (dd/mm/aaaa): "))
     empleado = Empleado(hotel, id, name, position, salary, date_of_recruitment)
     return empleado
 
