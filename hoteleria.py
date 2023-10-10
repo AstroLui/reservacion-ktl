@@ -384,7 +384,7 @@ def cargarEmpleados():
                 empleado = Empleado(hotel, cedula, nom, pos, sal, fech)
                 for i in range(lista_hoteles.longitud):
                     if lista_hoteles.obtener(i).nombre == hotel:
-                        lista_hoteles.obtener(i).empleados.insertar(empleado)
+                        lista_hoteles.obtener(i).empleados.insert(empleado)
     return
 
 """
@@ -711,87 +711,76 @@ def nomina():
     if lista_hoteles.__len__ == 0:
         print("No hay hoteles cargados, por favor cargue las bases de datos")
         return
-    hotel= input("Seleccione el Hotel para ver su nómina:\n" +
-                      " 1. Hotel Gran Meliá Caracas\n" +
-                      " 2. Hotel JW Marriott Caracas\n" +
-                      " 3. Hotel Hilton Caracas\n" +
-                      "Su selección es: ")
-    if hotel == "1":
-        hotel = lista_hoteles.obtener(0)
-    elif hotel == "2":
-        hotel = lista_hoteles.obtener(1)
-    else:
-        hotel = lista_hoteles.obtener(2)
+    i=1
+    for hotel in lista_hoteles: 
+        print("HOTEL {}: {}".format(i, hotel.Hotel_infoLineal()))
+        i += 1
+    op = int(input('\nSeleccione el Hotel para ver su nómina: '))
+    op = op - 1
+    try:
+        hotel = lista_hoteles.obtener(op)
+    except IndexError: 
+        Accion("Error", "El hotel que selecciona no existe en la lista. Por favor ingrese nuevamente").guardar()
+        print('\n( X ) Debe de ingresar un hotel valido')
+        return
+
     if hotel.empleados.empty():
         print("No hay empleados cargados, por favor cargue las bases de datos")
         return
     while True:
-        print()
         print('___')
         print('\nMENÚ DE GESTIÓN DE NÓMINAS |'+ hotel.nombre)
         print('___')
-        print('0. Crear empleado')
-        print('1. Eliminar empleado')
-        print('2. Listar empleados')
-        print('3. Modificar empleado')
-        print('4. Buscar empleado')
-        print('99. Salir')
-    
-        opcion = int(input('Seleccione una opción: '))
-
-        match opcion:
-            case 0:
-                nom =input("Nombre: ")
-                pos =input("Posicion: ")
-                ced =int(input("Cedula: "))
-                sal= input("Salario: ")
-                fec= fecha(input("Fecha de contratación: "))
-                objeto = Empleado(hotel.nombre,ced, nom,pos,sal,fec)
-                if hotel.empleados.consultar(nom) == None:
-                    hotel.empleados.insertar(objeto)
-                    print("\nEmpleado creado exitosamente")
-                else:
-                    print("\nEl empleado ya existe")
-            case 1:
-                    hotel.empleados.inorden()
-                    print()
-                    nom = input('Ingrese el nombre del empleado a eliminar: ')
-                    if hotel.empleados.consultar(nom) == None:
-                        print('\n( X ) El empleado no existe')
-                    else:
-                        hotel.empleados.eliminar(nom)
-                        print('\nEmpleado eliminado exitosamente')
-                        hotel.empleados.inorden()
-            case 2:
-                hotel.empleados.preorden()
-            case 3:
-                nom = input('Ingrese el nombre del empleado a modificar: ')
-                empleado = hotel.empleados.consultar(nom)
-                if empleado is not None:
-                    print('\n( ✓ ) Empleado encontrado:')
-                    empleado.valor.print_empleado()
-                    print()
-                    print("Ingrese los nuevos datos: ")
-                    nom =input("Nombre: ")
-                    pos =input("Posicion: ")
-                    ced =int(input("Cedula: "))
-                    sal= input("Salario: ")
-                    fec= fecha(input("Fecha de contratación: "))
-                    nuevo = Empleado(hotel,ced, nom,pos,sal,fec)
-                    hotel.empleados.modificar(nom, nuevo)
-                else:
-                    print('\n( X ) Empleado no encontrado')
-            case 4:
-                nom = input('Ingrese el nombre del empleado a buscar: ')
-                empleado = hotel.empleados.consultar(nom)
-
-                if empleado is not None:
-                    print('\n( ✓ ) Empleado encontrado:')
-                    empleado.print_empleado()
-                else:
-                    print('\n( X ) Empleado no encontrado')
-            case 99:
-                return
+        print_menu()
+        choice = input("Ingrese su opción: ")
+        if choice == "1":
+            empleado = create_empleado()
+            hotel.empleados.insert(empleado)
+        elif choice == "2":
+            id = int(input("Ingrese la cédula del empleado a eliminar: "))
+            try:
+                hotel.empleados.delete(id)
+                print("Empleado eliminado!")
+            except AttributeError:
+                print("Empleado no encontrado!")
+        elif choice == "3":
+            id = int(input("Ingrese la cédula del empleado a buscar: "))
+            empleado = hotel.empleados.search(id)
+            if empleado is not None:
+                empleado.print_empleado()
+            else:
+                print("Empleado no encontrado!")
+        elif choice == "4":
+            id = int(input("Ingrese la cédula del empleado a modificar: "))
+            empleado = hotel.empleados.search(id)
+            if empleado is not None:
+                print("Inserte nuevos datos:")
+                #Usamos el operador or para asignar el valor de la variable a la izquierda por si
+                #El usuario no quiere cambiar algún dato, se mantiene el actual
+                name = input(f"Nombre ({empleado.name}): ") or empleado.name
+                position = input(f"Posición ({empleado.position}): ") or empleado.position
+                salary = float(input(f"Salario ({empleado.salary}): ")) or empleado.salary
+                date_of_recruitment = input(f"Fecha de reclutamiento ({empleado.date_of_recruitment}): ") or empleado.date_of_recruitment
+                empleado.name = name
+                empleado.position = position
+                empleado.salary = salary
+                empleado.date_of_recruitment = date_of_recruitment
+                print("Empleado modificado!")
+            else:
+                print("Empleado no encontrado!")
+        elif choice == "5":
+            hotel.empleados.print_in_order()
+        elif choice == "6":
+            attribute = input("Ingrese el nombre del atributo por el que desea ordenar los empleados (name, id, position, salary, date_of_recruitment): ")
+            if attribute in ["name", "id", "position", "salary", "date_of_recruitment"]:
+                hotel.empleados.print_ordered_by_attribute(attribute)
+            else:
+                print("Atributo inválido!")
+        elif choice == "7":
+            #or return
+            break
+        else:
+            print("Opción inválida!")
 
 def gestion_hoteles():
     while True:

@@ -1,121 +1,194 @@
 class Empleado:
-    def __init__(self, hotel, cedula, nombre, posicion, salario, fechaContratacion):
+    def __init__(self,hotel, id, name, position, salary, date_of_recruitment):
         self.hotel = hotel
-        self.cedula = cedula
-        self.nombre = nombre
-        self.posicion = posicion
-        self.salario = salario
-        self.fechaContratacion = fechaContratacion
+        self.name = name
+        self.id = id
+        self.position = position
+        self.salary = salary
+        self.date_of_recruitment = date_of_recruitment
+        self.left = None
+        self.right = None
     
     def print_empleado(self):
-        print()
-        print(f"{self.nombre}")
-        print(f"Cédula: {self.cedula}")
-        print(f"Posición: {self.posicion}")
-        print(f"Salario: {self.salario}")
-        print(f"Fecha de contratación: {self.fechaContratacion}")
-        
+        print(f"Nombre: {self.name}")
+        print(f"Cédula: {self.id}")
+        print(f"Posición: {self.position}")
+        print(f"Salario: {self.salary}")
+        print(f"Fecha de reclutamiento: {self.date_of_recruitment}")
 
-#Estructura para poder almacenar los empleados en el arbol binario
-class NodoArbol:
-    def __init__(self, objeto):
-        self.valor = objeto
-        self.izquierda = None
-        self.derecha = None
-
-#Esta estructura es la que se utilizará para almacenar los empleados de cada hotel
-class ArbolBinario:
+class BinaryTree:
     def __init__(self):
-        self.raiz = None
+        self.root = None
 
-    def insertar(self, valor):
-        if self.raiz is None:
-            self.raiz = NodoArbol(valor)
+    def insert(self, empleado):
+        if self.root is None:
+            self.root = empleado
+            print("Empleado creado satisfactoriamente!")
         else:
-            self._insertar_recursivo(valor, self.raiz)
+            self._insert(empleado, self.root)
 
-    def _insertar_recursivo(self, valor, nodo_actual):
-        if valor.nombre < nodo_actual.valor.nombre:
-            if nodo_actual.izquierda is None:
-                nodo_actual.izquierda = NodoArbol(valor)
+    def _insert(self, empleado, current_node):
+        if empleado.id < current_node.id:
+            if current_node.left is None:
+                current_node.left = empleado
+                print("Empleado creado satisfactoriamente!")
             else:
-                self._insertar_recursivo(valor, nodo_actual.izquierda)
-        elif valor.nombre > nodo_actual.valor.nombre:
-            if nodo_actual.derecha is None:
-                nodo_actual.derecha = NodoArbol(valor)
+                self._insert(empleado, current_node.left)
+        elif empleado.id > current_node.id:
+            if current_node.right is None:
+                current_node.right = empleado
+                print("Empleado creado satisfactoriamente!")
+            else:
+                self._insert(empleado, current_node.right)
         else:
-            self._insertar_recursivo(valor, nodo_actual.derecha)
+            print("Empleado ya existente!")
 
-    def eliminar(self, valor):
-        self.raiz = self._eliminar_recursivo(valor, self.raiz)
-
-    def _eliminar_recursivo(self, nombre, nodo_actual):
-        if nodo_actual is None:
+    def search(self, id):
+        if self.root is None:
             return None
-        if nombre < nodo_actual.valor.nombre:
-            nodo_actual.izquierda = self._eliminar_recursivo(nombre, nodo_actual.izquierda)
-        elif nombre > nodo_actual.valor.nombre:
-            nodo_actual.derecha = self._eliminar_recursivo(nombre, nodo_actual.derecha)
         else:
-            if nodo_actual.izquierda is None:
-                return nodo_actual.derecha
-            elif nodo_actual.derecha is None:
-                return nodo_actual.izquierda
+            return self._search(id, self.root)
+
+    def _search(self, id, current_node):
+        if current_node is None:
+            return None
+        elif current_node.id == id:
+            return current_node
+        elif id < current_node.id:
+            return self._search(id, current_node.left)
+        else:
+            return self._search(id, current_node.right)
+    
+    def delete(self, id):
+        if self.root is None:
+            return None
+        else:
+            self.root = self._delete(id, self.root)
+
+    def _delete(self, id, current_node):
+        if current_node is None:
+            return None
+        elif id < current_node.id:
+            current_node.left = self._delete(id, current_node.left)
+        elif id > current_node.id:
+            current_node.right = self._delete(id, current_node.right)
+        else:
+            if current_node.left is None:
+                return current_node.right
+            elif current_node.right is None:
+                return current_node.left
             else:
-                sucesor = self._encontrar_minimo(nodo_actual.derecha)
-                nodo_actual.valor = sucesor.valor
-                nodo_actual.derecha = self._eliminar_recursivo(sucesor.valor.nombre, nodo_actual.derecha)
-        return nodo_actual
+                min_node = self._find_min_node(current_node.right)
+                current_node.id = min_node.id
+                current_node.name = min_node.name
+                current_node.position = min_node.position
+                current_node.salary = min_node.salary
+                current_node.date_of_recruitment = min_node.date_of_recruitment
+                current_node.right = self._delete(min_node.id, current_node.right)
+        return current_node
 
-    def _encontrar_minimo(self, nodo_actual):
-        if nodo_actual.izquierda is None:
-            return nodo_actual
-        return self._encontrar_minimo(nodo_actual.izquierda)
+    def _find_min_node(self, current_node):
+        while current_node.left is not None:
+            current_node = current_node.left
+        return current_node
+    
+    def print_in_order(self):
+        if self.root is not None:
+            self._print_in_order(self.root)
 
-    def modificar(self, nombre, valor_nuevo):
-        nodo = self.consultar(nombre)
-        if nodo:
-            nodo.valor = valor_nuevo
-            print("\nEmpleado modificado exitosamente")
+    def _print_in_order(self, current_node):
+        if current_node is not None:
+            self._print_in_order(current_node.left)
+            current_node.print_empleado()
+            self._print_in_order(current_node.right)
 
-    def consultar(self, nombre):
-        return self._consultar_recursivo(nombre, self.raiz)
+    def print_pre_order(self):
+        if self.root is not None:
+            self._print_pre_order(self.root)
 
-    def _consultar_recursivo(self, nombre, nodo_actual):
-        if nodo_actual is None or nodo_actual.valor.nombre == nombre:
-            return nodo_actual
-        if nombre < nodo_actual.valor.nombre:
-            return self._consultar_recursivo(nombre,nodo_actual.izquierda)
-        return self._consultar_recursivo(nombre, nodo_actual.derecha)
+    def _print_pre_order(self, current_node):
+        if current_node is not None:
+            current_node.print_empleado()
+            self._print_pre_order(current_node.left)
+            self._print_pre_order(current_node.right)
 
-    def inorden(self):
-        self._inorden_recursivo(self.raiz)
+    def print_post_order(self):
+        if self.root is not None:
+            self._print_post_order(self.root)
+
+    def _print_post_order(self, current_node):
+        if current_node is not None:
+            self._print_post_order(current_node.left)
+            self._print_post_order(current_node.right)
+            current_node.print_empleado()
     
-    def _inorden_recursivo(self, nodo_actual):
-        if nodo_actual is not None:
-            self._inorden_recursivo(nodo_actual.izquierda)
-            nodo_actual.valor.print_empleado()
-            self._inorden_recursivo(nodo_actual.derecha)
-    
-    def preorden(self):
-        self._preorden_recursivo(self.raiz)
-    
-    def _preorden_recursivo(self, nodo_actual):
-        if nodo_actual is not None:
-            nodo_actual.valor.print_empleado()
-            self._preorden_recursivo(nodo_actual.izquierda)
-            self._preorden_recursivo(nodo_actual.derecha)
-    
-    def postorden(self):
-        self._postorden_recursivo(self.raiz)
-    
-    def _postorden_recursivo(self, nodo_actual):
-        if nodo_actual is not None:
-            self._postorden_recursivo(nodo_actual.izquierda)
-            self._postorden_recursivo(nodo_actual.derecha)
-            nodo_actual.valor.print_empleado()
+    def print_ordered_by_attribute(self, attribute):
+        if self.root is not None:
+            empleados = []
+            self._get_empleados_in_order(self.root, empleados, attribute)
+            for empleado in empleados:
+                empleado.print_empleado()
+
+    def _get_empleados_in_order(self, current_node, empleados, attribute):
+        if current_node is not None:
+            self._get_empleados_in_order(current_node.left, empleados, attribute)
+            empleados.append(current_node)
+            self._get_empleados_in_order(current_node.right, empleados, attribute)
+        if attribute == "name":
+            #Usamos la funcion sort de las listas para ordenar los empleados
+            #Especificando el parametro key que define una funcion especial para el ordenamiento
+            #En este caso, se ordena por el atributo name, usando una funcion lambda para declarar
+            #una función anónima que toma instancias de empleados y devuelve el valor de su atributo name
+            empleados.sort(key=lambda x: x.name)
+        elif attribute == "id":
+            empleados.sort(key=lambda x: x.id)
+        elif attribute == "position":
+            empleados.sort(key=lambda x: x.position)
+        elif attribute == "salary":
+            empleados.sort(key=lambda x: x.salary)
+        elif attribute == "date_of_recruitment":
+            empleados.sort(key=lambda x: x.date_of_recruitment)
     
     def empty(self):
-        if self.raiz is None:
-            return True
-        return False
+        return self.root is None
+
+def fecha(fecha):
+    # Separa la cadena de texto separando cada valor en su variable
+    dia, mes, ano = fecha.split("/")
+
+    # Se convierte en el texto en numero
+    try:
+        dia = int(dia)
+        mes = int(mes)
+        ano = int(ano)
+    except ValueError:
+        Accion("Error", "La fecha solo admite el formato dd/mm/aaaa").guardar()
+        print('\n( X ) La fecha solo admite el formato dd/mm/aaaa')
+    # Crea el objeto del tipo Fecha
+    fechaObjeto = date(ano, mes, dia)
+
+    Accion("Operacion", "Se creo el objeto de la fecha {}".format(fecha)).guardar()
+  
+    # Retorna el objeto
+    return fechaObjeto
+
+def create_empleado():
+    hotel= input("Nombre del hotel: ")
+    name = input("ENombre del empleado: ")
+    id = int(input("Cédula: "))
+    position = input("Posición: ")
+    salary = float(input("Salario: "))
+    date_of_recruitment = fecha(input("Fecha de contratación (YYYY/MM/DD): "))
+    empleado = Empleado(hotel, id, name, position, salary, date_of_recruitment)
+    return empleado
+
+
+def print_menu():
+    print("1. Crear Empleado")
+    print("2. Eliminar Empleado")
+    print("3. Buscar Empleado")
+    print("4. Modificar Empleado")
+    print("5. Listar todos los Empleados")
+    print("6. Listar todos los Empleados ordenardos por atributo")
+    print("7. Salir")
+
