@@ -1,4 +1,4 @@
-from arbol import *
+from arbol import ArbolBinario
 
 class Nodo: 
     def __init__(self, valor):
