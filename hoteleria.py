@@ -376,7 +376,7 @@ def cargarEmpleados():
             dbJSON = json.load(seed)
             for empleado in dbJSON:
                 hotel = empleado["hotel"]
-                cedula = int(empleado["cedula"])
+                cedula = empleado["cedula"]
                 nom = empleado["nombre"]
                 pos = empleado["posicion"]
                 sal = empleado["salario"]
@@ -745,8 +745,8 @@ def nomina():
                 pos =input("Posicion: ")
                 ced =int(input("Cedula: "))
                 sal= input("Salario: ")
-                fec= input("Fecha de contratación: ")
-                objeto = Empleado(hotel,ced, nom,pos,sal,fec)
+                fec= fecha(input("Fecha de contratación: "))
+                objeto = Empleado(hotel.nombre,ced, nom,pos,sal,fec)
                 if hotel.empleados.consultar(nom) == None:
                     hotel.empleados.insertar(objeto)
                     print("\nEmpleado creado exitosamente")
@@ -964,64 +964,7 @@ def gestion_hoteles():
                 Accion("operacion", "Se listaron las reservaciones").guardar()
             case 99: 
                 Accion("Menu", "Se salio del menu 'Gestion de hoteles'").guardar()
-                return
-
-def gestion_empleados():
-                while True:
-                    print('\n\nGESTIÓN DE EMPLEADOS')
-                    print('___')
-                    print('1. Agregar empleado')
-                    print('2. Buscar empleado')
-                    print('3. Eliminar empleado')
-                    print('4. Ver todos los empleados')
-                    print('99. Volver al menú principal')
-
-                    try:
-                        opcion = int(input('Seleccione una opción: '))
-                        if opcion == 1:
-                            nombre = input('Ingrese el nombre del empleado: ')
-                            apellido = input('Ingrese el apellido del empleado: ')
-                            cedula = input('Ingrese la cédula del empleado: ')
-                            telefono = input('Ingrese el teléfono del empleado: ')
-                            correo = input('Ingrese el correo del empleado: ')
-                            puesto = input('Ingrese el puesto del empleado: ')
-                            salario = float(input('Ingrese el salario del empleado: '))
-
-                            empleado = Empleado(nombre, apellido, cedula, telefono, correo, puesto, salario)
-                            arbol_empleados.agregar(empleado)
-
-                            print('\n( ✓ ) Empleado agregado exitosamente')
-
-                        elif opcion == 2:
-                            cedula = input('Ingrese la cédula del empleado a buscar: ')
-                            empleado = arbol_empleados.buscar(cedula)
-
-                            if empleado is not None:
-                                print('\n( ✓ ) Empleado encontrado:')
-                                print(empleado)
-                            else:
-                                print('\n( X ) Empleado no encontrado')
-
-                        elif opcion == 3:
-                            cedula = input('Ingrese la cédula del empleado a eliminar: ')
-                            arbol_empleados.eliminar(cedula)
-
-                            print('\n( ✓ ) Empleado eliminado exitosamente')
-
-                        elif opcion == 4:
-                            print('\n\nLISTA DE EMPLEADOS')
-                            print('___')
-                            arbol_empleados.inorden()
-
-                        elif opcion == 99:
-                            break
-
-                        else:
-                            print('\n( X ) Opción inválida')
-
-                    except ValueError:
-                        print('\n( X ) Debe ingresar el número de la opción')
-                
+                return                
 
 def gestion_reservaciones():
     while True:
