@@ -158,6 +158,7 @@ class BinaryTree:
         elif attribute == "date_of_recruitment":
             empleados.sort(key=lambda x: x.date_of_recruitment)
     
+
     def empty(self):
         return self.root is None
 
@@ -180,6 +181,12 @@ def fecha(fecha):
   
     # Retorna el objeto
     return fechaObjeto
+
+def height(root):
+    if root is None:
+        return 0
+    
+    return 1 + max(height(root.left), height(root.right))
 
 def create_empleado(hotel):
     name = input("Nombre del empleado: ")

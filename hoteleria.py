@@ -1250,27 +1250,65 @@ def reportes():
             return
 
 def estadisticas():
-    if lista_hoteles.__len__ == 0:
-        print("No hay hoteles cargados, por favor cargue las bases de datos")
-        return
-    i=1
-    for hotel in lista_hoteles: 
-        print("HOTEL {}: {}".format(i, hotel.Hotel_infoLineal()))
-        i += 1
-    op = int(input('\nSeleccione el Hotel para ver su nómina: '))
-    op = op - 1
-    try:
-        hotel = lista_hoteles.obtener(op)
-    except IndexError: 
-        Accion("Error", "El hotel que selecciona no existe en la lista. Por favor ingrese nuevamente").guardar()
-        print('\n( X ) Debe de ingresar un hotel valido')
-        return
-
-    if hotel.empleados.empty():
-        print("No hay empleados cargados, por favor cargue las bases de datos")
-        return
+    print('\n\nMENU DE ESTADISTICAS')
+    print('___')
+    print('0. Mostrar todos los empleados ordenados por fecha de contratacion')
+    print('1. Mostrar los 5 empleados mas antiguos ordenados por fecha de contratacion')
+    print('3. Salir')
     
-    hotel.empleados.print_5_ordered_by_attribute("date_of_recruitment")
+    opcion = int(input('Seleccione una opción: '))
+
+    match opcion:
+        case 0:         
+            if lista_hoteles.__len__ == 0:
+                print("No hay hoteles cargados, por favor cargue las bases de datos")
+                return
+            i=1
+            for hotel in lista_hoteles: 
+                print("HOTEL {}: {}".format(i, hotel.Hotel_infoLineal()))
+                i += 1
+            op = int(input('\nSeleccione el Hotel para ver su nómina: '))
+            op = op - 1
+            try:
+                hotel = lista_hoteles.obtener(op)
+            except IndexError: 
+                Accion("Error", "El hotel que selecciona no existe en la lista. Por favor ingrese nuevamente").guardar()
+                print('\n( X ) Debe de ingresar un hotel valido')
+                return
+
+            if hotel.empleados.empty():
+                print("No hay empleados cargados, por favor cargue las bases de datos")
+                return
+            
+            hotel.empleados.print_ordered_by_attribute("date_of_recruitment")
+
+            print("Altura: ", height(hotel.empleados.root))
+
+        case 1:         
+            if lista_hoteles.__len__ == 0:
+                print("No hay hoteles cargados, por favor cargue las bases de datos")
+                return
+            i=1
+            for hotel in lista_hoteles: 
+                print("HOTEL {}: {}".format(i, hotel.Hotel_infoLineal()))
+                i += 1
+            op = int(input('\nSeleccione el Hotel para ver su nómina: '))
+            op = op - 1
+            try:
+                hotel = lista_hoteles.obtener(op)
+            except IndexError: 
+                Accion("Error", "El hotel que selecciona no existe en la lista. Por favor ingrese nuevamente").guardar()
+                print('\n( X ) Debe de ingresar un hotel valido')
+                return
+
+            if hotel.empleados.empty():
+                print("No hay empleados cargados, por favor cargue las bases de datos")
+                return
+            
+            hotel.empleados.print_5_ordered_by_attribute("date_of_recruitment")
+
+            print("Altura: ", height(hotel.empleados.root))
+
 
 """
 Funcion principal
