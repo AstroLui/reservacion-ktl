@@ -1249,6 +1249,29 @@ def reportes():
             Accion("Menu", "Se salio del menu 'Reportes'").guardar()
             return
 
+def estadisticas():
+    if lista_hoteles.__len__ == 0:
+        print("No hay hoteles cargados, por favor cargue las bases de datos")
+        return
+    i=1
+    for hotel in lista_hoteles: 
+        print("HOTEL {}: {}".format(i, hotel.Hotel_infoLineal()))
+        i += 1
+    op = int(input('\nSeleccione el Hotel para ver su nómina: '))
+    op = op - 1
+    try:
+        hotel = lista_hoteles.obtener(op)
+    except IndexError: 
+        Accion("Error", "El hotel que selecciona no existe en la lista. Por favor ingrese nuevamente").guardar()
+        print('\n( X ) Debe de ingresar un hotel valido')
+        return
+
+    if hotel.empleados.empty():
+        print("No hay empleados cargados, por favor cargue las bases de datos")
+        return
+    
+    hotel.empleados.print_5_ordered_by_attribute("date_of_recruitment")
+
 """
 Funcion principal
 """
@@ -1286,6 +1309,7 @@ def main():
         print('13. Gestión de hoteles')
         print('14. Gestión de empleados')
         print('15. Facturacion y Pagos')
+        print('16. Estadisticas y Reportes')
         print('99. Salir')
 
         try:
@@ -1350,7 +1374,13 @@ def main():
                         facturacion()
                     except ValueError: 
                         print('\n( X ) Debe ingresar el número de la opción')
-                        facturacion()               
+                        facturacion()             
+                case 16:  
+                    try:
+                        estadisticas()
+                    except ValueError: 
+                        print('\n( X ) Debe ingresar el número de la opción')
+                        facturacion()             
                 case 99:
                     Accion("SALIDA", "Se salió del sistema").guardar()
                     sys.exit()

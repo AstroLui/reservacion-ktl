@@ -131,6 +131,13 @@ class BinaryTree:
             for empleado in empleados:
                 empleado.print_empleado()
 
+    def print_5_ordered_by_attribute(self, attribute):
+        if self.root is not None:
+            empleados = []
+            self._get_empleados_in_order(self.root, empleados, attribute)
+            for empleado in empleados[:5]:
+                empleado.print_empleado()
+
     def _get_empleados_in_order(self, current_node, empleados, attribute):
         if current_node is not None:
             self._get_empleados_in_order(current_node.left, empleados, attribute)
