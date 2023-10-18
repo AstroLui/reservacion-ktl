@@ -97,6 +97,41 @@ class AVL:
                 if Nodo.Right is not None: 
                     self.__Searching__(Nodo.Right, value, i)
 
+    def SearchLineal(self, value, i, arbol):
+        self.__SearchingLineal__(self.Root, value, i, arbol)
+        
+    def __SearchingLineal__(self, Nodo, value, i, arbol):
+        if Nodo is not None:
+            arbol.Add(Nodo.Value)
+            if i == 0:  
+                if getattr(Nodo.Value.Reserva.usuario, self.__criterios[i]) == value:
+                    print(Nodo.Value.InfoFacturaLineal()) 
+                if Nodo.Left is not None:
+                    self.__SearchingLineal__(Nodo.Left, value, i, arbol)
+                if Nodo.Right is not None: 
+                    self.__SearchingLineal__(Nodo.Right, value, i, arbol)
+            elif i == 1: 
+                if getattr(Nodo.Value.Reserva, self.__criterios[i]) >= value:
+                    print(Nodo.Value.InfoFacturaLineal()) 
+                if Nodo.Left is not None:
+                    self.__SearchingLineal__(Nodo.Left, value, i, arbol)
+                if Nodo.Right is not None: 
+                    self.__SearchingLineal__(Nodo.Right, value, i, arbol)
+            elif i == 2:
+                if getattr(Nodo.Value.Reserva, self.__criterios[i]) == value:
+                    print(Nodo.Value.InfoFacturaLineal()) 
+                if Nodo.Left is not None:
+                    self.__SearchingLineal__(Nodo.Left, value, i, arbol)
+                if Nodo.Right is not None: 
+                    self.__SearchingLineal__(Nodo.Right, value, i, arbol)
+            else:
+                if getattr(Nodo.Value, self.__criterios[i]) == value:
+                    print(Nodo.Value.InfoFacturaLineal()) 
+                if Nodo.Left is not None:
+                    self.__SearchingLineal__(Nodo.Left, value, i, arbol)
+                if Nodo.Right is not None: 
+                    self.__SearchingLineal__(Nodo.Right, value, i, arbol)
+
     def Delete(self, value):
         i = Factura(self.Root.Value, value-1)
         self.Root = self.__Deleting__(self.Root, i)
@@ -226,3 +261,9 @@ class AVL:
             print('Ya la reserva ha sido cancelada')
         if(Temp.Value.Reserva.getCostoTotal() == 0):
             Temp.Value.Estado = 'Cancelado'
+
+def heightAVL(root):
+    if root is None:
+        return 0
+    
+    return 1 + max(heightAVL(root.Left), heightAVL(root.Right))

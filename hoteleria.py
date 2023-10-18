@@ -1254,6 +1254,7 @@ def estadisticas():
     print('___')
     print('0. Mostrar todos los empleados ordenados por fecha de contratacion')
     print('1. Mostrar los 5 empleados mas antiguos ordenados por fecha de contratacion')
+    print('2. Listar todas las facturas existentes por hotel y método de pago seleccionado')
     print('3. Salir')
     
     opcion = int(input('Seleccione una opción: '))
@@ -1267,7 +1268,7 @@ def estadisticas():
             for hotel in lista_hoteles: 
                 print("HOTEL {}: {}".format(i, hotel.Hotel_infoLineal()))
                 i += 1
-            op = int(input('\nSeleccione el Hotel para ver su nómina: '))
+            op = int(input('\nSeleccione el Hotel para ver ver los empleados existentes: '))
             op = op - 1
             try:
                 hotel = lista_hoteles.obtener(op)
@@ -1292,7 +1293,7 @@ def estadisticas():
             for hotel in lista_hoteles: 
                 print("HOTEL {}: {}".format(i, hotel.Hotel_infoLineal()))
                 i += 1
-            op = int(input('\nSeleccione el Hotel para ver su nómina: '))
+            op = int(input('\nSeleccione el Hotel ver los empleados más antiguos: '))
             op = op - 1
             try:
                 hotel = lista_hoteles.obtener(op)
@@ -1309,6 +1310,28 @@ def estadisticas():
 
             print("Altura: ", height(hotel.empleados.root))
 
+        case 2:
+            tempTree = AVL()
+            if lista_hoteles.__len__ == 0:
+                print("No hay hoteles cargados, por favor cargue las bases de datos")
+                return
+            i=1
+            for hotel in lista_hoteles: 
+                print("HOTEL {}: {}".format(i, hotel.Hotel_infoLineal()))
+                i += 1
+            op = int(input('\nSeleccione el Hotel para listar las facturas: '))
+            op = op - 1
+            try:
+                hotel = lista_hoteles.obtener(op)
+            except IndexError: 
+                Accion("Error", "El hotel que selecciona no existe en la lista. Por favor ingrese nuevamente").guardar()
+                print('\n( X ) Debe de ingresar un hotel valido')
+                return
+            
+            print('\n_________')
+            Three_reservacion.SearchLineal(hotel.nombre, 2, tempTree)
+            print('_________\n')
+            print("\nAltura: ", heightAVL(tempTree.Root))
 
 """
 Funcion principal
